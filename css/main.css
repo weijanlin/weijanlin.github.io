@@ -1,0 +1,35 @@
+.space {
+    height: 150px;
+}
+.smallspace {
+    height: 10px;
+}
+
+#selfIntroduction {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e2e2e2+0,dbdbdb+50,fefefe+100 */
+    background: rgb(226,226,226); /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(254,254,254,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg,  rgba(226,226,226,1) 0%,rgba(219,219,219,1) 50%,rgba(254,254,254,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg,  rgba(226,226,226,1) 0%,rgba(219,219,219,1) 50%,rgba(254,254,254,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    min-height: 120vh;
+    
+}
+
+#photoSlide {
+    /*min-height: 60vh;
+    background-color: gray;*/
+}
+
+#timelinejs {/*
+    min-height: 100vh;
+    background-color: black;*/
+}
+
+#contactMe {
+    min-height: 100vh;
+    background-color: #FFF8DC;
+}
+.ui.form.segment {
+    margin: 0rem 0!important;
+}
