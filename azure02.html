@@ -1,23 +1,77 @@
-<!DOCTYPE html>
-<!-- saved from url=(0024)http://strut.io/editor/# -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		
-		<meta http-equiv="Cache-Control" content="max-age=0">
-		<meta http-equiv="Cache-Control" content="no-cache">
-		<meta http-equiv="expires" content="0">
-		<meta http-equiv="Expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
-		<meta http-equiv="Pragma" content="no-cache">
-		<title>Strut - Beta</title>
-		<link rel="stylesheet" href="./azure02_files/main.css">
+﻿
+<!-- saved from url=(0052)http://strut.io/editor/preview_export/bespoke.html#1 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=Big5">
+	<meta name="viewport" content="width=device-width">
+	<title>Deck Title</title>
+	<link rel="stylesheet" href="./azure02_files/default-reset.css">
+	<link rel="stylesheet" type="text/css" href="./azure02_files/main.css">
+	<link rel="stylesheet" href="./azure02_files/default.css" id="theme">
+	<link href="./azure02_files/web-fonts.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="./azure02_files/demo.css">
+	<link rel="stylesheet" type="text/css" href="./azure02_files/themes.css">
+	<link href="./azure02_files/backgroundClasses.css" rel="stylesheet" type="text/css">
+	<link href="./azure02_files/surfaceClasses.css" rel="stylesheet" type="text/css">
 
-		<!-- can't build this in due to font imports -->
-		<link rel="stylesheet" href="./azure02_files/default.css">
+	<style type="text/css">
+	.componentContainer {
+	    position: absolute;
+	    line-height: normal;
+	    /*-webkit-transform-origin: 135% 135%;
+	    -moz-transform-origin: 135% 135%;
+	    transform-origin: 135% 135%;*/
+	}
 
-		<link rel="shortcut icon" href="http://strut.io/editor/img/strut-icon.png">
-		<link rel="apple-touch-icon-precomposed" href="http://strut.io/editor/img/strut-touch.png">
-		<link rel="stylesheet" type="text/css" href="./azure02_files/built.css">
-		<script async="" src="./azure02_files/analytics.js"></script><script type="text/javascript" src="./azure02_files/swfobject.js"></script>
-		<script>
+	.transformContainer {
+	    -webkit-transform-origin: 0 0;
+	    -moz-transform-origin: 0 0;
+	    transform-origin: 0 0;
+	}
+
+	.bg {
+	    width: 100%;
+	    height: 100%;
+	}
+
+	#themeChooser {
+		position: absolute;
+		z-index: 1;
+		background-color: #EEE;
+		border-radius: 5px;
+		padding: 10px;
+	}
+
+	#main, body {
+		overflow: hidden;
+	}
+
+	.reveal.themedArea {
+	    display: block;
+	    position: absolute;
+	    top: 0px;
+	    left: 0px;
+	    z-index: 0;
+	    width: 100%;
+	    height: 100%;
+	}
+	</style>
+
+	<script async="" src="./azure02_files/analytics.js"></script><script src="./azure02_files/bespoke.js"></script>
+	<script src="./azure02_files/bespoke-plugins.js"></script>
+	<script src="./azure02_files/onready.js"></script>
+	<script src="./azure02_files/loadPresentation.js"></script>
+	<script>
+	ready(function() {
+		if (document.getElementById('launched-placeholder'))
+        	loadPresentation();
+		if (!window.presStarted) {
+    		bespoke.horizontal.from('article', {
+    			hash: true,
+    			state: true
+    		});
+		}
+	});
+	</script>
+	<script>
   	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -26,483 +80,87 @@
   	ga('create', 'UA-42322531-1', 'strut.io');
   	ga('send', 'pageview');
 	</script>
-	<script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="amd-app" src="./azure02_files/amd-app.js"></script><style type="text/css" id="userStylesheet">undefined</style><style type="text/css" id="customBackgrounds"></style></head>
-	<body class="bg-default">
-		<!--[IF IE]>
-			<div class="container">
-			<div class="alert alert-success">
-				Internet Explorer does not support the 3-D transitions required by <strong>Strut</strong>.
-				<br/>
-				<br/>
-				<strong>Strut</strong> currenly only works in <a href="http://www.mozilla.org/en-US/firefox/new/">Firefox</a>, <a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a> and <a href="http://support.apple.com/kb/DL1531">Safari</a>.
-				<br/>
-				We do hope to support IE 10 sometime in the future.
-				<br/><br/>
-				Sorry for the inconvenience.
-			</div>
-			</div>
-		<![endif]-->
-		<script>
-		window.isOptimized = true;
-		if (!Function.prototype.bind) {
-		  Function.prototype.bind = function (oThis) {
-		    if (typeof this !== "function") {
-		      // closest thing possible to the ECMAScript 5 internal IsCallable function
-		      throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
-		    }
+</head>
+<body>
+	<style>
+	
+	</style>
+	<style>
+	
+	</style>
+	<style>
 
-		    var aArgs = Array.prototype.slice.call(arguments, 1), 
-		        fToBind = this, 
-		        fNOP = function () {},
-		        fBound = function () {
-		          return fToBind.apply(this instanceof fNOP && oThis
-		                                 ? this
-		                                 : oThis,
-		                               aArgs.concat(Array.prototype.slice.call(arguments)));
-		        };
 
-		    fNOP.prototype = this.prototype;
-		    fBound.prototype = new fNOP();
 
-		    return fBound;
-		  };
-		}
-
-		if (!Array.prototype.some) {
-		  Array.prototype.some = function(fun /*, thisp */) {
-		    'use strict';
-
-		    if (this == null) {
-		      throw new TypeError();
-		    }
-
-		    var thisp, i,
-		        t = Object(this),
-		        len = t.length >>> 0;
-		    if (typeof fun !== 'function') {
-		      throw new TypeError();
-		    }
-
-		    thisp = arguments[1];
-		    for (i = 0; i < len; i++) {
-		      if (i in t && fun.call(thisp, t[i], i, t)) {
-		        return true;
-		      }
-		    }
-
-		    return false;
-		  };
-		}
-
-		if (!Array.prototype.forEach) {
-		    Array.prototype.forEach = function (fn, scope) {
-		        'use strict';
-		        var i, len;
-		        for (i = 0, len = this.length; i < len; ++i) {
-		            if (i in this) {
-		                fn.call(scope, this[i], i, this);
-		            }
-		        }
-		    };
-		}
-
-		var head = document.getElementsByTagName('head')[0];
-		function appendScript(src) {
-			var s = document.createElement("script");
-    		s.type = "text/javascript";
-    		s.src = src;
-    		head.appendChild(s);
-		}
-
-		if (window.location.href.indexOf("preview=true") == -1) {
-			window.dlSupported = 'download' in document.createElement('a');
-			window.hasFlash = swfobject.hasFlashPlayerVersion(9);
-			if (!dlSupported && window.hasFlash) {
-				appendScript('preview_export/download_assist/downloadify.min.js');
-			}
-		}
-		</script>
-		<script data-main="scripts/amd-app" src="./azure02_files/require.js"></script>
-		<div id="modals">
-		<div class="itemGrabber modal hide" aria-hidden="true" style="display: none;"><div class="modal-header">
-	<button class="close" data-dismiss="modal">×</button>
-	<h3>Insert Image</h3>
-</div>
-<div class="modal-body" style="overflow: hidden">
-	<div class="alert alert-error dispNone">
-  		<button class="close" data-dismiss="alert">×</button>
-  		The image URL you entered appears to be incorrect
-	</div>
-	<h4>URL:</h4><div class="form-inline"><input type="text" name="itemUrl">&nbsp;<div data-option="browse" class="btn">Browse</div>
-	<p><em>*Local images are currently uploaded to imgur.<br>We're working on changing this.</em></p></div>
-	<input type="file" style="display:none">
-	<h4>Preview:</h4>
-	<ul class="thumbnails">
-		<li class="span4">
-			<div class="thumbnail">
-				<img class="preview" width="360" height"268"="">
-			</div>
-			<div class="progress active progress-striped dispNone">
-  				<div class="bar"></div>
-			</div>
-		</li>
-	</ul>
-</div>
-<div class="modal-footer">
-	<a href="http://strut.io/editor/#" class="btn btn-primary ok btn-inverse">Insert Image</a>
-</div></div><div class="modal hide"><div class="modal-header">
-	<button class="close" data-dismiss="modal">×</button>
-	<h3 class="title">Custom Color</h3>
-</div>
-<div class="modal-body" style="overflow: hidden">
-	<input type="text" class="color-chooser pull-right" style="display: none;"><div class="sp-container sp-light sp-flat sp-buttons-disabled"><div class="sp-palette-container"><div class="sp-palette sp-thumb sp-cf"><div class="sp-cf sp-palette-row sp-palette-row-0"></div><div class="sp-cf sp-palette-row sp-palette-row-selection"><span title="rgb(200, 19, 10)" data-color="rgb(200, 19, 10)" class="sp-thumb-el sp-thumb-dark"><span class="sp-thumb-inner" style="background-color:rgb(200, 19, 10);"></span></span><span title="rgb(10, 145, 200)" data-color="rgb(10, 145, 200)" class="sp-thumb-el sp-thumb-dark"><span class="sp-thumb-inner" style="background-color:rgb(10, 145, 200);"></span></span><span title="rgb(7, 184, 255)" data-color="rgb(7, 184, 255)" class="sp-thumb-el sp-thumb-light"><span class="sp-thumb-inner" style="background-color:rgb(7, 184, 255);"></span></span><span title="rgb(51, 51, 51)" data-color="rgb(51, 51, 51)" class="sp-thumb-el sp-thumb-dark"><span class="sp-thumb-inner" style="background-color:rgb(51, 51, 51);"></span></span><span title="rgb(0, 0, 0)" data-color="rgb(0, 0, 0)" class="sp-thumb-el sp-thumb-dark"><span class="sp-thumb-inner" style="background-color:rgb(0, 0, 0);"></span></span><span title="rgb(238, 238, 238)" data-color="rgb(238, 238, 238)" class="sp-thumb-el sp-thumb-light sp-thumb-active"><span class="sp-thumb-inner" style="background-color:rgb(238, 238, 238);"></span></span></div></div></div><div class="sp-picker-container"><div class="sp-top sp-cf"><div class="sp-fill"></div><div class="sp-top-inner"><div class="sp-color" style="background-color: rgb(255, 0, 0);"><div class="sp-sat"><div class="sp-val"><div class="sp-dragger" style="top: 0px; left: 0px;"></div></div></div></div><div class="sp-hue"><div class="sp-slider" style="top: 0px;"></div></div></div><div class="sp-alpha"><div class="sp-alpha-inner"><div class="sp-alpha-handle" style="left: 0px;"></div></div></div></div><div class="sp-input-container sp-cf"><input class="sp-input" type="text" spellcheck="false"></div><div class="sp-initial sp-thumb sp-cf"><div class="sp-cf sp-palette-row-initial"><span title="rgb(238, 238, 238)" data-color="rgb(238, 238, 238)" class="sp-thumb-el sp-thumb-light sp-thumb-active"><span class="sp-thumb-inner" style="background-color:rgb(238, 238, 238);"></span></span><span title="rgb(238, 238, 238)" data-color="rgb(238, 238, 238)" class="sp-thumb-el sp-thumb-light sp-thumb-active"><span class="sp-thumb-inner" style="background-color:rgb(238, 238, 238);"></span></span></div></div></div></div>
-</div>
-<div class="modal-footer">
-	<a href="http://strut.io/editor/#" class="btn btn-primary ok btn-inverse">Ok</a>
-</div></div><div class="CodeEditor modal hide stylesheetEditor"><div class="modal-header">
-	<button class="close" data-dismiss="modal">×</button>
-	<h3>Edit CSS</h3>
-</div>
-<div class="modal-body" style="overflow: hidden">
-	<textarea class="codeInput">/*.example {
-	border: 4px groove orange;
-}*/</textarea>
-</div>
-<div class="modal-footer">
-	<a href="http://strut.io/editor/#" class="btn btn-primary ok btn-inverse">Save</a>
-	<a href="http://strut.io/editor/#" class="btn btn-danger cancel">Cancel</a>
-</div></div><div class="itemGrabber modal hide" aria-hidden="true" style="display: none;"><div class="modal-header">
-	<button class="close" data-dismiss="modal">×</button>
-	<h3>Insert Video</h3>
-</div>
-<div class="modal-body" style="overflow: hidden"><div class="alert alert-success">Supports <strong>webm &amp; YouTube</strong>.<br>Try out: http://www.youtube.com/watch?v=vHUsdkmr-SM</div>
-	<div class="alert alert-error dispNone">
-  		<button class="close" data-dismiss="alert">×</button>
-  		The image URL you entered appears to be incorrect
-	</div>
-	<h4>URL:</h4><div class="form-inline"><input type="text" name="itemUrl">&nbsp;</div>
-	<input type="file" style="display:none">
-	<h4>Preview:</h4>
-	<ul class="thumbnails">
-		<li class="span4">
-			<div class="thumbnail">
-				<video class="preview" width="360" height"268"=""></video>
-			</div>
-			<div class="progress active progress-striped dispNone">
-  				<div class="bar"></div>
-			</div>
-		</li>
-	</ul>
-</div>
-<div class="modal-footer">
-	<a href="http://strut.io/editor/#" class="btn btn-primary ok btn-inverse">Insert Video</a>
-</div></div><div class="itemGrabber modal hide" aria-hidden="true" style="display: none;"><div class="modal-header">
-	<button class="close" data-dismiss="modal">×</button>
-	<h3>Insert Website</h3>
-</div>
-<div class="modal-body" style="overflow: hidden">
-	<div class="alert alert-error dispNone">
-  		<button class="close" data-dismiss="alert">×</button>
-  		The image URL you entered appears to be incorrect
-	</div>
-	<h4>URL:</h4><div class="form-inline"><input type="text" name="itemUrl">&nbsp;</div>
-	<input type="file" style="display:none">
-	<h4>Preview:</h4>
-	<ul class="thumbnails">
-		<li class="span4">
-			<div class="thumbnail">
-				<iframe class="preview" width="360" height"268"=""></iframe>
-			</div>
-			<div class="progress active progress-striped dispNone">
-  				<div class="bar"></div>
-			</div>
-		</li>
-	</ul>
-</div>
-<div class="modal-footer">
-	<a href="http://strut.io/editor/#" class="btn btn-primary ok btn-inverse">Insert Website</a>
-</div></div><div class="storageModal modal hide" aria-hidden="true" style="display: none;"><div class="modal-header">
-	<button class="close" data-dismiss="modal">×</button>
-	<h3 class="title">Save as...</h3>
-</div>
-<div class="modal-body" style="overflow: hidden">
-	<ul class="nav nav-tabs">
+	
 		
-			<li class="providerTab active"><a data-provider="localstorage">Local Storage</a></li>
 		
-	</ul>
-	<div class="tabContent">
-	<div class="fileBrowser"><div class="browserContent"><input type="text" class="fileName">
-<ul class="nav nav-pills nav-stacked">
 	
-	<li data-filename="Azure201603.strut"><a>Azure201603.strut <button class="close pull-right">×</button></a></li>
+
 	
-	<li data-filename="AzureAcademicSOP.strut"><a>AzureAcademicSOP.strut <button class="close pull-right">×</button></a></li>
-	
-	<li data-filename="presentation-2.strut"><a>presentation-2.strut <button class="close pull-right">×</button></a></li>
-	
-	<li data-filename="presentation-unnamed.strut"><a>presentation-unnamed.strut <button class="close pull-right">×</button></a></li>
-	
-</ul></div></div></div>
-</div>
-<div class="modal-footer">
-	<a href="http://strut.io/editor/#" class="btn btn-primary ok btn-inverse">Ok</a>
-</div></div><div class="tabbedModal modal hide"><div class="modal-header">
-	<button class="close" data-dismiss="modal">×</button>
-	<h3 class="title"></h3>
-</div>
-<div class="modal-body" style="overflow: hidden">
-	<ul class="nav nav-tabs">
 		
-			<li class="providerTab active" data-provider=""><a>JSON</a></li>
 		
-			<li class="providerTab" data-provider=""><a>Zip</a></li>
+		.slideContainer.strut-slide-1 {
+			background-image: url(http://i.imgur.com/VGYrirX.png);
+		}
 		
-	</ul>
-	<div class="tabContent">
-	<div><div class="alert alert-info">This allows you to save a file on your computer that you can import back into Strut later.</div><div class="alert alert-success">Click below to download</div></div></div>
-</div>
-<div class="modal-footer">
-	<a href="blob:http%3A//strut.io/cc98abda-6dfb-46d1-894d-b43d5e2c62c0" class="btn btn-primary ok btn-inverse" download="presentation-unnamed.json" data-downloadurl="application/json:presentation-unnamed.json:blob:http%3A//strut.io/cc98abda-6dfb-46d1-894d-b43d5e2c62c0"><i class="icon-download-alt icon-white"></i></a>
-</div></div></div>
 	
-<div class="dispNone"><input type="file"></div><div class="sp-container sp-hidden sp-light" style="position: absolute; top: 0px; left: 0px;"><div class="sp-palette-container"><div class="sp-palette sp-thumb sp-cf"><div class="sp-cf sp-palette-row sp-palette-row-0"></div><div class="sp-cf sp-palette-row sp-palette-row-selection"><span title="rgb(200, 19, 10)" data-color="rgb(200, 19, 10)" class="sp-thumb-el sp-thumb-dark"><span class="sp-thumb-inner" style="background-color:rgb(200, 19, 10);"></span></span><span title="rgb(10, 145, 200)" data-color="rgb(10, 145, 200)" class="sp-thumb-el sp-thumb-dark"><span class="sp-thumb-inner" style="background-color:rgb(10, 145, 200);"></span></span><span title="rgb(7, 184, 255)" data-color="rgb(7, 184, 255)" class="sp-thumb-el sp-thumb-light"><span class="sp-thumb-inner" style="background-color:rgb(7, 184, 255);"></span></span><span title="rgb(51, 51, 51)" data-color="rgb(51, 51, 51)" class="sp-thumb-el sp-thumb-dark"><span class="sp-thumb-inner" style="background-color:rgb(51, 51, 51);"></span></span><span title="rgb(0, 0, 0)" data-color="rgb(0, 0, 0)" class="sp-thumb-el sp-thumb-dark sp-thumb-active"><span class="sp-thumb-inner" style="background-color:rgb(0, 0, 0);"></span></span><span title="rgb(238, 238, 238)" data-color="rgb(238, 238, 238)" class="sp-thumb-el sp-thumb-light"><span class="sp-thumb-inner" style="background-color:rgb(238, 238, 238);"></span></span></div></div></div><div class="sp-picker-container"><div class="sp-top sp-cf"><div class="sp-fill"></div><div class="sp-top-inner"><div class="sp-color" style="background-color: rgb(255, 0, 0);"><div class="sp-sat"><div class="sp-val"><div class="sp-dragger" style="top: 0px; left: 0px;"></div></div></div></div><div class="sp-hue"><div class="sp-slider" style="top: 0px;"></div></div></div><div class="sp-alpha"><div class="sp-alpha-inner"><div class="sp-alpha-handle" style="left: 0px;"></div></div></div></div><div class="sp-input-container sp-cf"><input class="sp-input" type="text" spellcheck="false"></div><div class="sp-initial sp-thumb sp-cf"><div class="sp-cf sp-palette-row-initial"><span title="rgb(0, 0, 0)" data-color="rgb(0, 0, 0)" class="sp-thumb-el sp-thumb-dark"><span class="sp-thumb-inner" style="background-color:rgb(0, 0, 0);"></span></span><span title="rgb(0, 0, 0)" data-color="rgb(0, 0, 0)" class="sp-thumb-el sp-thumb-dark sp-thumb-active"><span class="sp-thumb-inner" style="background-color:rgb(0, 0, 0);"></span></span></div></div></div></div><div class="container-fluid"><div class="row-fluid header"><div class="navbar navbar-inverse span12">
-	<div class="navbar-inner">
-		<ul class="nav">
-			<li class="logo-holder">
-			<div class="logo-group btn-group"><a class="btn logo btn-plast dropdown-toggle" data-toggle="dropdown">
-	<span class="logo-bg"></span>
-    <span class="caret"></span>
-</a>
-<ul class="dropdown-menu">
-<li><a>New </a></li><li><a>Open </a></li><li><a>Save</a></li><li><a>Save as... </a></li><li class="divider"></li><li><a>Undo<span class="label">Text</span></a></li><li><a>Redo<span class="label dispNone">Ctrl+Y</span></a></li><li class="divider"></li><li><a>Cut <span class="label pull-right">Ctrl+X</span></a></li><li><a>Copy <span class="label pull-right">Ctrl+C</span></a></li><li><a>Paste <span class="label pull-right">Ctrl+V</span></a></li><li><a>Delete <span class="label pull-right">Del</span></a></li><li class="divider"></li><li><a>Import... </a></li><li><a>Export... </a></li></ul></div></li>
-			<li class="divider-vertical">
-			</li>
-		</ul>
-		<ul class="nav">
-			<li class="create-comp-buttons">
-				<div class="btn-group iconBtns">
-				<a class="btn btn-plast" data-comptype="TextBox"><i class="icon-text-width icon-white"></i>Text</a><a class="btn btn-plast" data-comptype="Image"><i class="icon-picture icon-white"></i>Image</a><a class="btn btn-plast" data-comptype="Video"><i class="icon-film icon-white"></i>Video</a><a class="btn btn-plast" data-comptype="WebFrame"><i class="icon-globe icon-white"></i>Website</a><div class="dropdown btn-group group-dropdown"><a class="btn btn-plast dropdown-toggle" data-toggle="dropdown">
-	<i class="icon-star icon-white"></i>
-	Shapes</a>
-<ul class="dropdown-menu horizontalDropdown" role="menu" style="min-width: 127px; width: 127px">
 
-<li><a class="shape" data-index="0"><img src="./azure02_files/square.svg" width="100%" height="100%"></a></li>
-
-<li><a class="shape" data-index="1"><img src="./azure02_files/triangle.svg" width="100%" height="100%"></a></li>
-
-<li><a class="shape" data-index="2"><img src="./azure02_files/circle.svg" width="100%" height="100%"></a></li>
-
-<li><a class="shape" data-index="3"><img src="./azure02_files/hexagon.svg" width="100%" height="100%"></a></li>
-
-<li><a class="shape" data-index="4"><img src="./azure02_files/pentagon.svg" width="100%" height="100%"></a></li>
-
-<li><a class="shape" data-index="5"><img src="./azure02_files/star.svg" width="100%" height="100%"></a></li>
-
-<li><a class="shape" data-index="6"><img src="./azure02_files/pacman.svg" width="100%" height="100%"></a></li>
-
-<li><a class="shape" data-index="7"><img src="./azure02_files/heart.svg" width="100%" height="100%"></a></li>
-
-<li><a class="shape" data-index="8"><img src="./azure02_files/infinity.svg" width="100%" height="100%"></a></li>
-
-<li><a class="shape" data-index="9"><img src="./azure02_files/yinyang.svg" width="100%" height="100%"></a></li>
-
-</ul>
-</div></div>
-			</li>
-		</ul>
-		<ul class="nav theme-buttons">
-		<div header="[object Object]" modeid="slide-editor" activemode="[object Object]" generator="[object Object]" class="themeProviders"><div class="dropdown btn-group iconBtns group-dropdown"><a class="btn btn-plast dropdown-toggle" data-toggle="dropdown">
-	<i class="icon-tint icon-white"></i>
-	Background</a>
-<ul class="dropdown-menu" role="menu">
-	<li class="dropdown-submenu">
-		<a tabindex="-1" href="http://strut.io/editor/#">All Slides</a>
-		<ul class="dropdown-menu horizontalDropdown allSlides" style="min-width: 127px; width: 127px">
-			
-			<li><a class="bg-solid-black thumbnail" alt="Black" data-class="bg-solid-black"></a></li>
-			
-			<li><a class="bg-solid-light thumbnail" alt="Light" data-class="bg-solid-light"></a></li>
-			
-			<li><a class="bg-solid-smoke thumbnail" alt="Smoke" data-class="bg-solid-smoke"></a></li>
-			
-			<li><a class="bg-solid-orange thumbnail" alt="Orange" data-class="bg-solid-orange"></a></li>
-			
-			<li><a class="bg-solid-yellow thumbnail" alt="Yellow" data-class="bg-solid-yellow"></a></li>
-			
-			<li><a class="bg-solid-grass thumbnail" alt="Grass" data-class="bg-solid-grass"></a></li>
-			
-			<li><a class="bg-solid-darkgreen thumbnail" alt="Dark Green" data-class="bg-solid-darkgreen"></a></li>
-			
-			<li><a class="bg-solid-sky thumbnail" alt="Sky" data-class="bg-solid-sky"></a></li>
-			
-			<li><a class="bg-solid-lavender thumbnail" alt="Lavender" data-class="bg-solid-lavender"></a></li>
-			
-			<li><a class="bg-solid-purple thumbnail" alt="Purple" data-class="bg-solid-purple"></a></li>
-			
-			<li><a class="bg-solid-salmon thumbnail" alt="Salmon" data-class="bg-solid-salmon"></a></li>
-			
-			<li><a class="transparentPattern thumbnail" data-class="bg-transparent"></a></li>
-			<li><a class="bg-img thumbnail" data-class="bg-img"><i class="icon-picture"></i></a></li>
-			<li><a class="bg-custom thumbnail" data-class="bg-custom"><i class="icon-pencil"></i></a></li>
-		</ul>
-	</li>
-	<li class="dropdown-submenu">
-		<a tabindex="-1" href="http://strut.io/editor/#">Selected Slide</a>
-		<ul class="dropdown-menu horizontalDropdown" style="min-width: 127px; width: 127px">
-			
-			<li><a class="bg-solid-black thumbnail" alt="Black" data-class="bg-solid-black"></a></li>
-			
-			<li><a class="bg-solid-light thumbnail" alt="Light" data-class="bg-solid-light"></a></li>
-			
-			<li><a class="bg-solid-smoke thumbnail" alt="Smoke" data-class="bg-solid-smoke"></a></li>
-			
-			<li><a class="bg-solid-orange thumbnail" alt="Orange" data-class="bg-solid-orange"></a></li>
-			
-			<li><a class="bg-solid-yellow thumbnail" alt="Yellow" data-class="bg-solid-yellow"></a></li>
-			
-			<li><a class="bg-solid-grass thumbnail" alt="Grass" data-class="bg-solid-grass"></a></li>
-			
-			<li><a class="bg-solid-darkgreen thumbnail" alt="Dark Green" data-class="bg-solid-darkgreen"></a></li>
-			
-			<li><a class="bg-solid-sky thumbnail" alt="Sky" data-class="bg-solid-sky"></a></li>
-			
-			<li><a class="bg-solid-lavender thumbnail" alt="Lavender" data-class="bg-solid-lavender"></a></li>
-			
-			<li><a class="bg-solid-purple thumbnail" alt="Purple" data-class="bg-solid-purple"></a></li>
-			
-			<li><a class="bg-solid-salmon thumbnail" alt="Salmon" data-class="bg-solid-salmon"></a></li>
-			
-			<li><a class="transparentPattern thumbnail" data-class="bg-transparent"></a></li>
-			<li><a class="nobg thumbnail" data-class="bg-default"></a></li>
-			<li><a class="bg-img thumbnail" data-class="bg-img"><i class="icon-picture"></i></a></li>
-			<li><a class="bg-custom thumbnail" data-class="bg-custom"><i class="icon-pencil"></i></a></li>
-		</ul>
-	</li>
-</ul>
-</div><div class="dropdown btn-group iconBtns group-dropdown"><a class="btn btn-plast dropdown-toggle" data-toggle="dropdown">
-	<i class="icon-tint icon-white"></i>
-	Surface</a>
-<ul class="dropdown-menu" role="menu">
-	<li class="dropdown-submenu">
-		<a tabindex="-1" href="http://strut.io/editor/#">All Slides</a>
-		<ul class="dropdown-menu horizontalDropdown allSlides" style="min-width: 127px; width: 127px">
-			
-			<li><a class="bg-surf-grad-black thumbnail" alt="" data-class="bg-surf-grad-black"></a></li>
-			
-			<li><a class="bg-surf-grad-light thumbnail" alt="" data-class="bg-surf-grad-light"></a></li>
-			
-			<li><a class="bg-surf-grad-smoke thumbnail" alt="" data-class="bg-surf-grad-smoke"></a></li>
-			
-			<li><a class="bg-surf-grad-orange thumbnail" alt="" data-class="bg-surf-grad-orange"></a></li>
-			
-			<li><a class="bg-surf-grad-yellow thumbnail" alt="" data-class="bg-surf-grad-yellow"></a></li>
-			
-			<li><a class="bg-surf-grad-grass thumbnail" alt="" data-class="bg-surf-grad-grass"></a></li>
-			
-			<li><a class="bg-surf-grad-darkgreen thumbnail" alt="" data-class="bg-surf-grad-darkgreen"></a></li>
-			
-			<li><a class="bg-surf-grad-sky thumbnail" alt="" data-class="bg-surf-grad-sky"></a></li>
-			
-			<li><a class="bg-surf-grad-lavender thumbnail" alt="" data-class="bg-surf-grad-lavender"></a></li>
-			
-			<li><a class="bg-surf-grad-purple thumbnail" alt="" data-class="bg-surf-grad-purple"></a></li>
-			
-			<li><a class="bg-surf-grad-salmon thumbnail" alt="" data-class="bg-surf-grad-salmon"></a></li>
-			
-			<li><a class="nobg thumbnail" data-class="bg-default"></a></li>
-			<li><a class="bg-img thumbnail" data-class="bg-img"><i class="icon-picture"></i></a></li>
-			<li><a class="bg-custom thumbnail" data-class="bg-custom"><i class="icon-pencil"></i></a></li>
-		</ul>
-	</li>
-	<li class="dropdown-submenu">
-		<a tabindex="-1" href="http://strut.io/editor/#">Selected Slide</a>
-		<ul class="dropdown-menu horizontalDropdown" style="min-width: 127px; width: 127px">
-			
-			<li><a class="bg-surf-grad-black thumbnail" alt="" data-class="bg-surf-grad-black"></a></li>
-			
-			<li><a class="bg-surf-grad-light thumbnail" alt="" data-class="bg-surf-grad-light"></a></li>
-			
-			<li><a class="bg-surf-grad-smoke thumbnail" alt="" data-class="bg-surf-grad-smoke"></a></li>
-			
-			<li><a class="bg-surf-grad-orange thumbnail" alt="" data-class="bg-surf-grad-orange"></a></li>
-			
-			<li><a class="bg-surf-grad-yellow thumbnail" alt="" data-class="bg-surf-grad-yellow"></a></li>
-			
-			<li><a class="bg-surf-grad-grass thumbnail" alt="" data-class="bg-surf-grad-grass"></a></li>
-			
-			<li><a class="bg-surf-grad-darkgreen thumbnail" alt="" data-class="bg-surf-grad-darkgreen"></a></li>
-			
-			<li><a class="bg-surf-grad-sky thumbnail" alt="" data-class="bg-surf-grad-sky"></a></li>
-			
-			<li><a class="bg-surf-grad-lavender thumbnail" alt="" data-class="bg-surf-grad-lavender"></a></li>
-			
-			<li><a class="bg-surf-grad-purple thumbnail" alt="" data-class="bg-surf-grad-purple"></a></li>
-			
-			<li><a class="bg-surf-grad-salmon thumbnail" alt="" data-class="bg-surf-grad-salmon"></a></li>
-			
-			<li><a class="nobg thumbnail" data-class="bg-default"></a></li>
-			<li><a class="bg-img thumbnail" data-class="bg-img"><i class="icon-picture"></i></a></li>
-			<li><a class="bg-custom thumbnail" data-class="bg-custom"><i class="icon-pencil"></i></a></li>
-		</ul>
-	</li>
-</ul>
-</div></div></ul>
-		<ul class="nav pull-right">
-			<li class="divider-vertical">
-			</li>
-			<li class="mode-buttons">
-			<div class="btn-group iconBtns dispNone">
-	<a class="btn btn-plast">
-		<i class="icon-th-list icon-white"></i>
-		Slides
-	</a>
-</div><div class="btn-group iconBtns">
-	<a class="btn btn-plast">
-		<i class="icon-th-large icon-white"></i>
-		Overview
-	</a>
-</div><div class="btn-group iconBtns"><button class="btn btn-success act"><i class="icon-play icon-white"></i><span class="chosen">Bespoke</span></button>
-<button class="btn dropdown-toggle btn-success iconBtnsSplit" data-toggle="dropdown">
-  <span class="caret whiteCaret"></span>
-</button>
-<ul class="dropdown-menu">
 	
-    <li data-option="impress"><a>
-    		<span class="check" style="visibility: hidden;">✓</span>
-    		Impress
-    </a></li>
-    
-    <li data-option="bespoke"><a>
-    		<span class="check">✓</span>
-    		Bespoke
-    </a></li>
-    
-    <li data-option="handouts"><a>
-    		<span class="check" style="visibility: hidden;">✓</span>
-    		Handouts
-    </a></li>
-    
-</ul></div></li>
-		</ul>
-	</div>
-</div><div class="tablets hiding"><div class="tablets-content"><a class="btn btn-plast iconBtns btn-grouped"><i class="icon-edit icon-white"></i>CSS</a><a class="btn btn-plast iconBtns btn-grouped disabled"><i class="icon-plus icon-white"></i>Class</a><a class="btn btn-plast iconBtns"><i class="icon-markdown-white icon-white"></i>MDown</a></div>
-<div class="tablets-toggle btn btn-plast">
-	<span class="caret whiteCaret"></span>
-</div></div></div><div class="slideEditor"><div class="slideWell"><div class="slideWellList ui-sortable"><div class="slideSnapshot"><div class="overlay"></div>
-<div class="slideDrawer slideContainer bg-solid-light" style="width: 1024px; height: 768px; transform: scale(0.117188, 0.117188);"><div class="themedArea">
+		
+		
+		.slideContainer.strut-slide-2 {
+			background-image: url(http://i.imgur.com/nNd3Rfk.png);
+		}
+		
+	
 
-</div>
+	
+		
+		
+		.slideContainer.strut-slide-3 {
+			background-image: url(http://i.imgur.com/wpva4Ea.png);
+		}
+		
+	
 
-<div class="componentContainer " style="top: 0px; left: 0px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 1023px; height: 475.7px;">
+	
+		
+		
+		.slideContainer.strut-slide-4 {
+			background-image: url(http://i.imgur.com/oGOIL8c.png);
+		}
+		
+	
+
+	
+		
+		
+		.slideContainer.strut-slide-5 {
+			background-image: url(http://i.imgur.com/PbXu3Tk.png);
+		}
+		
+	
+
+</style>
+	<div id="main" class="bg-surf-grad-smoke strut-surface carousel">
+		<article class="innerBg bespoke-parent strut-slide-0 bg-surf-grad-smoke">
+			
+				
+					<section class="bg-solid-light slideContainer strut-slide-0 bespoke-slide bespoke-active" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-0 bg-surf-grad-smoke ">
+						<div class="themedArea">
+              			
+              			</div>
+						
+							<div class="componentContainer " style="top: 0px; left: 0px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 1023px; height: 475.7px;">
 <div class="transformContainer" style="-webkit-transform: scale(1.21, 1.21);
 -moz-transform: scale(1.21, 1.21);
 transform: scale(1.21, 1.21)">
 <img src="./azure02_files/jXcfjz0.jpg">
 </div>
 </div>
-
-<div class="componentContainer " style="top: 502px; left: 64px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+							<div class="componentContainer " style="top: 502px; left: 64px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
@@ -511,15 +169,17 @@ transform: scale(1, 1)">
 </div>
 </div>
 </div>
-
-</div>
-<span class="close-btn-red-20 removeBtn" title="Remove"></span>
-<span class="badge badge-inverse"> </span></div><div class="slideSnapshot"><div class="overlay"></div>
-<div class="slideDrawer slideContainer" style="width: 1024px; height: 768px; transform: scale(0.117188, 0.117188); background-image: url(&quot;http://i.imgur.com/VGYrirX.png&quot;);"><div class="themedArea">
-
-</div>
-
-<div class="componentContainer " style="top: 579px; left: 63px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+					</section>
+				
+			
+				
+					<section class="slideContainer strut-slide-1 bespoke-slide bespoke-inactive bespoke-after bespoke-after-1" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-1 bg-surf-grad-smoke ">
+						<div class="themedArea">
+              			
+              			</div>
+						
+							<div class="componentContainer " style="top: 579px; left: 63px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
@@ -528,18 +188,18 @@ transform: scale(1, 1)">
 </div>
 </div>
 </div>
-
-<div class="componentContainer " style="top: 3px; left: 127px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+							<div class="componentContainer " style="top: 3px; left: 127px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 16px;" class="antialias">
-<font color="#0a91c8" face="Ubuntu">https://www.microsoftazurepass.com/azureu</font>
+<font color="#0a91c8" face="Ubuntu"><a href="https://www.microsoftazurepass.com/azureu" target="_blank">https://www.microsoftazurepass.com/azureu</a></font>
 </div>
 </div>
 </div>
-
-<div class="componentContainer " style="top: 30px; left: 180px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+							<div class="componentContainer " style="top: 30px; left: 180px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
@@ -548,15 +208,17 @@ transform: scale(1, 1)">
 </div>
 </div>
 </div>
-
-</div>
-<span class="close-btn-red-20 removeBtn" title="Remove"></span>
-<span class="badge badge-inverse"> </span></div><div class="slideSnapshot active ui-selected multiselectable-previous"><div class="overlay"></div>
-<div class="slideDrawer slideContainer" style="width: 1024px; height: 768px; transform: scale(0.117188, 0.117188); background-image: url(&quot;http://i.imgur.com/nNd3Rfk.png&quot;);"><div class="themedArea">
-
-</div>
-
-<div class="componentContainer " style="top: 450px; left: 79px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+					</section>
+				
+			
+				
+					<section class="slideContainer strut-slide-2 bespoke-slide bespoke-inactive bespoke-after bespoke-after-2" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-2 bg-surf-grad-smoke ">
+						<div class="themedArea">
+              			
+              			</div>
+						
+							<div class="componentContainer " style="top: 450px; left: 79px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
@@ -565,8 +227,8 @@ transform: scale(1, 1)">
 </div>
 </div>
 </div>
-
-<div class="componentContainer " style="top: 23px; left: 34px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+							<div class="componentContainer " style="top: 23px; left: 34px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
@@ -575,220 +237,158 @@ transform: scale(1, 1)">
 </div>
 </div>
 </div>
-
-</div>
-<span class="close-btn-red-20 removeBtn" title="Remove"></span>
-<span class="badge badge-inverse"> </span></div><div class="slideSnapshot"><div class="overlay"></div>
-<div class="slideDrawer slideContainer" style="width: 1024px; height: 768px; transform: scale(0.117188, 0.117188); background-image: url(&quot;http://i.imgur.com/wpva4Ea.png&quot;);"><div class="themedArea">
-
-</div>
-
-<div class="componentContainer " style="top: 184px; left: 373px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+					</section>
+				
+			
+				
+					<section class="slideContainer strut-slide-3 bespoke-slide bespoke-inactive bespoke-after bespoke-after-3" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-3 bg-surf-grad-smoke ">
+						<div class="themedArea">
+              			
+              			</div>
+						
+							<div class="componentContainer " style="top: 184px; left: 373px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 24px;" class="antialias">
-<font color="#07b8ff" face="Ubuntu">可以打中文名字</font>
+<font color="#07b8ff">可以打中文名字</font>
 </div>
 </div>
 </div>
-
-<div class="componentContainer " style="top: 228px; left: 375px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+							<div class="componentContainer " style="top: 228px; left: 375px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 24px;" class="antialias">
-<font color="#07b8ff" face="Ubuntu">你的MCP 帳號</font>
+<font color="#07b8ff">你的MCP 帳號</font>
 </div>
 </div>
 </div>
-
-<div class="componentContainer " style="top: 304px; left: 685px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+							<div class="componentContainer " style="top: 304px; left: 685px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 24px;" class="antialias">
-<font face="Ubuntu" color="#c8130a">按一下這個按鈕繼續..</font><br>
+<font color="#c8130a">按一下這個按鈕繼續..</font><br>
 </div>
 </div>
 </div>
-
-<div class="componentContainer " style="top: 142px; left: 373px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+							<div class="componentContainer " style="top: 142px; left: 373px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 24px;" class="antialias">
-<font face="Ubuntu" color="#07b8ff">可以打中文名字</font>
+<font color="#07b8ff">可以打中文名字</font>
 </div>
 </div>
 </div>
-
-</div>
-<span class="close-btn-red-20 removeBtn" title="Remove"></span>
-<span class="badge badge-inverse"> </span></div><div class="slideSnapshot"><div class="overlay"></div>
-<div class="slideDrawer slideContainer" style="width: 1024px; height: 768px; transform: scale(0.117188, 0.117188); background-image: url(&quot;http://i.imgur.com/oGOIL8c.png&quot;);"><div class="themedArea">
-
-</div>
-
-<div class="componentContainer " style="top: 550px; left: 249px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+					</section>
+				
+			
+				
+					<section class="slideContainer strut-slide-4 bespoke-slide bespoke-inactive bespoke-after bespoke-after-4" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-4 bg-surf-grad-smoke ">
+						<div class="themedArea">
+              			
+              			</div>
+						
+							<div class="componentContainer " style="top: 550px; left: 249px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 24px;" class="antialias">
-<font color="#c8130a" face="Ubuntu">按一下這個按鈕繼續..</font>
+<font color="#c8130a">按一下這個按鈕繼續..</font>
 </div>
 </div>
 </div>
-
-</div>
-<span class="close-btn-red-20 removeBtn" title="Remove"></span>
-<span class="badge badge-inverse"> </span></div><div class="slideSnapshot"><div class="overlay"></div>
-<div class="slideDrawer slideContainer" style="width: 1024px; height: 768px; transform: scale(0.117188, 0.117188); background-image: url(&quot;http://i.imgur.com/PbXu3Tk.png&quot;);"><div class="themedArea">
-
-</div>
-
-<div class="componentContainer " style="top: 212px; left: 400px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+					</section>
+				
+			
+				
+					<section class="slideContainer strut-slide-5 bespoke-slide bespoke-inactive bespoke-after bespoke-after-5" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-5 bg-surf-grad-smoke ">
+						<div class="themedArea">
+              			
+              			</div>
+						
+							<div class="componentContainer " style="top: 212px; left: 400px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 16px;" class="antialias">
-<font face="Ubuntu" color="#0a91c8">可以打中文名字</font>
+<font color="#0a91c8">可以打中文名字</font>
 </div>
 </div>
 </div>
-
-<div class="componentContainer " style="top: 212px; left: 575px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+							<div class="componentContainer " style="top: 212px; left: 575px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 16px;" class="antialias">
-<font color="#0a91c8" face="Ubuntu">可以打中文名字</font>
+<font color="#0a91c8">可以打中文名字</font>
 </div>
 </div>
 </div>
-
-<div class="componentContainer " style="top: 271px; left: 397px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+							<div class="componentContainer " style="top: 271px; left: 397px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 16px;" class="antialias">
-<font color="#0a91c8" face="Ubuntu">53514979</font>
+<font color="#0a91c8">53514979</font>
 </div>
 </div>
 </div>
-
-<div class="componentContainer " style="top: 270px; left: 577px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+							<div class="componentContainer " style="top: 270px; left: 578px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 16px;" class="antialias">
-<font color="#0a91c8" face="Ubuntu">你的MCP帳號</font>
+<font color="#0a91c8">你的MCP帳號</font>
 </div>
 </div>
 </div>
-
-<div class="componentContainer " style="top: 270px; left: 834px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+							<div class="componentContainer " style="top: 270px; left: 834px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 16px;" class="antialias">
-<font color="#0a91c8" face="Ubuntu">大葉大學</font>
+<font color="#0a91c8">大葉大學</font>
 </div>
 </div>
 </div>
-
-<div class="componentContainer " style="top: 392px; left: 501px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+							<div class="componentContainer " style="top: 392px; left: 501px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 16px;" class="antialias">
-<font color="#0a91c8" face="Ubuntu">不用打0</font>
+<font color="#0a91c8">不用打0</font>
 </div>
 </div>
 </div>
-
-<div class="componentContainer " style="top: 555px; left: 567px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+						
+							<div class="componentContainer " style="top: 555px; left: 567px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 36px;" class="antialias">
-<font face="Ubuntu" color="#c8130a">按一下這裏就註冊完成了</font>
+<font color="#c8130a">按一下這裏就註冊完成了</font>
 </div>
 </div>
 </div>
+						
+					</section>
+				
+			
+		</article>
+	</div>
 
-</div>
-<span class="close-btn-red-20 removeBtn" title="Remove"></span>
-<span class="badge badge-inverse"> </span></div></div><div class="wellContextMenu absolute" style="top: 337px; left: 46px;"><div class="addBtn btn btn-success"><center><i class="icon-plus icon-white"></i></center></div></div></div><div class="operatingTable strut-surface bg-surf-grad-smoke"><div class="slideContainer ui-selectable" aria-disabled="false" style="width: 1024px; height: 768px; margin-left: 183.833px; margin-right: 183.833px; transform: scale(0.884115); background-image: url(&quot;http://i.imgur.com/nNd3Rfk.png&quot;);"><div class="markdownArea themedArea"></div><div class="component textBox ui-selectee" style="z-index: 45; top: 450px; left: 79px; font-size: 16px;"><div class="content-scale" style="transform: scale(1, 1);">
-<div class="content" contenteditable="false"><font color="#c8130a">跟老師要CODE 輸入這裏</font></div>
-</div>
-<span class="topLabel label"> 
-	<span class="skewx" data-delta="skewX">↔</span>
-	<span class="align" data-option="x">↹</span>
-</span>
-<span class="leftLabel label"> 
-	<span class="align" data-option="y">↹</span>
-	<span class="skewy" data-delta="skewY">↔</span>
-</span>
-<span class="rightLabel label rotate" data-delta="rotate">↻</span>
-<span class="scale label" data-delta="scale">↔</span>
-<span class="close-btn-red-20 removeBtn" title="Remove"></span>
-<div class="positioningCtrls form-inline">
-	<span class="label leftposition">→</span>
-	<input class="position" type="text" data-option="x" value="79">
-	<span class="label bottomposition">↑</span>
-	<input class="position" type="text" data-option="y" value="450">
-</div>
-</div><div class="component textBox ui-selectee" style="z-index: 41; top: 23px; left: 34px; font-size: 48px;"><div class="content-scale" style="transform: scale(1, 1);">
-<div class="content" contenteditable="false"><font color="#c8130a">輸入Academic 優惠卷代碼</font></div>
-</div>
-<span class="topLabel label"> 
-	<span class="skewx" data-delta="skewX">↔</span>
-	<span class="align" data-option="x">↹</span>
-</span>
-<span class="leftLabel label"> 
-	<span class="align" data-option="y">↹</span>
-	<span class="skewy" data-delta="skewY">↔</span>
-</span>
-<span class="rightLabel label rotate" data-delta="rotate">↻</span>
-<span class="scale label" data-delta="scale">↔</span>
-<span class="close-btn-red-20 removeBtn" title="Remove"></span>
-<div class="positioningCtrls form-inline">
-	<span class="label leftposition">→</span>
-	<input class="position" type="text" data-option="x" value="34">
-	<span class="label bottomposition">↑</span>
-	<input class="position" type="text" data-option="y" value="23">
-</div>
-</div></div></div></div></div><div class="etch-editor-panel" style="display: none; top: 432.852px; left: 520px;"><div class="btn-group"><a href="http://strut.io/editor/#" class="btn btn-small etch-bold" title="bold"><span>B</span></a><a href="http://strut.io/editor/#" class="btn btn-small etch-italic" title="italic"><span>I</span></a></div><div class="btn-group"><a href="http://strut.io/editor/#" class="btn btn-small etch-unordered-list" title="unordered list"><span></span></a><a href="http://strut.io/editor/#" class="btn btn-small etch-ordered-list" title="ordered list"><span></span></a></div><div class="btn-group"><a href="http://strut.io/editor/#" class="btn btn-small etch-justify-left" title="justify left"><i class="icon-align-left"></i></a><a href="http://strut.io/editor/#" class="btn btn-small etch-justify-center" title="justify center"><i class="icon-align-center"></i></a></div><div class="btn-group"><a href="http://strut.io/editor/#" class="btn btn-small etch-link" title="link"><span></span></a></div><div class="btn-group">
-	<button class="btn btn-inverse dropdown-toggle btn-small fontFamilyBtn" data-toggle="dropdown" title="Choose the font family"><span class="text">Lato</span><span class="caret"></span></button>
-	<ul class="dropdown-menu menuBarOption" data-option="fontFamily">
-		<li>
-                  <a class="lato" href="http://strut.io/editor/#" data-value="&#39;Lato&#39;, sans-serif">Lato</a>
-                  <a class="leaguegothic" href="http://strut.io/editor/#" data-value="&#39;League Gothic&#39;, sans-serif">League Gothic</a>
-                  <a class="droidsansmono" href="http://strut.io/editor/#" data-value="&#39;Droid Sans Mono&#39;, monospace">Droid Sans Mono</a>
-                  <a class="ubuntu" href="http://strut.io/editor/#" data-value="&#39;Ubuntu&#39;, sans-serif">Ubuntu</a>
-                  <a class="abril" href="http://strut.io/editor/#" data-value="&#39;Abril Fatface&#39;, cursive">Abril</a>
-                  <a class="hammersmith" href="http://strut.io/editor/#" data-value="&#39;Hammersmith One&#39;, sans-serif">Hammersmith One</a>
-                  <a class="fredoka" href="http://strut.io/editor/#" data-value="&#39;Fredoka One&#39;, cursive">Fredoka One</a>
-                  <a class="gorditas" href="http://strut.io/editor/#" data-value="&#39;Gorditas&#39;, cursive">Gorditas</a>
-                  <a class="pressstart" href="http://strut.io/editor/#" data-value="&#39;PressStart2P&#39;, cursive">Press Start 2P</a>
-		</li>
-	</ul>
-</div><div class="btn-group">
-	<a class="btn btn-small btn-inverse dropdown-toggle" data-toggle="dropdown" title="Choose the font size"><span class="text fontSizeReadout">16</span>
-		<span class="caret"></span></a>
-	<ul class="dropdown-menu menuBarOption" data-option="fontSize">
-		<li>
-                  <a href="http://strut.io/editor/#" data-value="144">144</a>
-                  <a href="http://strut.io/editor/#" data-value="96">96</a>
-                  <a href="http://strut.io/editor/#" data-value="72">72</a>
-			<a href="http://strut.io/editor/#" data-value="64">64</a>
-                  <a href="http://strut.io/editor/#" data-value="48">48</a>
-                  <a href="http://strut.io/editor/#" data-value="36">36</a>
-                  <a href="http://strut.io/editor/#" data-value="24">24</a>
-                  <a href="http://strut.io/editor/#" data-value="16">16</a>
-                  <a href="http://strut.io/editor/#" data-value="12">12</a>
-                  <a href="http://strut.io/editor/#" data-value="8">8</a>
-		</li>
-     	</ul>
-</div><div class="btn-group"><input class="color-chooser colorpicker etch-color" style="display: none;"><div class="sp-replacer sp-dark"><div class="sp-preview"><div class="sp-preview-inner" style="background-color: rgb(200, 19, 10);"></div></div><div class="sp-dd">▼</div></div></div><div class="btn-group"><a href="http://strut.io/editor/#" class="btn btn-small etch-clear-formatting" title="clear formatting"><span></span></a></div></div><div class="sp-container sp-hidden sp-dark" style="position: absolute; top: 0px; left: 0px;"><div class="sp-palette-container"><div class="sp-palette sp-thumb sp-cf"><div class="sp-cf sp-palette-row sp-palette-row-0"></div><div class="sp-cf sp-palette-row sp-palette-row-selection"><span title="rgb(200, 19, 10)" data-color="rgb(200, 19, 10)" class="sp-thumb-el sp-thumb-dark sp-thumb-active"><span class="sp-thumb-inner" style="background-color:rgb(200, 19, 10);"></span></span><span title="rgb(10, 145, 200)" data-color="rgb(10, 145, 200)" class="sp-thumb-el sp-thumb-dark"><span class="sp-thumb-inner" style="background-color:rgb(10, 145, 200);"></span></span><span title="rgb(7, 184, 255)" data-color="rgb(7, 184, 255)" class="sp-thumb-el sp-thumb-light"><span class="sp-thumb-inner" style="background-color:rgb(7, 184, 255);"></span></span><span title="rgb(51, 51, 51)" data-color="rgb(51, 51, 51)" class="sp-thumb-el sp-thumb-dark"><span class="sp-thumb-inner" style="background-color:rgb(51, 51, 51);"></span></span><span title="rgb(0, 0, 0)" data-color="rgb(0, 0, 0)" class="sp-thumb-el sp-thumb-dark"><span class="sp-thumb-inner" style="background-color:rgb(0, 0, 0);"></span></span><span title="rgb(238, 238, 238)" data-color="rgb(238, 238, 238)" class="sp-thumb-el sp-thumb-light"><span class="sp-thumb-inner" style="background-color:rgb(238, 238, 238);"></span></span></div></div></div><div class="sp-picker-container"><div class="sp-top sp-cf"><div class="sp-fill"></div><div class="sp-top-inner"><div class="sp-color" style="background-color: rgb(255, 12, 0);"><div class="sp-sat"><div class="sp-val"><div class="sp-dragger" style="top: 0px; left: 0px;"></div></div></div></div><div class="sp-hue"><div class="sp-slider" style="top: 0px;"></div></div></div><div class="sp-alpha"><div class="sp-alpha-inner"><div class="sp-alpha-handle" style="left: 0px;"></div></div></div></div><div class="sp-input-container sp-cf"><input class="sp-input" type="text" spellcheck="false"></div><div class="sp-initial sp-thumb sp-cf"><div class="sp-cf sp-palette-row-initial"><span title="rgb(51, 51, 51)" data-color="rgb(51, 51, 51)" class="sp-thumb-el sp-thumb-dark"><span class="sp-thumb-inner" style="background-color:rgb(51, 51, 51);"></span></span><span title="rgb(200, 19, 10)" data-color="rgb(200, 19, 10)" class="sp-thumb-el sp-thumb-dark sp-thumb-active"><span class="sp-thumb-inner" style="background-color:rgb(200, 19, 10);"></span></span></div></div></div></div></body></html>
+</body></html>
