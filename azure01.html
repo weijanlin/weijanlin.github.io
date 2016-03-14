@@ -1,114 +1,116 @@
 
-<!-- saved from url=(0052)http://strut.io/editor/preview_export/bespoke.html#1 -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=Big5">
-	<meta name="viewport" content="width=device-width">
-	<title>Deck Title</title>
-	<link rel="stylesheet" href="./azure01_files/default-reset.css">
-	<link rel="stylesheet" type="text/css" href="./azure01_files/main.css">
-	<link rel="stylesheet" href="./azure01_files/default.css" id="theme">
-	<link href="./azure01_files/web-fonts.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" type="text/css" href="./azure01_files/demo.css">
-	<link rel="stylesheet" type="text/css" href="./azure01_files/themes.css">
-	<link href="./azure01_files/backgroundClasses.css" rel="stylesheet" type="text/css">
-	<link href="./azure01_files/surfaceClasses.css" rel="stylesheet" type="text/css">
+<!-- saved from url=(0058)http://strut.io/editor/preview_export/impress.html#/step-1 -->
+<html style="height: 100%;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Deck Title</title>
 
-	<style type="text/css">
-	.componentContainer {
-	    position: absolute;
-	    line-height: normal;
-	    /*-webkit-transform-origin: 135% 135%;
-	    -moz-transform-origin: 135% 135%;
-	    transform-origin: 135% 135%;*/
-	}
+<meta name="description" content="TODO">
+<meta name="author" content="TODO">
 
-	.transformContainer {
-	    -webkit-transform-origin: 0 0;
-	    -moz-transform-origin: 0 0;
-	    transform-origin: 0 0;
-	}
+<style>
+.componentContainer {
+    position: absolute;
+    line-height: normal;
+    /*-webkit-transform-origin: 135% 135%;
+    -moz-transform-origin: 135% 135%;
+    transform-origin: 135% 135%;*/
+}
 
-	.bg {
-	    width: 100%;
-	    height: 100%;
-	}
+.transformContainer {
+    -webkit-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
 
-	#themeChooser {
-		position: absolute;
-		z-index: 1;
-		background-color: #EEE;
-		border-radius: 5px;
-		padding: 10px;
-	}
+.bg {
+    width: 100%;
+    height: 100%;
+}
+</style>
 
-	#main, body {
-		overflow: hidden;
-	}
+<link rel="stylesheet" href="./azure01_files/default-reset.css">
+<link href="./azure01_files/main.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="./azure01_files/default.css" id="theme">
+<link href="./azure01_files/web-fonts.css" rel="stylesheet" type="text/css">
+<link href="./azure01_files/backgroundClasses.css" rel="stylesheet" type="text/css">
+<link href="./azure01_files/surfaceClasses.css" rel="stylesheet" type="text/css">
 
-	.reveal.themedArea {
-	    display: block;
-	    position: absolute;
-	    top: 0px;
-	    left: 0px;
-	    z-index: 0;
-	    width: 100%;
-	    height: 100%;
-	}
-	</style>
+<link rel="shortcut icon" href="http://strut.io/editor/preview_export/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="http://strut.io/editor/preview_export/apple-touch-icon.png" type="image/png">
 
-	<script async="" src="./azure01_files/analytics.js"></script><script src="./azure01_files/bespoke.js"></script>
-	<script src="./azure01_files/bespoke-plugins.js"></script>
-	<script src="./azure01_files/onready.js"></script>
-	<script src="./azure01_files/loadPresentation.js"></script>
-	<script>
-	ready(function() {
-		if (document.getElementById('launched-placeholder'))
-        	loadPresentation();
-		if (!window.presStarted) {
-    		bespoke.horizontal.from('article', {
-    			hash: true,
-    			state: true
-    		});
-		}
-	});
-	</script>
-	<script>
-  	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+<style>
+.reveal.themedArea {
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+}
+</style>
 
-  	ga('create', 'UA-42322531-1', 'strut.io');
-  	ga('send', 'pageview');
-	</script>
+<script async="" src="./azure01_files/analytics.js"></script><script type="text/javascript" src="./azure01_files/dataset-shim.js"></script>
+<script type="text/javascript" src="./azure01_files/impress.js"></script>
+
+<script src="./azure01_files/onready.js"></script>
+<script src="./azure01_files/loadPresentation.js"></script>
+<script>
+ready(function() {
+    if (document.getElementById('launched-placeholder'))
+        loadPresentation();
+
+    if (!window.presStarted) {
+        startPres(document, window);
+        impress().init();   
+    }
+
+    if ("ontouchstart" in document.documentElement) { 
+        document.querySelector(".hint").innerHTML = 
+            "<p>Tap on the left or right to navigate</p>";
+    }
+});
+</script>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-42322531-1', 'strut.io');
+    ga('send', 'pageview');
+    </script>
 </head>
-<body>
-	<style>
-	/*.example {
+<body class="impress-supported impress-enabled" style="height: 100%; overflow: hidden;">
+<style type="text/css">
+/*.example {
 	border: 4px groove orange;
 }*/
-	</style>
-	<style>
+</style>
+<style>
+
 	
-		
 	.bg-custom-fae6ff {
 		background: #fae6ff;
 	}
 
+
 	
-		
 	.bg-custom-2e2e2e {
 		background: #2e2e2e;
 	}
 
+
 	
-		
 	.bg-custom-000000 {
 		background: #000000;
 	}
 
-	
-	</style>
-	<style>
+
+</style>
+<style>
 
 
 
@@ -191,511 +193,565 @@
 	
 
 </style>
-	<div id="main" class="bg-surf-grad-black strut-surface none">
-		<article class="innerBg bespoke-parent strut-slide-0 bg-surf-grad-black">
+<!-- This is a work around / hack to get the user's browser to download the fonts 
+ if they decide to save the presentation. -->
+<div style="visibility: hidden; width: 0px; height: 0px">
+<img src="./azure01_files/Lato-Bold.woff">
+<img src="./azure01_files/HammersmithOne.woff">
+<img src="./azure01_files/Droid-Sans-Mono.woff">
+<img src="./azure01_files/Gorditas-Regular.woff">
+<img src="./azure01_files/FredokaOne-Regular.woff">
+<img src="./azure01_files/Ubuntu.woff">
+<img src="./azure01_files/Ubuntu-Bold.woff">
+<img src="./azure01_files/PressStart2P-Regular.woff">
+<img src="./azure01_files/Lato-BoldItalic.woff">
+<img src="./azure01_files/AbrilFatface-Regular.woff">
+<img src="./azure01_files/Lato-Regular.woff">
+</div>
+
+<div class="fallback-message">
+    <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+    <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+</div>
+
+<div class="bg bg-surf-grad-black strut-surface">
+<div class="bg innerBg strut-slide-0 bg-surf-grad-black">
+<div id="impress" style="position: absolute; transform-origin: left top 0px; transition: all 0ms ease-in-out 0ms; transform-style: preserve-3d; top: 50%; left: 50%; transform: perspective(3051.66px) scale(0.327691);"><div style="position: absolute; transform-origin: left top 0px; transition: all 0ms ease-in-out 0ms; transform-style: preserve-3d; transform: rotateZ(0deg) rotateY(0deg) rotateX(0deg) translate3d(-2457.6px, -2764.8px, 0px);">
+	
+		
+			<div class="step active present" data-state="strut-slide-0 bg-surf-grad-black " data-x="2457.6" data-y="2764.8" data-scale="3" id="step-1" style="position: absolute; transform: translate(-50%, -50%) translate3d(2457.6px, 2764.8px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(3); transform-style: preserve-3d;">
+			<div class="bg-solid-black slideContainer strut-slide-0" style="width: 1024px; height: 768px;">
+			<div class="themedArea">
 			
-				
-					<section class="bg-solid-black slideContainer strut-slide-0 bespoke-slide bespoke-active" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-0 bg-surf-grad-black ">
-						<div class="themedArea">
-              			
-              			</div>
-						
-							<div class="componentContainer " style="top: 110px; left: 144px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			</div>
+			
+			<div class="componentContainer " style="top: 110px; left: 144px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 64px;" class="antialias">
-<div style="text-align: center;"><span style="color: rgb(238, 238, 238);">·L³n¶³ºİ¹Bºâ¥«³õÀ³¥Î»¡©ú</span></div>
+<div style="text-align: center;"><span style="color: rgb(238, 238, 238);">å¾®è»Ÿé›²ç«¯é‹ç®—å¸‚å ´æ‡‰ç”¨èªªæ˜</span></div>
 </div>
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 385px; left: 360px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 385px; left: 360px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 36px;" class="antialias">
-<font color="#eeeeee">½Òµ{¦WºÙ¡G¶³ºİ¹Bºâ<br>±Â½Ò¦Ñ®v¡G·¨Â×¥ü¦Ñ®v<br>·~¬ÉÁ¿®v¡G¾G¼w«T¦Ñ®v<br></font>
+<font color="#eeeeee">èª²ç¨‹åç¨±ï¼šé›²ç«¯é‹ç®—<br>æˆèª²è€å¸«ï¼šæ¥Šè±å…†è€å¸«<br>æ¥­ç•Œè¬›å¸«ï¼šé„­å¾·ä¿Šè€å¸«<br></font>
 </div>
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 200px; left: 293px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 200px; left: 293px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 36px;" class="antialias">
-<font color="#eeeeee">¤F¸Ñ·L³n¶³ºİ·~¬ÉÀ³¥Î½dÃ¥
+<font color="#eeeeee">äº†è§£å¾®è»Ÿé›²ç«¯æ¥­ç•Œæ‡‰ç”¨ç¯„ç–‡
 <br></font>
 </div>
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 575px; left: 277px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 575px; left: 277px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <img src="./azure01_files/galleries.png">
 </div>
 </div>
-						
-					</section>
-				
 			
-				
-					<section class="bg-solid-light slideContainer strut-slide-1 bespoke-slide bespoke-inactive bespoke-after bespoke-after-1" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-1 bg-surf-grad-black ">
-						<div class="themedArea">
-              			
-              			</div>
-						
-							<div class="componentContainer " style="top: 198px; left: 8px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 440px; height: 329.58px;">
+			</div>
+		
+		</div>
+	
+		
+			<div class="step future" data-state="strut-slide-1 bg-surf-grad-black " data-x="4765.013333333333" data-y="2826.24" data-rotate-z="89.95437383553926" data-scale="2" id="step-2" style="position: absolute; transform: translate(-50%, -50%) translate3d(4765.01px, 2826.24px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(89.9544deg) scale(2); transform-style: preserve-3d;">
+			<div class="bg-solid-light slideContainer strut-slide-1" style="width: 1024px; height: 768px;">
+			<div class="themedArea">
+			
+			</div>
+			
+			<div class="componentContainer " style="top: 198px; left: 8px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 440px; height: 329.58px;">
 <div class="transformContainer" style="-webkit-transform: scale(1.7, 1.7);
 -moz-transform: scale(1.7, 1.7);
 transform: scale(1.7, 1.7)">
 <img src="./azure01_files/images">
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: -2px; left: 0px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 1026px; height: 201.92px;">
+			
+			<div class="componentContainer " style="top: -2px; left: 0px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 1026px; height: 201.92px;">
 <div class="transformContainer" style="-webkit-transform: scale(0.51, 0.51);
 -moz-transform: scale(0.51, 0.51);
 transform: scale(0.51, 0.51)">
 <img src="./azure01_files/JJTrEIE.png">
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 526px; left: 0px; -webkit-transform:   skewY(0.05rad); -moz-transform:   skewY(0.05rad); transform:   skewY(0.05rad); width: 1021px; height: 200.94px;">
+			
+			<div class="componentContainer " style="top: 526px; left: 0px; -webkit-transform:   skewY(0.05rad); -moz-transform:   skewY(0.05rad); transform:   skewY(0.05rad); width: 1021px; height: 200.94px;">
 <div class="transformContainer" style="-webkit-transform: scale(0.51, 0.51);
 -moz-transform: scale(0.51, 0.51);
 transform: scale(0.51, 0.51)">
 <img src="./azure01_files/JJTrEIE.png">
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 254px; left: 487px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 254px; left: 487px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 24px;" class="antialias">
-1.¾Ç·|Azure VM¨Ó¾ÇLinux&nbsp;<br>2.¾Ç·|¨Ï¥ÎAzureRemoteApp<br>&nbsp; &nbsp; §Ş¥©¡A±NWindows API©ñ¸m¶³ºİ¸ó¥­¥x<br>&nbsp; &nbsp; ¦ÜAPPLE¤Î Anrdoid ¤W¨Ï¥Î<br>3.°Ñ¥[MCP 70-533 »{ÃÒ<br>4.°Ñ¥[MSCS Security »{ÃÒ<br>5.¥ÕÀb«È½Òµ{«ü¾É<br>6.Try ¯}ºô¯¸°e¼úª÷<br>
+1.å­¸æœƒAzure VMä¾†å­¸Linux&nbsp;<br>2.å­¸æœƒä½¿ç”¨AzureRemoteApp<br>&nbsp; &nbsp; æŠ€å·§ï¼Œå°‡Windows APIæ”¾ç½®é›²ç«¯è·¨å¹³å°<br>&nbsp; &nbsp; è‡³APPLEåŠ Anrdoid ä¸Šä½¿ç”¨<br>3.åƒåŠ MCP 70-533 èªè­‰<br>4.åƒåŠ MSCS Security èªè­‰<br>5.ç™½é§­å®¢èª²ç¨‹æŒ‡å°<br>6.Try ç ´ç¶²ç«™é€çé‡‘<br>
 </div>
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 207px; left: 531px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 207px; left: 531px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 36px;" class="antialias">
-<font color="#07b8ff">¨ó¦P±Ğ¾Ç¤»¶g­p¹º
+<font color="#07b8ff">å”åŒæ•™å­¸å…­é€±è¨ˆåŠƒ
 <br></font>
 </div>
 </div>
 </div>
-						
-					</section>
-				
 			
-				
-					<section class="bg-solid-light slideContainer strut-slide-2 bespoke-slide bespoke-inactive bespoke-after bespoke-after-2" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-2 bg-surf-grad-black ">
-						<div class="themedArea">
-              			
-              			</div>
-						
-							<div class="componentContainer " style="top: 445px; left: 584px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 436px; height: 321.18px;">
+			</div>
+		
+		</div>
+	
+		
+			<div class="step future" data-state="strut-slide-2 bg-surf-grad-black " data-x="2471.2533333333336" data-y="5222.4" data-scale="3" id="step-3" style="position: absolute; transform: translate(-50%, -50%) translate3d(2471.25px, 5222.4px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(3); transform-style: preserve-3d;">
+			<div class="bg-solid-light slideContainer strut-slide-2" style="width: 1024px; height: 768px;">
+			<div class="themedArea">
+			
+			</div>
+			
+			<div class="componentContainer " style="top: 445px; left: 584px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 436px; height: 321.18px;">
 <div class="transformContainer" style="-webkit-transform: scale(1.66, 1.66);
 -moz-transform: scale(1.66, 1.66);
 transform: scale(1.66, 1.66)">
 <img src="./azure01_files/images(1)">
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 61px; left: 62px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 61px; left: 62px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 72px;" class="antialias">
-<font color="#000000">¤@¤Á³£¬O±q¬G¨Æªº¶}©l......</font><br>
+<font color="#000000">ä¸€åˆ‡éƒ½æ˜¯å¾æ•…äº‹çš„é–‹å§‹......</font><br>
 </div>
 </div>
 </div>
-						
-					</section>
-				
 			
-				
-					<section class="bg-solid-light slideContainer strut-slide-3 bespoke-slide bespoke-inactive bespoke-after bespoke-after-3" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-3 bg-surf-grad-black ">
-						<div class="themedArea">
-              			
-              			</div>
-						
-							<div class="componentContainer " style="top: 142px; left: 238px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 712px; height: 497.13px;">
+			</div>
+		
+		</div>
+	
+		
+			<div class="step future" data-state="strut-slide-3 bg-surf-grad-black " data-x="5679.786666666667" data-y="5237.76" data-scale="3" id="step-4" style="position: absolute; transform: translate(-50%, -50%) translate3d(5679.79px, 5237.76px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(3); transform-style: preserve-3d;">
+			<div class="bg-solid-light slideContainer strut-slide-3" style="width: 1024px; height: 768px;">
+			<div class="themedArea">
+			
+			</div>
+			
+			<div class="componentContainer " style="top: 142px; left: 238px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 712px; height: 497.13px;">
 <div class="transformContainer" style="-webkit-transform: scale(0.55, 0.55);
 -moz-transform: scale(0.55, 0.55);
 transform: scale(0.55, 0.55)">
 <img src="./azure01_files/eBDbBLg.png">
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 39px; left: 51px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 39px; left: 51px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 72px;" class="antialias">
-<font color="#000000">¸ê°T¸ê·½»İ¨D</font>
+<font color="#000000">è³‡è¨Šè³‡æºéœ€æ±‚</font>
 </div>
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 421px; left: 31px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 229px; height: 239.69px;">
+			
+			<div class="componentContainer " style="top: 421px; left: 31px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 229px; height: 239.69px;">
 <div class="transformContainer" style="-webkit-transform: scale(0.38, 0.38);
 -moz-transform: scale(0.38, 0.38);
 transform: scale(0.38, 0.38)">
 <img src="./azure01_files/978380.jpg">
 </div>
 </div>
-						
-					</section>
-				
 			
-				
-					<section class="bg-solid-light slideContainer strut-slide-4 bespoke-slide bespoke-inactive bespoke-after bespoke-after-4" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-4 bg-surf-grad-black ">
-						<div class="themedArea">
-              			
-              			</div>
-						
-							<div class="componentContainer " style="top: 415px; left: 235px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			</div>
+		
+		</div>
+	
+		
+			<div class="step future" data-state="strut-slide-4 bg-surf-grad-black " data-x="8901.973333333333" data-y="5237.76" data-scale="3" id="step-5" style="position: absolute; transform: translate(-50%, -50%) translate3d(8901.97px, 5237.76px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(3); transform-style: preserve-3d;">
+			<div class="bg-solid-light slideContainer strut-slide-4" style="width: 1024px; height: 768px;">
+			<div class="themedArea">
+			
+			</div>
+			
+			<div class="componentContainer " style="top: 415px; left: 235px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <img src="./azure01_files/5e789988-553c-a775-4d37-66248e590adb.jpg">
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 52px; left: 64px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 52px; left: 64px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 72px;" class="antialias">
-<font color="#000000">¤W¶³ºİªº¤T¤j²z¥Ñ !!<br></font>
+<font color="#000000">ä¸Šé›²ç«¯çš„ä¸‰å¤§ç†ç”± !!<br></font>
 </div>
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 228px; left: 230px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 191px; height: 178.58px;">
+			
+			<div class="componentContainer " style="top: 228px; left: 230px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 191px; height: 178.58px;">
 <div class="transformContainer" style="-webkit-transform: scale(0.34, 0.34);
 -moz-transform: scale(0.34, 0.34);
 transform: scale(0.34, 0.34)">
 <img src="./azure01_files/mrHyiIt.png">
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 228px; left: 426px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 192px; height: 179.51px;">
+			
+			<div class="componentContainer " style="top: 228px; left: 426px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 192px; height: 179.51px;">
 <div class="transformContainer" style="-webkit-transform: scale(0.34, 0.34);
 -moz-transform: scale(0.34, 0.34);
 transform: scale(0.34, 0.34)">
 <img src="./azure01_files/wbSHmtQ.png">
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 227px; left: 621px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 193px; height: 180.45px;">
+			
+			<div class="componentContainer " style="top: 227px; left: 621px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 193px; height: 180.45px;">
 <div class="transformContainer" style="-webkit-transform: scale(0.34, 0.34);
 -moz-transform: scale(0.34, 0.34);
 transform: scale(0.34, 0.34)">
 <img src="./azure01_files/XZ5xXKD.png">
 </div>
 </div>
-						
-					</section>
-				
 			
-				
-					<section class="bg-solid-light slideContainer strut-slide-5 bespoke-slide bespoke-inactive bespoke-after bespoke-after-5" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-5 bg-surf-grad-light ">
-						<div class="themedArea">
-              			
-              			</div>
-						
-							<div class="componentContainer " style="top: 29px; left: 24px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 963px; height: 518.65px;">
+			</div>
+		
+		</div>
+	
+		
+			<div class="step future" data-state="strut-slide-5 bg-surf-grad-light " data-x="13585.066666666668" data-y="4085.76" data-scale="6" id="step-6" style="position: absolute; transform: translate(-50%, -50%) translate3d(13585.1px, 4085.76px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(6); transform-style: preserve-3d;">
+			<div class="bg-solid-light slideContainer strut-slide-5" style="width: 1024px; height: 768px;">
+			<div class="themedArea">
+			
+			</div>
+			
+			<div class="componentContainer " style="top: 29px; left: 24px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 963px; height: 518.65px;">
 <div class="transformContainer" style="-webkit-transform: scale(0.49, 0.49);
 -moz-transform: scale(0.49, 0.49);
 transform: scale(0.49, 0.49)">
 <img src="./azure01_files/AKP6fNc.png">
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 577px; left: 106px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 577px; left: 106px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 36px;" class="antialias">
-<ul><li><span style="color: rgb(0, 0, 0); line-height: normal;">¾ã¦X´£¨Ñ 24 x 7 x 365 ¤ä´©&nbsp;</span><br></li><li><span style="color: rgb(0, 0, 0); line-height: normal;">¥ş²y³W¼Ò 140 ¥«³õ&nbsp;</span><br></li><li><span style="color: rgb(0, 0, 0); line-height: normal;">¥ø·~¤Î¦w¥ş©Ê ¨C6­Ó¤ë¹Bºâ»PÀx¦s 2­¿&nbsp;</span><br></li></ul>
+<ul><li><span style="color: rgb(0, 0, 0); line-height: normal;">æ•´åˆæä¾› 24 x 7 x 365 æ”¯æ´&nbsp;</span><br></li><li><span style="color: rgb(0, 0, 0); line-height: normal;">å…¨çƒè¦æ¨¡ 140 å¸‚å ´&nbsp;</span><br></li><li><span style="color: rgb(0, 0, 0); line-height: normal;">ä¼æ¥­åŠå®‰å…¨æ€§ æ¯6å€‹æœˆé‹ç®—èˆ‡å„²å­˜ 2å€&nbsp;</span><br></li></ul>
 </div>
 </div>
 </div>
-						
-					</section>
-				
 			
-				
-					<section class="slideContainer strut-slide-6 bespoke-slide bespoke-inactive bespoke-after bespoke-after-6" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-6 bg-surf-grad-smoke ">
-						<div class="themedArea">
-              			
-              			</div>
-						
-							<div class="componentContainer " style="top: 40px; left: 46px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			</div>
+		
+		</div>
+	
+		
+			<div class="step future" data-state="strut-slide-6 bg-surf-grad-smoke " data-x="15660.373333333333" data-y="8248.32" data-rotate-z="89.95437383553926" data-scale="3" id="step-7" style="position: absolute; transform: translate(-50%, -50%) translate3d(15660.4px, 8248.32px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(89.9544deg) scale(3); transform-style: preserve-3d;">
+			<div class=" slideContainer strut-slide-6" style="width: 1024px; height: 768px;">
+			<div class="themedArea">
+			
+			</div>
+			
+			<div class="componentContainer " style="top: 40px; left: 46px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 72px;" class="antialias">
-<font color="#eeeeee">¦p¦ó«e©¹Azure ©O?</font>
+<font color="#eeeeee">å¦‚ä½•å‰å¾€Azure å‘¢?</font>
 </div>
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 406px; left: 25px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 396px; height: 158.4px;">
+			
+			<div class="componentContainer " style="top: 406px; left: 25px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 396px; height: 158.4px;">
 <div class="transformContainer" style="-webkit-transform: scale(0.63, 0.63);
 -moz-transform: scale(0.63, 0.63);
 transform: scale(0.63, 0.63)">
 <img src="./azure01_files/kE5o9T6.png">
 </div>
 </div>
-						
-					</section>
-				
 			
-				
-					<section class="bg-solid-light slideContainer strut-slide-7 bespoke-slide bespoke-inactive bespoke-after bespoke-after-7" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-7 bg-surf-grad-black ">
-						<div class="themedArea">
-              			
-              			</div>
-						
-							<div class="componentContainer " style="top: 153px; left: 23px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 340px; height: 600.67px;">
+			</div>
+		
+		</div>
+	
+		
+			<div class="step future" data-state="strut-slide-7 bg-surf-grad-black " data-x="16110.933333333332" data-y="11381.76" data-scale="3" id="step-8" style="position: absolute; transform: translate(-50%, -50%) translate3d(16110.9px, 11381.8px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(3); transform-style: preserve-3d;">
+			<div class="bg-solid-light slideContainer strut-slide-7" style="width: 1024px; height: 768px;">
+			<div class="themedArea">
+			
+			</div>
+			
+			<div class="componentContainer " style="top: 153px; left: 23px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 340px; height: 600.67px;">
 <div class="transformContainer" style="-webkit-transform: scale(0.76, 0.76);
 -moz-transform: scale(0.76, 0.76);
 transform: scale(0.76, 0.76)">
 <img src="./azure01_files/p6CSpqKalaCWpw.jpg">
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 77px; left: 375px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 77px; left: 375px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 72px;" class="antialias">
-<font color="#0a91c8">¥ô°È»¡©ú</font><br>
+<font color="#0a91c8">ä»»å‹™èªªæ˜</font><br>
 </div>
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 210px; left: 384px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 210px; left: 384px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 36px;" class="antialias">
-<font color="#07b8ff">1.¦¨¥\µn¤JAzure<br>2.«Ø¥ß¤@­ÓEC ÁÊª«¨®<br>3.«Ø¥ß¤@­ÓRedHad VM<br>4.¦¨¥\µn¤J¥­¥x¾Ş§@<br>5.¾Ç·|¬İ³øªí</font><br>
+<font color="#07b8ff">1.æˆåŠŸç™»å…¥Azure<br>2.å»ºç«‹ä¸€å€‹EC è³¼ç‰©è»Š<br>3.å»ºç«‹ä¸€å€‹RedHad VM<br>4.æˆåŠŸç™»å…¥å¹³å°æ“ä½œ<br>5.å­¸æœƒçœ‹å ±è¡¨</font><br>
 </div>
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 489px; left: 740px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 489px; left: 740px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <img src="./azure01_files/azure-icons-drawing.png">
 </div>
 </div>
-						
-					</section>
-				
 			
-				
-					<section class="bg-custom-000000 slideContainer strut-slide-8 bespoke-slide bespoke-inactive bespoke-after bespoke-after-8" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-8 bg-surf-grad-black ">
-						<div class="themedArea">
-              			
-              			</div>
-						
-							<div class="componentContainer " style="top: 108px; left: 66px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			</div>
+		
+		</div>
+	
+		
+			<div class="step future" data-state="strut-slide-8 bg-surf-grad-black " data-x="12765.866666666667" data-y="14208" data-scale="3" id="step-9" style="position: absolute; transform: translate(-50%, -50%) translate3d(12765.9px, 14208px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(3); transform-style: preserve-3d;">
+			<div class="bg-custom-000000 slideContainer strut-slide-8" style="width: 1024px; height: 768px;">
+			<div class="themedArea">
+			
+			</div>
+			
+			<div class="componentContainer " style="top: 108px; left: 66px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 24px;" class="antialias">
-<ul><li style="text-align: center;"><span style="line-height: normal;"><font color="#eeeeee">a</font><a href="https://mcp.microsoft.com/" target="_blank"><font color="#c8130a">. ¥ıµn¤J§AªºMCP ±b¸¹</font></a></span><br></li><li><font color="#eeeeee"><span style="line-height: normal;">b<a href="http://weijanlin.github.io/azure02.html" target="_blank">. ¨Ó¬İ¤@¤USOP¤â¥U</a></span><br></font></li><li><br></li></ul>
+<ul><li style="text-align: center;"><span style="line-height: normal;"><font color="#eeeeee">a</font><a href="https://mcp.microsoft.com/" target="_blank"><font color="#c8130a">. å…ˆç™»å…¥ä½ çš„MCP å¸³è™Ÿ</font></a></span><br></li><li><font color="#eeeeee"><span style="line-height: normal;">b<a href="http://weijanlin.github.io/azure02.html" target="_blank">. ä¾†çœ‹ä¸€ä¸‹SOPæ‰‹å†Š</a></span><br></font></li><li><br></li></ul>
 </div>
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 250px; left: 12px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 250px; left: 12px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <img src="./azure01_files/1373635425-1216335851.jpg">
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 47px; left: 50px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 47px; left: 50px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 48px;" class="antialias">
-<font color="#eeeeee" face="Ubuntu">1.¦¨¥\µn¤JAzure
+<font color="#eeeeee" face="Ubuntu">1.æˆåŠŸç™»å…¥Azure
 <br></font>
 </div>
 </div>
 </div>
-						
-					</section>
-				
 			
-				
-					<section class="bg-custom-fae6ff slideContainer strut-slide-9 bespoke-slide bespoke-inactive bespoke-after bespoke-after-9" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-9 bg-surf-grad-black ">
-						<div class="themedArea">
-              			
-              			</div>
-						
-							<div class="componentContainer " style="top: 203px; left: 72px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 809px; height: 564px;">
+			</div>
+		
+		</div>
+	
+		
+			<div class="step future" data-state="strut-slide-9 bg-surf-grad-black " data-x="16124.586666666666" data-y="14177.28" data-scale="3" id="step-10" style="position: absolute; transform: translate(-50%, -50%) translate3d(16124.6px, 14177.3px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(3); transform-style: preserve-3d;">
+			<div class="bg-custom-fae6ff slideContainer strut-slide-9" style="width: 1024px; height: 768px;">
+			<div class="themedArea">
+			
+			</div>
+			
+			<div class="componentContainer " style="top: 203px; left: 72px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 809px; height: 564px;">
 <div class="transformContainer" style="-webkit-transform: scale(0.96, 0.9);
 -moz-transform: scale(0.96, 0.9);
 transform: scale(0.96, 0.9)">
 <img src="./azure01_files/10088423290ab1dc4f36826.jpg">
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 117px; left: 191px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 117px; left: 191px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 64px;" class="antialias">
-<font color="#0a91c8">2.«Ø¥ß¤@­ÓEC ÁÊª«¨®
+<font color="#0a91c8">2.å»ºç«‹ä¸€å€‹EC è³¼ç‰©è»Š
 </font><br>
 </div>
 </div>
 </div>
-						
-					</section>
-				
 			
-				
-					<section class="bg-custom-2e2e2e slideContainer strut-slide-10 bespoke-slide bespoke-inactive bespoke-after bespoke-after-10" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-10 bg-surf-grad-black ">
-						<div class="themedArea">
-              			
-              			</div>
-						
-							<div class="componentContainer " style="top: 370px; left: 208px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			</div>
+		
+		</div>
+	
+		
+			<div class="step future" data-state="strut-slide-10 bg-surf-grad-black " data-x="19496.96" data-y="14146.56" data-scale="3" id="step-11" style="position: absolute; transform: translate(-50%, -50%) translate3d(19497px, 14146.6px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(3); transform-style: preserve-3d;">
+			<div class="bg-custom-2e2e2e slideContainer strut-slide-10" style="width: 1024px; height: 768px;">
+			<div class="themedArea">
+			
+			</div>
+			
+			<div class="componentContainer " style="top: 370px; left: 208px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <img src="./azure01_files/123-.jpg">
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 287px; left: 120px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 287px; left: 120px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 64px;" class="antialias">
-<font color="#eeeeee">3.«Ø¥ß¤@­ÓRedHad µêÀÀ¹q¸£</font><br>
+<font color="#eeeeee">3.å»ºç«‹ä¸€å€‹RedHad è™›æ“¬é›»è…¦</font><br>
 </div>
 </div>
 </div>
-						
-					</section>
-				
 			
-				
-					<section class="bg-solid-light slideContainer strut-slide-11 bespoke-slide bespoke-inactive bespoke-after bespoke-after-11" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-11 bg-surf-grad-black ">
-						<div class="themedArea">
-              			
-              			</div>
-						
-							<div class="componentContainer " style="top: 196px; left: 1px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 1013px; height: 569.81px;">
+			</div>
+		
+		</div>
+	
+		
+			<div class="step future" data-state="strut-slide-11 bg-surf-grad-black " data-x="22882.986666666668" data-y="14115.84" data-scale="3" id="step-12" style="position: absolute; transform: translate(-50%, -50%) translate3d(22883px, 14115.8px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(3); transform-style: preserve-3d;">
+			<div class="bg-solid-light slideContainer strut-slide-11" style="width: 1024px; height: 768px;">
+			<div class="themedArea">
+			
+			</div>
+			
+			<div class="componentContainer " style="top: 196px; left: 1px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 1013px; height: 569.81px;">
 <div class="transformContainer" style="-webkit-transform: scale(1.44, 1.44);
 -moz-transform: scale(1.44, 1.44);
 transform: scale(1.44, 1.44)">
 <img src="./azure01_files/op324-04.jpg">
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 25px; left: 39px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 25px; left: 39px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 48px;" class="antialias">
-<font face="Ubuntu"><font color="#0a91c8">4.¦¨¥\µn¤J¥­¥x¾Ş§@
+<font face="Ubuntu"><font color="#0a91c8">4.æˆåŠŸç™»å…¥å¹³å°æ“ä½œ
 </font><br></font>
 </div>
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 86px; left: 81px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 86px; left: 81px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 24px;" class="antialias">
-<font color="#c8130a" face="Lato">a. ±Ä¥Îssh µn¤J¯u¹êIP<br></font><a href="https://azure.microsoft.com/zh-tw/documentation/articles/virtual-machines-linux-remote-desktop/" target="_blank"><font color="#0a91c8">b.¾Ç¤@¤U¦p¦ó¦w¸Ë»·ºİ®à­±</font></a><br>
+<font color="#c8130a" face="Lato">a. æ¡ç”¨ssh ç™»å…¥çœŸå¯¦IP<br></font><a href="https://azure.microsoft.com/zh-tw/documentation/articles/virtual-machines-linux-remote-desktop/" target="_blank"><font color="#0a91c8">b.å­¸ä¸€ä¸‹å¦‚ä½•å®‰è£é ç«¯æ¡Œé¢</font></a><br>
 </div>
 </div>
 </div>
-						
-					</section>
-				
 			
-				
-					<section class="bg-solid-light slideContainer strut-slide-12 bespoke-slide bespoke-inactive bespoke-after bespoke-after-12" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-12 bg-surf-grad-black ">
-						<div class="themedArea">
-              			
-              			</div>
-						
-							<div class="componentContainer " style="top: 52px; left: 49px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			</div>
+		
+		</div>
+	
+		
+			<div class="step future" data-state="strut-slide-12 bg-surf-grad-black " data-x="9461.76" data-y="14192.64" data-scale="3" id="step-13" style="position: absolute; transform: translate(-50%, -50%) translate3d(9461.76px, 14192.6px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(3); transform-style: preserve-3d;">
+			<div class="bg-solid-light slideContainer strut-slide-12" style="width: 1024px; height: 768px;">
+			<div class="themedArea">
+			
+			</div>
+			
+			<div class="componentContainer " style="top: 52px; left: 49px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 64px;" class="antialias">
-<font color="#0a91c8">5.¾Ç·|¬İ³øªí</font>
+<font color="#0a91c8">5.å­¸æœƒçœ‹å ±è¡¨</font>
 </div>
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 192px; left: -3px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 1028px; height: 578.25px;">
+			
+			<div class="componentContainer " style="top: 192px; left: -3px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: 1028px; height: 578.25px;">
 <div class="transformContainer" style="-webkit-transform: scale(1.46, 1.46);
 -moz-transform: scale(1.46, 1.46);
 transform: scale(1.46, 1.46)">
 <img src="./azure01_files/Swfuf.jpg">
 </div>
 </div>
-						
-					</section>
-				
 			
-				
-					<section class="slideContainer strut-slide-13 bespoke-slide bespoke-inactive bespoke-after bespoke-after-13" style="width: 1024px; height: 768px;" data-bespoke-state="strut-slide-13 bg-surf-grad-black ">
-						<div class="themedArea">
-              			
-              			</div>
-						
-							<div class="componentContainer " style="top: 108px; left: 21px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			</div>
+		
+		</div>
+	
+		
+			<div class="step future" data-state="strut-slide-13 bg-surf-grad-black " data-x="5939.2" data-y="12533.76" data-rotate-z="89.95437383553926" data-scale="5" id="step-14" style="position: absolute; transform: translate(-50%, -50%) translate3d(5939.2px, 12533.8px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(89.9544deg) scale(5); transform-style: preserve-3d;">
+			<div class=" slideContainer strut-slide-13" style="width: 1024px; height: 768px;">
+			<div class="themedArea">
+			
+			</div>
+			
+			<div class="componentContainer " style="top: 108px; left: 21px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 30px;" class="antialias">
-<ul><li><span style="color: rgb(0, 0, 0); line-height: normal;">½Ğ¥H±b¤á¾Ö¦³ªÌ(Account Admin)ªº±b¸¹µn¤J<br>&nbsp;https://ms.portal.azure.com/ ,<br>ÂIÀ»¥ª¤èªº¡i­q¥Î±b¤á¡j,¹Ï¥Ü¬°ª÷Æ_¡C<br>±µµÛÂI¿ï±z­n¬d¬İ¨Ï¥Î¶q¤Î±b³æªº­q¥Î±b¤á(­q¾\)¡C</span></li><li><span style="color: rgb(0, 0, 0); line-height: normal;">±µµÛÂIÀ»¤W¤èªº¡iºŞ²z¡j¡C</span></li><li><span style="color: rgb(0, 0, 0); line-height: normal;">¦¹®É·|¶}±Ò Account Portal ªººô­¶ <br>https://account.windowsazure.com/Subscriptions/,<br>ÂIÀ»¡i±b³æ¬ö¿ı¡j¡C</span></li><li><span style="color: rgb(0, 0, 0); line-height: normal;">ÂIÀ»¤U¸ü¡i¨Ï¥Î¶q³øªí¡j<br>©ÎÂIÀ»¡i¤U¸üµo²¼¡j,<br>«K¥i¬d¬İ¨C¤éªº¨Ï¥Î¶q©ú²Ó¤Î±b³æ¡C</span></li></ul><br>
+<ul><li><span style="color: rgb(0, 0, 0); line-height: normal;">è«‹ä»¥å¸³æˆ¶æ“æœ‰è€…(Account Admin)çš„å¸³è™Ÿç™»å…¥<br>&nbsp;https://ms.portal.azure.com/ ,<br>é»æ“Šå·¦æ–¹çš„ã€è¨‚ç”¨å¸³æˆ¶ã€‘,åœ–ç¤ºç‚ºé‡‘é‘°ã€‚<br>æ¥è‘—é»é¸æ‚¨è¦æŸ¥çœ‹ä½¿ç”¨é‡åŠå¸³å–®çš„è¨‚ç”¨å¸³æˆ¶(è¨‚é–±)ã€‚</span></li><li><span style="color: rgb(0, 0, 0); line-height: normal;">æ¥è‘—é»æ“Šä¸Šæ–¹çš„ã€ç®¡ç†ã€‘ã€‚</span></li><li><span style="color: rgb(0, 0, 0); line-height: normal;">æ­¤æ™‚æœƒé–‹å•Ÿ Account Portal çš„ç¶²é  <br>https://account.windowsazure.com/Subscriptions/,<br>é»æ“Šã€å¸³å–®ç´€éŒ„ã€‘ã€‚</span></li><li><span style="color: rgb(0, 0, 0); line-height: normal;">é»æ“Šä¸‹è¼‰ã€ä½¿ç”¨é‡å ±è¡¨ã€‘<br>æˆ–é»æ“Šã€ä¸‹è¼‰ç™¼ç¥¨ã€‘,<br>ä¾¿å¯æŸ¥çœ‹æ¯æ—¥çš„ä½¿ç”¨é‡æ˜ç´°åŠå¸³å–®ã€‚</span></li></ul><br>
 </div>
 </div>
 </div>
-						
-							<div class="componentContainer " style="top: 36px; left: 40px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
+			
+			<div class="componentContainer " style="top: 36px; left: 40px; -webkit-transform:   ; -moz-transform:   ; transform:   ; width: px; height: px;">
 <div class="transformContainer" style="-webkit-transform: scale(1, 1);
 -moz-transform: scale(1, 1);
 transform: scale(1, 1)">
 <div style="font-size: 36px;" class="antialias">
-<font color="#eeeeee">SOP¤â¥U</font><br>
+<font color="#eeeeee">SOPæ‰‹å†Š</font><br>
 </div>
 </div>
 </div>
-						
-					</section>
-				
 			
-		</article>
-	</div>
-
-</body></html>
+			</div>
+		
+		</div>
+	
+	<div id="overview" class="step future" data-state="strut-slide-overview" data-x="12670.293333333333" data-y="8486.4" data-scale="9" style="position: absolute; transform: translate(-50%, -50%) translate3d(12670.3px, 8486.4px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(9); transform-style: preserve-3d;"></div>
+	
+</div></div>
+<div class="hint">
+    <p>Use a spacebar or arrow keys to navigate</p>
+</div>
+</div>
+</div></body></html>
