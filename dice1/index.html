@@ -1,0 +1,134 @@
+<!-- 
+Project name :dice1.html
+學習題目：用html5課程學會一個骰子的程式
+作者：weijan.lin
+歡迎留言討論
+--->
+<!DOCTYPE html>
+<html>
+<style>
+table, th, td {
+  border-collapse: collapse;
+  text-align:center;
+}
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+<body>
+<table width="80%">
+<tr><td colspan="3">
+<h1><input type="radio" id="big" name="gender" value="9">
+大</h1>
+</td><td colspan="3">
+<h1><input type="radio" id="small" name="gender" value="8">
+小</h1>
+</td><td colspan="3">
+完成選擇請按下壓注<p>
+<div id="btn"></div>
+</td></tr>
+<tr><td>
+	<input type="radio" id="n1" name="gender" value="1"><BR>
+	<img src="01.png" id="n1" width="50px">
+</td><td>
+	<input type="radio" id="n2" name="gender" value="2"><BR>
+	<img src="02.png" id="n2" width="50px">
+</td><td>
+	<input type="radio" id="n3" name="gender" value="3"><BR>
+	<img src="03.png" id="n3" width="50px">
+</td><td>
+	<input type="radio" id="n4" name="gender" value="4"><BR>
+	<img src="04.png" id="n4" width="50px">
+</td><td>
+	<input type="radio" id="n5" name="gender" value="5"><BR>
+	<img src="05.png" id="n5" width="50px">
+</td><td>
+	<input type="radio" id="n6" name="gender" value="6"><BR>
+	<img src="06.png" id="n6" width="50px">
+</td><td colspan="3">
+	<div id="runing"></div>
+	<div id="msg"></div>
+</td></tr>
+
+</table>
+<script>
+dices=['https://i.imgur.com/NyMosXS.png',
+'https://i.imgur.com/IY7XGbz.png',
+'https://i.imgur.com/18Bfoa6.png',
+'https://i.imgur.com/FltZM6E.png',
+'https://i.imgur.com/GAyT4Rj.png',
+'https://i.imgur.com/TpyvAq0.png'];
+dices2=['01.png','02.png','03.png','04.png','05.png','06.png']
+
+var t=setTimeout("timeout()",300); 
+var j=0;
+var start=true;
+document.getElementById("btn").innerHTML="<input type='submit' value='確定壓注開牌' onclick='stopdices()'>";
+document.getElementById("msg").innerHTML ="<h1 style='color:green'>"+"下好離手"+"</h1>";
+
+function stopdices()
+{
+	if(start){
+	
+		start=false;
+		clearInterval(t);
+		msg="";
+		customerdices = thisdices()
+		if(customerdices==7)
+		{
+			alert("你沒有下注哦!!");
+			start=true;
+			return 0;
+		}
+		
+		if(j==(customerdices-1)){
+			msg="你贏了6倍彩金";
+		
+		}
+		else if( (customerdices==8 && j<3) || (customerdices==9 && j>3) )  // 開1,2,3時j=0,1,2為小
+		{
+			msg="你贏了2倍彩金";		
+		}
+		else {
+		
+			msg="你輸了";
+		}
+		
+		document.getElementById("msg").innerHTML ="<h1 style='color:red'>"+msg+"</h1>";
+		document.getElementById("btn").innerHTML="<input type='submit' value='重新開始' onclick='stopdices()'>";
+	}else
+	{
+		document.getElementById("btn").innerHTML="<input type='submit' value='確定壓注開牌' onclick='stopdices()'>";
+		document.getElementById("msg").innerHTML ="<h1 style='color:green'>"+"下好離手"+"</h1>";
+		start=true;
+		setTimeout("timeout()",300);
+	}
+	return 1;
+	
+}
+function timeout()
+{	
+	if(start){
+		j=Math.round(Math.random()*5);
+		document.getElementById("runing").innerHTML ="<img src="+dices[j]+">";
+		setTimeout("timeout()",300); 
+	}
+}
+function thisdices()
+{
+	// 壓大是9 壓小是8 , radio name = gender , 若是7表示沒有下注
+	var obj=document.getElementsByName("gender");
+	var getvalue=7; //預設為沒有下注
+	
+	for (var i=0;i<obj.length;i++){
+		if (obj[i].checked){
+			getvalue=obj[i].value;
+		}
+	}
+	return getvalue;
+}
+</script>
+
+
+</body>
+</html>
