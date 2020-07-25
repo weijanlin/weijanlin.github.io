@@ -29,22 +29,22 @@ table, th, td {
 </td></tr>
 <tr><td>
 	<input type="radio" id="n1" name="gender" value="1"><BR>
-	<img src="dic1/01.png" id="n1" width="50px">
+	<img src="dice1/01.png" id="n1" width="50px">
 </td><td>
 	<input type="radio" id="n2" name="gender" value="2"><BR>
-	<img src="dic1/02.png" id="n2" width="50px">
+	<img src="dice1/02.png" id="n2" width="50px">
 </td><td>
 	<input type="radio" id="n3" name="gender" value="3"><BR>
-	<img src="dic1/03.png" id="n3" width="50px">
+	<img src="dice1/03.png" id="n3" width="50px">
 </td><td>
 	<input type="radio" id="n4" name="gender" value="4"><BR>
-	<img src="dic1/04.png" id="n4" width="50px">
+	<img src="dice1/04.png" id="n4" width="50px">
 </td><td>
 	<input type="radio" id="n5" name="gender" value="5"><BR>
-	<img src="dic1/05.png" id="n5" width="50px">
+	<img src="dice1/05.png" id="n5" width="50px">
 </td><td>
 	<input type="radio" id="n6" name="gender" value="6"><BR>
-	<img src="dic1/06.png" id="n6" width="50px">
+	<img src="dice1/06.png" id="n6" width="50px">
 </td><td colspan="3">
 	<div id="runing"></div>
 	<div id="msg"></div>
@@ -110,7 +110,7 @@ function timeout()
 {	
 	if(start){
 		j=Math.round(Math.random()*5);
-		document.getElementById("runing").innerHTML ="<img src='dic1/"+dices[j]+"'>";
+		document.getElementById("runing").innerHTML ="<img src='dice1/"+dices[j]+"'>";
 		setTimeout("timeout()",300); 
 	}
 }
