@@ -58,7 +58,7 @@ dices=['https://i.imgur.com/NyMosXS.png',
 'https://i.imgur.com/FltZM6E.png',
 'https://i.imgur.com/GAyT4Rj.png',
 'https://i.imgur.com/TpyvAq0.png'];
-dices2=['01.png','02.png','03.png','04.png','05.png','06.png']
+dices2=['dice1/01.png','dice1/02.png','dice1/03.png','dice1/04.png','dice1/05.png','dice1/06.png']
 
 var t=setTimeout("timeout()",300); 
 var j=0;
@@ -110,7 +110,7 @@ function timeout()
 {	
 	if(start){
 		j=Math.round(Math.random()*5);
-		document.getElementById("runing").innerHTML ="<img src='dice1/"+dices[j]+"'>";
+		document.getElementById("runing").innerHTML ="<img src="+dices[j]+">";
 		setTimeout("timeout()",300); 
 	}
 }
