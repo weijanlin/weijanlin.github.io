@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SVG Interaction Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f3f8fc;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .svg-container {
+      width: 960px;
+      height: 560px;
+      margin: 30px auto;
+      position: relative;
+      border: 1px solid #ccc;
+      background-color: #fff;
+    }
+
+    object {
+      width: 960px;
+      height: 560px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+
+<div class="svg-container">
+  <!-- 將你的互動式 SVG 放在這 -->
+  <object id="svgLayer" type="image/svg+xml" data="svg/interactive-stairs-f2.svg"></object>
+</div>
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" id="infoForm">
+      <div class="modal-header">
+        <h5 class="modal-title" id="infoModalLabel">許可申請</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="mb-3">
+            <label for="startDate" class="form-label">開時日期</label>
+            <input type="date" class="form-control" id="startDate">
+          </div>
+          <div class="mb-3">
+            <label for="endDate" class="form-label">結束日期</label>
+            <input type="date" class="form-control" id="endDate">
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">施工樓層及標的</label>
+            <textarea class="form-control" id="description" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">施工內容</label>
+            <textarea class="form-control" id="description" rows="3"></textarea>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+        <button type="submit" class="btn btn-primary">送出</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // 接收來自 SVG 內部的 postMessage
+  window.addEventListener("message", function(event) {
+    if (event.data === "openModal") {
+      const modal = new bootstrap.Modal(document.getElementById('infoModal'));
+      modal.show();
+    }
+  });
+
+  // 表單送出
+  document.getElementById("infoForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const start = document.getElementById("startDate").value;
+    const end = document.getElementById("endDate").value;
+    const desc = document.getElementById("description").value;
+
+    console.log("Submitted:", { start, end, desc });
+    bootstrap.Modal.getInstance(document.getElementById('infoModal')).hide();
+  });
+</script>
+
+</body>
+</html>

@@ -3,15 +3,15 @@
 <svg version="1.2" baseProfile="tiny" id="圖層_1"
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="960px" height="560px"
 	 viewBox="0 0 960 560" xml:space="preserve">
-<rect x="469" y="131" fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
-<rect x="469" y="165" fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
-<rect x="469" y="230" fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
-<rect x="469" y="198" fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
-<rect x="512" y="131" fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
-<rect x="512" y="164" fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
-<rect x="512" y="197" fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
-<rect x="596" y="131" fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
-<rect x="596" y="163" fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
-<rect x="596" y="196" fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
-<rect x="596" y="230" fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
+<rect x="469" y="131" fill="none" onclick="parent.postMessage({ type: 'openModal', name: '3F 電梯 1號' },'*')" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
+<rect x="469" y="165" fill="none" onclick="parent.postMessage({ type: 'openModal', name: '3F 電梯 2號' },'*')" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
+<rect x="469" y="230" fill="none" onclick="parent.postMessage({ type: 'openModal', name: '3F 電梯 3號' },'*')" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
+<rect x="469" y="198" fill="none" onclick="parent.postMessage({ type: 'openModal', name: '3F 電梯 4號' },'*')" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
+<rect x="512" y="131" fill="none" onclick="parent.postMessage({ type: 'openModal', name: '3F 電梯 5號' },'*')" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
+<rect x="512" y="164" fill="none" onclick="parent.postMessage({ type: 'openModal', name: '3F 電梯 6號' },'*')" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
+<rect x="512" y="197" fill="none" onclick="parent.postMessage({ type: 'openModal', name: '3F 電梯 7號' },'*')" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
+<rect x="596" y="131" fill="none" onclick="parent.postMessage({ type: 'openModal', name: '3F 電梯 8號' },'*')" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
+<rect x="596" y="163" fill="none" onclick="parent.postMessage({ type: 'openModal', name: '3F 電梯 9號' },'*')" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
+<rect x="596" y="196" fill="none" onclick="parent.postMessage({ type: 'openModal', name: '3F 電梯 10號' },'*')" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
+<rect x="596" y="230" fill="none" onclick="parent.postMessage({ type: 'openModal', name: '3F 電梯 1號' },'*')" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" width="34" height="32"/>
 </svg>
