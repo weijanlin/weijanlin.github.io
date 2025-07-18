@@ -31,6 +31,23 @@
         gtag('js', new Date());
         gtag('config', 'G-PZ1L62F8J5');
   
+        function allConsentGranted() {
+            localStorage.setItem("consentGranted", "true");
+            gtag('consent', 'update', {
+            'ad_user_data': 'granted',
+            'ad_personalization': 'granted',
+            'ad_storage': 'granted',
+            'analytics_storage': 'granted'
+            });
+        }        
+
+        function trackEbook(title) {
+        gtag('event', 'click', {
+            'event_category': 'eBook',
+            'event_label': title,
+            'transport_type': 'beacon'
+        });
+        }
         </script>
         <!-- Google tag (gtag.js) end -->
 
@@ -77,10 +94,10 @@
                     與你分享產業經驗、創新思維、與正在實踐的未來。
                     </p>
                     <div class="social-icons">
-                        <a class="social-icon" href="http://linkedin.com/in/hugolin888/"><i class="fab fa-linkedin-in"></i></a>
-                        <a class="social-icon" href="https://weijanlin.github.io/"><i class="fab fa-github"></i></a>
-                        <a class="social-icon" href="https://lin.ee/ksCMrhi"><i class="fab fa-line"></i></a>
-                        <a class="social-icon" href="https://www.facebook.com/hugolin118"><i class="fab fa-facebook-f"></i></a>
+                        <a class="social-icon" href="http://linkedin.com/in/hugolin888/" onclick="trackEbook('linkedin')"><i class="fab fa-linkedin-in"></i></a>
+                        <a class="social-icon" href="https://weijanlin.github.io/" onclick="trackEbook('github')"><i class="fab fa-github"></i></a>
+                        <a class="social-icon" href="https://lin.ee/ksCMrhi" onclick="trackEbook('line')"><i class="fab fa-line"></i></a>
+                        <a class="social-icon" href="https://www.facebook.com/hugolin118" onclick="trackEbook('facebook')"><i class="fab fa-facebook-f"></i></a>
                     </div>
                 </div>
             </section>
@@ -206,7 +223,7 @@
                             <div class="card" style="width: 14rem;">
                             <img src="./ba01/ba01.png" class="card-img-top" alt="圖片說明">
                             <div class="card-body">
-                                <h5 class="card-title"><a href="./ba01/index.html">工地圖控申請許可概念</a></h5>
+                                <h5 class="card-title"><a href="./ba01/index.html" onclick="trackEbook('工地圖控申請許可概念')">工地圖控申請許可概念</a></h5>
                                 <p class="card-text">點選checked 顯示不同圖層</p>
                             </div>
                             </div>
@@ -218,7 +235,7 @@
                             <div class="card mb-3" style="width: 14rem;">
                             <img src="./t01/t01.png" class="card-img-top" alt="圖片說明">
                             <div class="card-body">
-                                <h5 class="card-title"><a href="./t01/index.html">UI 設計直接作網頁</a></h5>
+                                <h5 class="card-title"><a href="./t01/index.html" onclick="trackEbook('UI 設計直接作網頁')">UI 設計直接作網頁</a></h5>
                                 <p class="card-text">Propotype 用AdminLTE直接示意</p>
                             </div>
                             </div>
@@ -239,7 +256,7 @@
                             <div class="card h-100 d-flex flex-column" style="width: 14rem;">
                             <img src="./onelinebook/powerbidesktop.png" class="card-img-top" alt="圖片說明">
                             <div class="card-body">
-                                <h5 class="card-title"><a href="https://hackmd.io/@5sEo5E9-R1WrvzqUoC1Xfw/Sy_kB8oHc/%2FFFLWytJtR52eOjPWUdu_CA">PowerBI Desktop講義</a></h5>
+                                <h5 class="card-title"><a href="https://hackmd.io/@5sEo5E9-R1WrvzqUoC1Xfw/Sy_kB8oHc/%2FFFLWytJtR52eOjPWUdu_CA" onclick="trackEbook('PowerBI Desktop講義')">PowerBI Desktop講義</a></h5>
                                 <p class="card-text">用HackMD 作的講義,算是我的最大份講義了</p>
                             </div>
                             </div>
@@ -250,7 +267,7 @@
                             <div class="card h-100 d-flex flex-column" style="width: 14rem;">
                             <img src="./onelinebook/powerbiexcel.png" class="card-img-top" alt="圖片說明">
                             <div class="card-body">
-                                <h5 class="card-title"><a href="https://hackmd.io/@5sEo5E9-R1WrvzqUoC1Xfw/rJdA2sZ5t/%2F2QzxCn7-QxyQj2DM0gV8uA">活用Excel之Power BI模組分析大數據</a></h5>
+                                <h5 class="card-title"><a href="https://hackmd.io/@5sEo5E9-R1WrvzqUoC1Xfw/rJdA2sZ5t/%2F2QzxCn7-QxyQj2DM0gV8uA" onclick="trackEbook('活用Excel之Power BI模組分析大數據')">活用Excel之Power BI模組分析大數據</a></h5>
                                 <p class="card-text">用HackMD 作的講義</p>
                             </div>
                             </div>
@@ -261,7 +278,7 @@
                             <div class="card h-100 d-flex flex-column" style="width: 14rem;">
                             <img src="./onelinebook/mmyolo.png" class="card-img-top" alt="圖片說明">
                             <div class="card-body">
-                                <h5 class="card-title"><a href="https://hackmd.io/@hugolin888/BJWVVf9qY/%2FSqGMBnauSICaXe5lv4MoQg%3Fview">MMYOLO 學習手冊</a></h5>
+                                <h5 class="card-title"><a href="https://hackmd.io/@hugolin888/BJWVVf9qY/%2FSqGMBnauSICaXe5lv4MoQg%3Fview" onclick="trackEbook('MMYOLO 學習手冊')">MMYOLO 學習手冊</a></h5>
                                 <p class="card-text">用HackMD 作的講義</p>
                             </div>
                             </div>
@@ -271,7 +288,7 @@
                             <div class="card h-100 d-flex flex-column" style="width: 14rem;">
                             <img src="./onelinebook/iotnotebook.png" class="card-img-top" alt="圖片說明">
                             <div class="card-body">
-                                <h5 class="card-title"><a href="https://hackmd.io/@hugolin888/Hk-VWHy6i/%2FZJ5egT_eSj2n6-WyQxqCuw%3Fview">IOT 裝置研究簿</a></h5>
+                                <h5 class="card-title"><a href="https://hackmd.io/@hugolin888/Hk-VWHy6i/%2FZJ5egT_eSj2n6-WyQxqCuw%3Fview" onclick="trackEbook('IOT 裝置研究簿')">IOT 裝置研究簿</a></h5>
                                 <p class="card-text">用HackMD 作的講義</p>
                             </div>
                             </div>
@@ -282,7 +299,7 @@
                             <div class="card h-100 d-flex flex-column" style="width: 14rem;">
                             <img src="./onelinebook/jetson.png" class="card-img-top" alt="圖片說明">
                             <div class="card-body">
-                                <h5 class="card-title"><a href="https://hackmd.io/@hugolin888/BJWVVf9qY/%2FSqGMBnauSICaXe5lv4MoQg%3Fview">NVIDIA Jetson 學習手冊</a></h5>
+                                <h5 class="card-title"><a href="https://hackmd.io/@hugolin888/BJWVVf9qY/%2FSqGMBnauSICaXe5lv4MoQg%3Fview" onclick="trackEbook('NVIDIA Jetson 學習手冊')">NVIDIA Jetson 學習手冊</a></h5>
                                 <p class="card-text">用HackMD 作的講義</p>
                             </div>
                             </div>
@@ -293,7 +310,7 @@
                             <div class="card h-100 d-flex flex-column" style="width: 14rem;">
                             <img src="./onelinebook/hackmd.png" class="card-img-top" alt="圖片說明">
                             <div class="card-body">
-                                <h5 class="card-title"><a href="https://hackmd.io/@5sEo5E9-R1WrvzqUoC1Xfw/Hk269zchH/%2Fsx09bQ8zS_GBVfa959by1g%3Fview">HackMD 教學收集</a></h5>
+                                <h5 class="card-title"><a href="https://hackmd.io/@5sEo5E9-R1WrvzqUoC1Xfw/Hk269zchH/%2Fsx09bQ8zS_GBVfa959by1g%3Fview" onclick="trackEbook('HackMD 教學收集')">HackMD 教學收集</a></h5>
                                 <p class="card-text">支持台灣人的創作 HackMD </p>
                             </div>
                             </div>
@@ -304,7 +321,7 @@
                             <div class="card h-100 d-flex flex-column" style="width: 14rem;">
                             <img src="./dict1/dict1.png" class="card-img-top" alt="圖片說明">
                             <div class="card-body">
-                                <h5 class="card-title"><a href="./dict1/index.html">HTML 入門程式</a></h5>
+                                <h5 class="card-title"><a href="./dict1/index.html" onclick="trackEbook('HTML 入門程式')">HTML 入門程式</a></h5>
                                 <p class="card-text">跟電腦比骰子大小的遊戲，純手工打造的HTML</p>
                             </div>
                             </div>
@@ -315,7 +332,7 @@
                             <div class="card h-100 d-flex flex-column" style="width: 14rem;">
                             <img src="./onelinebook/gitstudy.png" class="card-img-top" alt="圖片說明">
                             <div class="card-body">
-                                <h5 class="card-title"><a href="https://prezi.com/2g-kifkz2ybr/git/">程式碼版控系統Git</a></h5>
+                                <h5 class="card-title"><a href="https://prezi.com/2g-kifkz2ybr/git/" onclick="trackEbook('程式碼版控系統Git')">程式碼版控系統Git</a></h5>
                                 <p class="card-text">prezi 是一個web PPT 有趣的系統, 可以用它來展示看看</p>
                             </div>
                             </div>
@@ -326,7 +343,7 @@
                             <div class="card col-md-3 h-100 d-flex flex-column" style="width: 14rem;">
                             <img src="./onelinebook/phonecap.png" class="card-img-top" alt="圖片說明">
                             <div class="card-body">
-                                <h5 class="card-title"><a href="./cordova/index.html">codrova應用說明</a></h5>
+                                <h5 class="card-title"><a href="./cordova/index.html" onclick="trackEbook('codrova應用說明')">codrova應用說明</a></h5>
                                 <p class="card-text">了解PhoneCap 的網頁APP</p>
                             </div>
                             </div>
@@ -338,7 +355,7 @@
                             <div class="card h-100 d-flex flex-column" style="width: 14rem;">
                             <img src="./azure02/azure02.png" class="card-img-top" alt="圖片說明">
                             <div class="card-body">
-                                <h5 class="card-title"><a href="./azure02/index.html">學生申請AzurePass</a></h5>
+                                <h5 class="card-title"><a href="./azure02/index.html" onclick="trackEbook('學生申請AzurePass')">學生申請AzurePass</a></h5>
                                 <p class="card-text">學生如何用azure pass </p>
                             </div>
                             </div>
@@ -350,7 +367,7 @@
                             <div class="card h-100 d-flex flex-column" style="width: 14rem;">
                             <img src="./azure01/azure01.png" class="card-img-top" alt="圖片說明">
                             <div class="card-body">
-                                <h5 class="card-title"><a href="./azure01/index.html">微軟雲端運算市場</a></h5>
+                                <h5 class="card-title"><a href="./azure01/index.html" onclick="trackEbook('微軟雲端運算市場')">微軟雲端運算市場</a></h5>
                                 <p class="card-text">了解微軟雲端業界應用範疇</p>
                             </div>
                             </div>
