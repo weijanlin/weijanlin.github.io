@@ -18,11 +18,19 @@
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-PZ1L62F8J5"></script>
         <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
 
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('consent', 'default', {
+            'ad_user_data': 'denied',
+            'ad_personalization': 'denied',
+            'ad_storage': 'denied',
+            'analytics_storage': 'denied',
+            'wait_for_update': 500,
+        });
+        gtag('js', new Date());
         gtag('config', 'G-PZ1L62F8J5');
+  
         </script>
         <!-- Google tag (gtag.js) end -->
 
@@ -43,8 +51,12 @@
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#Demo">Demo</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#Handout">Handout</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#awards">Awards</a></li>
+                    
                 </ul>
+                
             </div>
+            <button class="btn btn-outline-primary" onclick="allConsentGranted()">Yes</button>
+
         </nav>
         <!-- Page Content-->
         <div class="container-fluid p-0">
