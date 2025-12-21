@@ -1,0 +1,2 @@
+幫我在 /#Handout , 從前面新一個 講義連結 , 名稱為 [AI 2.0講義](https://hackmd.io/@5sEo5E9-R1WrvzqUoC1Xfw/SyAuNEmfC/%2F%405sEo5E9-R1WrvzqUoC1Xfw%2FrJFyBNuteg%23%2F1)
+說明：用HackMD 作的講義,新期變化大,記錄一下 , 相片引用 \assets\img\ai20.jpgs , 注意 width: 14rem 維持不變 ,由上至下超過高度的相片可以切除, class="card h-100 d-flex flex-column"
