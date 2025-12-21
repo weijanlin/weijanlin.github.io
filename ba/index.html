@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>老屋新生：台灣危老重建補助指南</title>
+    <title>老屋新生：台灣危老重建補助完整指南</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -100,6 +100,21 @@
             color: #ea580c;
             font-weight: 700;
         }
+
+        .method-tab-active {
+            border-bottom: 4px solid #3b82f6;
+            color: #1d4ed8;
+            font-weight: 700;
+        }
+
+        .official-stamp {
+            border: 3px solid #ef4444;
+            color: #ef4444;
+            transform: rotate(-15deg);
+            padding: 2px 8px;
+            font-weight: bold;
+            display: inline-block;
+        }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col">
@@ -115,6 +130,8 @@
                 <nav class="hidden md:flex space-x-8">
                     <button onclick="switchTab('eligibility')" id="nav-eligibility" class="active-tab px-1 pt-1 text-sm font-medium text-stone-500 hover:text-stone-700 transition-colors">資格檢測</button>
                     <button onclick="switchTab('incentives')" id="nav-incentives" class="px-1 pt-1 text-sm font-medium text-stone-500 hover:text-stone-700 transition-colors">獎勵試算</button>
+                    <button onclick="switchTab('subsidies')" id="nav-subsidies" class="px-1 pt-1 text-sm font-medium text-stone-500 hover:text-stone-700 transition-colors">政府補助</button>
+                    <button onclick="switchTab('query')" id="nav-query" class="px-1 pt-1 text-sm font-medium text-stone-500 hover:text-stone-700 transition-colors">都市計畫查詢</button>
                     <button onclick="switchTab('process')" id="nav-process" class="px-1 pt-1 text-sm font-medium text-stone-500 hover:text-stone-700 transition-colors">申請流程</button>
                 </nav>
                 <div class="md:hidden">
@@ -135,7 +152,7 @@
             <h1 class="text-3xl md:text-4xl font-bold text-stone-800 mb-4">您的老屋符合危老重建條件嗎？</h1>
             <p class="max-w-2xl mx-auto text-lg text-stone-600">
                 依據《都市危險及老舊建築物加速重建條例》，政府提供容積獎勵、稅賦優惠與補助，協助民眾改善居住安全。
-                本工具協助您快速了解三大核心條件與潛在效益。
+                本工具協助您快速了解申請條件、獎勵試算、政府補助、都市計畫查詢與申請流程。
             </p>
         </section>
 
@@ -301,7 +318,302 @@
             </div>
         </section>
 
-        <!-- VIEW 3: Process Roadmap -->
+        <!-- VIEW 3: Subsidies & Tax Benefits -->
+        <section id="view-subsidies" class="hidden space-y-8 animate-fade-in">
+            <div class="grid lg:grid-cols-2 gap-8">
+                
+                <!-- Financial Calculator Card -->
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-stone-200">
+                    <h2 class="text-2xl font-bold text-stone-800 mb-4 flex items-center gap-2">
+                        <i class="ph ph-hand-coins text-emerald-600"></i>
+                        政府現金補助試算
+                    </h2>
+                    <p class="text-stone-600 mb-6">政府針對重建前期的「安全鑑定」與「計畫編擬」提供定額補助，降低民眾負擔。</p>
+                    
+                    <div class="space-y-6">
+                        <div class="p-4 bg-emerald-50 rounded-lg border border-emerald-100">
+                            <h4 class="font-bold text-emerald-800 mb-3">1. 結構安全性能評估</h4>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center text-sm">
+                                    <span>總樓地板面積 (m²)</span>
+                                    <input type="number" id="sub-area" value="500" class="w-24 p-1 border rounded" oninput="calcSubsidy()">
+                                </div>
+                                <div class="flex justify-between font-bold text-stone-700">
+                                    <span>初評補助預估：</span>
+                                    <span id="val-sub1" class="text-emerald-600">NT$ 15,000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-blue-50 rounded-lg border border-blue-100">
+                            <h4 class="font-bold text-blue-800 mb-3">2. 重建計畫擬定補助</h4>
+                            <div class="flex justify-between font-bold text-stone-700">
+                                <span>定額補助：</span>
+                                <span class="text-blue-600">NT$ 55,000</span>
+                            </div>
+                            <p class="text-xs text-blue-600 mt-2">* 依各縣市公告為準，上限通常為 5.5 萬。</p>
+                        </div>
+
+                        <div class="pt-4 border-t border-stone-100 text-center">
+                            <p class="text-sm text-stone-500">前期可獲得補助總額：</p>
+                            <p id="total-sub-cash" class="text-3xl font-black text-stone-800">NT$ 70,000</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tax Benefits Interactive Card -->
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-stone-200">
+                    <h2 class="text-2xl font-bold text-stone-800 mb-4 flex items-center gap-2">
+                        <i class="ph ph-percent text-red-600"></i>
+                        稅賦優惠視覺化
+                    </h2>
+                    <div class="mb-6 flex gap-2">
+                        <button onclick="setTaxView('before')" id="btn-tax-before" class="px-4 py-2 rounded-full text-xs font-bold border border-stone-300 hover:bg-stone-100 transition">重建前</button>
+                        <button onclick="setTaxView('during')" id="btn-tax-during" class="px-4 py-2 rounded-full text-xs font-bold border border-stone-300 hover:bg-stone-100 transition">重建中</button>
+                        <button onclick="setTaxView('after')" id="btn-tax-after" class="px-4 py-2 rounded-full text-xs font-bold bg-stone-800 text-white transition">重建後 (首2年)</button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div id="tax-viz-container" class="h-48 bg-stone-50 rounded-lg flex flex-col justify-center p-6 space-y-6">
+                            <!-- Tax Progress Bars -->
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="font-bold">地價稅 (Land Tax)</span>
+                                    <span id="tax-land-label">50% 減免</span>
+                                </div>
+                                <div class="w-full bg-stone-200 h-4 rounded-full overflow-hidden">
+                                    <div id="tax-land-bar" class="h-full bg-orange-500 transition-all duration-500" style="width: 50%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="font-bold">房屋稅 (Property Tax)</span>
+                                    <span id="tax-prop-label">50% 減免</span>
+                                </div>
+                                <div class="w-full bg-stone-200 h-4 rounded-full overflow-hidden">
+                                    <div id="tax-prop-bar" class="h-full bg-red-500 transition-all duration-500" style="width: 50%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-lg bg-stone-100">
+                            <p id="tax-desc" class="text-sm text-stone-700 leading-relaxed">重建後首 2 年地價稅與房屋稅均減半徵收；若房屋於 2 年內未轉讓，房屋稅減半可延長最長至 12 年。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial Assistance (Loans) -->
+            <div class="bg-stone-800 text-white p-8 rounded-xl shadow-lg">
+                <div class="flex flex-col md:flex-row gap-8 items-center">
+                    <div class="md:w-1/3">
+                        <h3 class="text-2xl font-bold mb-4">資金融通：信用保證</h3>
+                        <p class="text-stone-400 text-sm">
+                            內政部與財團法人中小企業信用保證基金合作，提供重建工程資金貸款信用保證，解決民眾自備款不足的問題。
+                        </p>
+                    </div>
+                    <div class="md:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="p-4 bg-stone-700 rounded-lg">
+                            <i class="ph ph-shield-check text-2xl text-orange-400 mb-2"></i>
+                            <h4 class="font-bold mb-1">每戶最高 300 萬</h4>
+                            <p class="text-xs text-stone-400">信用保證成數最高 9 成。</p>
+                        </div>
+                        <div class="p-4 bg-stone-700 rounded-lg">
+                            <i class="ph ph-bank text-2xl text-orange-400 mb-2"></i>
+                            <h4 class="font-bold mb-1">利息補貼</h4>
+                            <p class="text-xs text-stone-400">符合條件者可申請由地方政府提供之貸款利息補貼。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 4: Urban Planning Query -->
+        <section id="view-query" class="hidden space-y-8 animate-fade-in">
+            <div class="bg-white p-8 rounded-xl shadow-lg border border-stone-200">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl md:text-4xl font-bold text-stone-800 mb-4">如何知道房子是否在「都市計畫區」？</h2>
+                    <p class="text-lg text-stone-600">危老重建的第一道門檻，就是確認土地分區。這裡教您如何快速查詢。</p>
+                </div>
+
+                <!-- Method Navigation -->
+                <div class="flex flex-wrap justify-center gap-4 mb-10 border-b border-stone-200 pb-4">
+                    <button onclick="switchQueryTab('online')" id="tab-online" class="method-tab-active px-6 py-3 text-lg transition-all">線上即時查</button>
+                    <button onclick="switchQueryTab('official')" id="tab-official" class="px-6 py-3 text-lg text-stone-500 hover:text-stone-800 transition-all">申請正式證明</button>
+                    <button onclick="switchQueryTab('interpret')" id="tab-interpret" class="px-6 py-3 text-lg text-stone-500 hover:text-stone-800 transition-all">查詢結果判讀</button>
+                </div>
+
+                <!-- VIEW: Online Systems -->
+                <div id="query-online" class="space-y-6">
+                    <div class="bg-stone-50 p-6 rounded-xl border border-stone-200">
+                        <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+                            <i class="ph ph-globe text-blue-600"></i>
+                            方式一：全國國土規劃地理資訊系統
+                        </h3>
+                        <p class="text-stone-600 mb-6">這是內政部提供的官方地圖系統，可以輸入地址直接查看土地分區色彩圖。</p>
+                        
+                        <div class="bg-white p-6 rounded-xl border-2 border-dashed border-stone-200 text-center">
+                            <p class="font-bold text-stone-800 mb-2">【快速進入系統】</p>
+                            <a href="https://landvis.cpami.gov.tw/landvis/index.jsp" target="_blank" class="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition">
+                                前往內政部地圖系統 <i class="ph ph-arrow-square-out"></i>
+                            </a>
+                            <p class="text-xs text-stone-400 mt-3">* 操作提示：選擇「土地使用分區」圖層，輸入您的房屋地址即可。</p>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                            <h3 class="font-bold text-lg mb-4">各縣市政府查詢入口</h3>
+                            <p class="text-sm text-stone-500 mb-4">地方政府的資料通常更新最快且最詳細。</p>
+                            <div class="space-y-3">
+                                <a href="https://www.zone.gov.taipei/" target="_blank" class="flex justify-between items-center p-3 border rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                                    <span>台北市：都市計畫整合查詢</span>
+                                    <i class="ph ph-caret-right"></i>
+                                </a>
+                                <a href="https://zoning.planning.ntpc.gov.tw/" target="_blank" class="flex justify-between items-center p-3 border rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                                    <span>新北市：都市計畫查詢系統</span>
+                                    <i class="ph ph-caret-right"></i>
+                                </a>
+                                <a href="https://gis.tycg.gov.tw/" target="_blank" class="flex justify-between items-center p-3 border rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                                    <span>桃園市：住宅及都市發展GIS</span>
+                                    <i class="ph ph-caret-right"></i>
+                                </a>
+                                <select onchange="if(this.value) window.open(this.value, '_blank')" class="w-full p-3 border rounded-lg bg-white text-sm">
+                                    <option value="">更多縣市選擇...</option>
+                                    <option value="https://urban-zone.taichung.gov.tw/">台中市</option>
+                                    <option value="https://up.tainan.gov.tw/">台南市</option>
+                                    <option value="https://puzon.kcg.gov.tw/">高雄市</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-900 text-white p-6 rounded-xl shadow-lg relative overflow-hidden">
+                            <i class="ph ph-magnifying-glass absolute -right-4 -bottom-4 text-9xl opacity-10"></i>
+                            <h3 class="font-bold text-lg mb-2">還有更簡單的方法嗎？</h3>
+                            <p class="text-blue-100 text-sm leading-relaxed">
+                                您可以直接看您的<strong>「土地登記謄本」</strong>。<br><br>
+                                如果在「使用分區」欄位寫的是：<br>
+                                <span class="bg-white/20 px-2 rounded">「空白」</span> 或 <span class="bg-white/20 px-2 rounded">「都市土地」</span><br>
+                                通常就代表該地塊位於都市計畫區內。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW: Official Document -->
+                <div id="query-official" class="hidden space-y-6">
+                    <div class="bg-stone-50 p-8 rounded-xl border border-stone-200">
+                        <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+                            <i class="ph ph-file-text text-red-600"></i>
+                            法律上的黃金標準：都市計畫土地使用分區證明
+                        </h3>
+                        <p class="text-stone-600 mb-8">
+                            線上查詢結果僅供參考。如果您要進行「危老重建」申請或房屋買賣，必須向政府申請這份正式的紙本證明。
+                        </p>
+
+                        <div class="flex flex-col md:flex-row gap-10 items-start">
+                            <!-- Steps -->
+                            <div class="md:w-1/2 space-y-6">
+                                <div class="flex gap-4">
+                                    <div class="w-8 h-8 rounded-full bg-stone-800 text-white flex items-center justify-center flex-shrink-0 font-bold">1</div>
+                                    <div>
+                                        <h4 class="font-bold">臨櫃申請</h4>
+                                        <p class="text-sm text-stone-500">前往各鄉、鎮、市、區公所之「建設課」或各縣市政府「都發局」櫃台。</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="w-8 h-8 rounded-full bg-stone-800 text-white flex items-center justify-center flex-shrink-0 font-bold">2</div>
+                                    <div>
+                                        <h4 class="font-bold">提供地號</h4>
+                                        <p class="text-sm text-stone-500">不需權狀，只需提供該房屋所在地的「地段」與「地號」（例如：信義段二小段123地號）。</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="w-8 h-8 rounded-full bg-stone-800 text-white flex items-center justify-center flex-shrink-0 font-bold">3</div>
+                                    <div>
+                                        <h4 class="font-bold">繳納規費</h4>
+                                        <p class="text-sm text-stone-500">通常第一份約 20~100 元不等，立等可取或隔日領取。</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mockup Example -->
+                            <div class="md:w-1/2 bg-white p-6 rounded-lg border-2 border-stone-200 shadow-inner rotate-1">
+                                <div class="text-center mb-4">
+                                    <h5 class="text-stone-400 text-xs tracking-widest uppercase">模擬證明書樣式</h5>
+                                    <div class="official-stamp text-xs mt-1">都市計畫證明章</div>
+                                </div>
+                                <div class="space-y-4 text-sm font-mono text-stone-700">
+                                    <div class="flex justify-between border-b pb-1"><span>土地標示：</span><span>XX市XX區XX段...</span></div>
+                                    <div class="flex justify-between border-b pb-1"><span>使用分區：</span><span class="font-bold text-blue-700">第三種住宅區 (住三)</span></div>
+                                    <div class="flex justify-between border-b pb-1"><span>容積率：</span><span>225%</span></div>
+                                    <div class="flex justify-between border-b pb-1"><span>備註：</span><span>本案位於都市計畫區內</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW: Interpret Result -->
+                <div id="query-interpret" class="hidden space-y-6">
+                    <div class="bg-stone-50 p-8 rounded-xl border border-stone-200">
+                        <h3 class="text-2xl font-bold mb-6">看懂查詢結果：我是不是都市計畫區？</h3>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <!-- Positive Indicators -->
+                            <div class="p-6 bg-green-50 rounded-xl border border-green-100">
+                                <h4 class="font-bold text-green-800 mb-4 flex items-center gap-2">
+                                    <i class="ph ph-check-circle-fill"></i> 代表「是」都市計畫區
+                                </h4>
+                                <ul class="space-y-3 text-sm text-green-700">
+                                    <li class="flex items-start gap-2">
+                                        <i class="ph ph-dot-outline-fill mt-1"></i>
+                                        <span><strong>看到明確分區：</strong>例如「第一/二/三種住宅區」、「商業區」、「工業區」。</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="ph ph-dot-outline-fill mt-1"></i>
+                                        <span><strong>看到容積率/建蔽率：</strong>只要有這些數值，通常就是都市計畫。</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="ph ph-dot-outline-fill mt-1"></i>
+                                        <span><strong>地圖呈彩色塊狀：</strong>都市計畫圖通常用鮮豔色彩（黃、紅、紫、藍）區分不同性質。</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Negative Indicators -->
+                            <div class="p-6 bg-red-50 rounded-xl border border-red-100">
+                                <h4 class="font-bold text-red-800 mb-4 flex items-center gap-2">
+                                    <i class="ph ph-x-circle-fill"></i> 代表「不是」都市計畫區
+                                </h4>
+                                <ul class="space-y-3 text-sm text-red-700">
+                                    <li class="flex items-start gap-2">
+                                        <i class="ph ph-dot-outline-fill mt-1"></i>
+                                        <span><strong>看到「非都市土地」：</strong>通常指農耕、山坡、特定目的事業用地。</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="ph ph-dot-outline-fill mt-1"></i>
+                                        <span><strong>看到「甲/乙/丙/丁種建築用地」：</strong>這些是「非都市土地」的開發分類，不適用危老條例。</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <i class="ph ph-dot-outline-fill mt-1"></i>
+                                        <span><strong>查詢結果顯示空白：</strong>代表該區可能尚未實施都市計畫或屬於保護區。</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 p-6 bg-amber-50 rounded-xl border border-amber-200">
+                            <p class="text-amber-800 font-bold mb-2">💡 重點叮嚀：</p>
+                            <p class="text-amber-700 text-sm">
+                                只有屬於<strong>「都市計畫區」</strong>的土地，才符合「危老重建」的第一項申請門檻。如果您發現土地屬於「非都市土地」，則需要查詢各地的農舍改建或相關鄉村建築法規。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 5: Process Roadmap -->
         <section id="view-process" class="hidden space-y-8 animate-fade-in">
              <div class="bg-white p-8 rounded-xl shadow-lg border border-stone-200">
                 <h2 class="text-2xl font-bold text-stone-800 mb-6 flex items-center gap-2">
@@ -376,7 +688,7 @@
         // --- Tab Switching Logic ---
         function switchTab(tabId) {
             // Update Navigation UI
-            const navIds = ['nav-eligibility', 'nav-incentives', 'nav-process'];
+            const navIds = ['nav-eligibility', 'nav-incentives', 'nav-subsidies', 'nav-query', 'nav-process'];
             navIds.forEach(id => {
                 const el = document.getElementById(id);
                 if(id === 'nav-' + tabId) {
@@ -389,13 +701,36 @@
             });
 
             // Update View Visibility
-            const viewIds = ['view-eligibility', 'view-incentives', 'view-process'];
+            const viewIds = ['view-eligibility', 'view-incentives', 'view-subsidies', 'view-query', 'view-process'];
             viewIds.forEach(id => {
                 const el = document.getElementById(id);
                 if(id === 'view-' + tabId) {
                     el.classList.remove('hidden');
                 } else {
                     el.classList.add('hidden');
+                }
+            });
+
+            // Initialize charts/calculations when switching to specific tabs
+            if(tabId === 'incentives') {
+                updateChart();
+            } else if(tabId === 'subsidies') {
+                calcSubsidy();
+            }
+        }
+
+        // --- Query Tab Switching Logic ---
+        function switchQueryTab(tabId) {
+            const tabs = ['online', 'official', 'interpret'];
+            tabs.forEach(t => {
+                const viewEl = document.getElementById(`query-${t}`);
+                const btnEl = document.getElementById(`tab-${t}`);
+                if(t === tabId) {
+                    viewEl.classList.remove('hidden');
+                    btnEl.className = "method-tab-active px-6 py-3 text-lg transition-all";
+                } else {
+                    viewEl.classList.add('hidden');
+                    btnEl.className = "px-6 py-3 text-lg text-stone-500 hover:text-stone-800 transition-all";
                 }
             });
         }
@@ -656,10 +991,47 @@
             incentiveChart.update();
         }
 
+        // --- Subsidy & Tax Logic ---
+        function calcSubsidy() {
+            const area = parseFloat(document.getElementById('sub-area').value) || 0;
+            let assessVal = 12000;
+            if(area > 1000) assessVal = 15000;
+            else if (area < 500) assessVal = 6000;
+            
+            document.getElementById('val-sub1').innerText = `NT$ ${assessVal.toLocaleString()}`;
+            document.getElementById('total-sub-cash').innerText = `NT$ ${(assessVal + 55000).toLocaleString()}`;
+        }
+
+        const taxStates = {
+            'before': { land: 100, prop: 100, label: '全額徵收', desc: '重建前依現行稅率課徵，無減免優惠。' },
+            'during': { land: 0, prop: 0, label: '免徵', desc: '重建期間，地價稅因無法使用而免徵；建築物已拆除亦無房屋稅。' },
+            'after': { land: 50, prop: 50, label: '50% 減免', desc: '重建後首 2 年地價稅與房屋稅均減半。房屋稅最高可享 12 年減半。' }
+        };
+
+        function setTaxView(mode) {
+            const s = taxStates[mode];
+            const btns = ['before', 'during', 'after'];
+            btns.forEach(b => {
+                const el = document.getElementById(`btn-tax-${b}`);
+                if(b === mode) {
+                    el.className = "px-4 py-2 rounded-full text-xs font-bold bg-stone-800 text-white transition";
+                } else {
+                    el.className = "px-4 py-2 rounded-full text-xs font-bold border border-stone-300 hover:bg-stone-100 transition";
+                }
+            });
+
+            document.getElementById('tax-land-bar').style.width = `${s.land}%`;
+            document.getElementById('tax-prop-bar').style.width = `${s.prop}%`;
+            document.getElementById('tax-land-label').innerText = s.label;
+            document.getElementById('tax-prop-label').innerText = s.label;
+            document.getElementById('tax-desc').innerText = s.desc;
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             renderQuiz(1);
             initChart();
+            calcSubsidy();
         });
 
     </script>
