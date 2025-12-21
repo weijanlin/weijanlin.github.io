@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>老屋新生：台灣危老重建補助指南</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts (Noto Sans TC) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Icons (Phosphor Icons - Loaded via script for Canvas usage context fallback) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- REQUIRED PLACEHOLDERS -->
+    <!-- Chosen Palette: "Warm Foundation" - Stone (Background/Neutral), Brick Orange (Accent/Action), Sage Green (Success/Safe), Slate (Text) -->
+    
+    <!-- Application Structure Plan: 
+         Structure: Dashboard-style Single Page Application with three distinct interactive zones.
+         1. Hero Section: Sets the tone and context.
+         2. "Eligibility Wizard" (The Core): Addresses the user's specific question "What are the conditions?" via a step-by-step interactive questionnaire rather than a dense wall of text.
+         3. "Benefit Visualizer": Uses charts to explain the "Why" (Incentives/FAR bonuses) which is the natural follow-up question to "Can I do it?".
+         4. "Process Timeline": A linear visual guide to the execution phase.
+         Why this structure? The policy is complex. Breaking it down into "Check Eligibility" -> "See Value" -> "Understand Steps" creates a logical user journey from curiosity to action.
+    -->
+
+    <!-- Visualization & Content Choices:
+         1. Eligibility Wizard (Interactive HTML/JS):
+            - Goal: Simplify complex legal criteria (Urban area, age, safety rating, consent).
+            - Method: Boolean logic flow.
+            - Justification: Users want a quick "Yes/No" indication before reading legal text.
+         
+         2. Floor Area Ratio (FAR) Bonus Simulator (Chart.js - Stacked Bar):
+            - Goal: Visualize the abstract concept of "Volume Reward" (容積獎勵).
+            - Method: Stacked bar comparing "Original" vs. "Potential Max".
+            - Interaction: User inputs land size (ping); chart updates dynamically.
+            - Justification: Hard numbers are dry; seeing the "extra building space" bar grow is compelling.
+            
+         3. Tax Benefit Timeline (HTML/CSS Grid):
+            - Goal: Show the duration of tax breaks.
+            - Method: Simple timeline cards.
+            - Justification: Simple temporal data doesn't require a heavy chart library.
+    -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f5f5f4; /* Stone-100 */
+            color: #1c1917; /* Stone-900 */
+        }
+
+        /* Chart Container Styling - MANDATORY REQUIREMENT */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Constraint for large screens */
+            height: 300px;    /* Default height */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px; /* Taller on desktop */
+            }
+        }
+
+        .step-card {
+            transition: all 0.3s ease;
+        }
+        .step-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Custom Scrollbar for cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d6d3d1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a29e; 
+        }
+
+        .active-tab {
+            border-bottom: 3px solid #ea580c; /* Orange-600 */
+            color: #ea580c;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Navigation / Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">危</div>
+                    <span class="font-bold text-xl tracking-wide text-stone-800">危老重建指南</span>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <button onclick="switchTab('eligibility')" id="nav-eligibility" class="active-tab px-1 pt-1 text-sm font-medium text-stone-500 hover:text-stone-700 transition-colors">資格檢測</button>
+                    <button onclick="switchTab('incentives')" id="nav-incentives" class="px-1 pt-1 text-sm font-medium text-stone-500 hover:text-stone-700 transition-colors">獎勵試算</button>
+                    <button onclick="switchTab('process')" id="nav-process" class="px-1 pt-1 text-sm font-medium text-stone-500 hover:text-stone-700 transition-colors">申請流程</button>
+                </nav>
+                <div class="md:hidden">
+                    <!-- Mobile menu button placeholder -->
+                    <button class="text-stone-500 hover:text-stone-900" onclick="alert('請使用上方標籤頁切換功能體驗完整內容。')">
+                        <i class="ph ph-list text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        
+        <!-- Intro Hero -->
+        <section class="mb-10 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-stone-800 mb-4">您的老屋符合危老重建條件嗎？</h1>
+            <p class="max-w-2xl mx-auto text-lg text-stone-600">
+                依據《都市危險及老舊建築物加速重建條例》，政府提供容積獎勵、稅賦優惠與補助，協助民眾改善居住安全。
+                本工具協助您快速了解三大核心條件與潛在效益。
+            </p>
+        </section>
+
+        <!-- VIEW 1: Eligibility Wizard (Conditions) -->
+        <section id="view-eligibility" class="space-y-8 animate-fade-in">
+            <div class="bg-white rounded-xl shadow-lg border border-stone-200 overflow-hidden">
+                <div class="p-6 md:p-8 bg-stone-50 border-b border-stone-200">
+                    <h2 class="text-2xl font-bold text-stone-800 flex items-center gap-2">
+                        <i class="ph ph-clipboard-text text-orange-600"></i>
+                        條件檢測 (Eligibility Check)
+                    </h2>
+                    <p class="mt-2 text-stone-600">
+                        危老條例的適用條件主要分為「基地條件」、「屋齡/安全」與「整合程度」三大面向。請依序回答以下問題：
+                    </p>
+                </div>
+
+                <div class="p-6 md:p-8">
+                    <!-- Progress Bar -->
+                    <div class="w-full bg-stone-200 rounded-full h-2.5 mb-8">
+                        <div id="progress-bar" class="bg-orange-600 h-2.5 rounded-full transition-all duration-500" style="width: 25%"></div>
+                    </div>
+
+                    <!-- Question Container -->
+                    <div id="quiz-container" class="min-h-[300px]">
+                        <!-- Questions will be injected here by JS -->
+                    </div>
+
+                    <!-- Result Container (Hidden initially) -->
+                    <div id="result-container" class="hidden text-center py-8">
+                        <div id="result-icon" class="text-6xl mb-4 flex justify-center"></div>
+                        <h3 id="result-title" class="text-2xl font-bold text-stone-800 mb-2"></h3>
+                        <p id="result-desc" class="text-stone-600 max-w-lg mx-auto mb-6"></p>
+                        <button onclick="resetQuiz()" class="px-6 py-2 bg-stone-200 text-stone-700 font-semibold rounded-lg hover:bg-stone-300 transition">重新檢測</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Conditions Reference -->
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-100">
+                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4 text-2xl">
+                        <i class="ph ph-map-pin"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">1. 適用範圍</h3>
+                    <ul class="text-stone-600 text-sm space-y-2 list-disc list-inside">
+                        <li>必須位於<strong>都市計畫區</strong>內。</li>
+                        <li>非主管機關指定具有歷史、文化、藝術及紀念價值之建築物。</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-100">
+                    <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-4 text-2xl">
+                        <i class="ph ph-warning"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">2. 危險或老舊</h3>
+                    <ul class="text-stone-600 text-sm space-y-2 list-disc list-inside">
+                        <li><strong>危險：</strong>經評估需強制拆除，或結構安全評估未達最低等級。</li>
+                        <li><strong>老舊：</strong>屋齡30年以上，無電梯，且耐震評估未達標準者。</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-100">
+                    <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-4 text-2xl">
+                        <i class="ph ph-users-three"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">3. 產權整合</h3>
+                    <ul class="text-stone-600 text-sm space-y-2 list-disc list-inside">
+                        <li>需取得計畫範圍內<strong>100%</strong>土地及合法建築物所有權人同意。</li>
+                        <li>這是最困難也最關鍵的一步。</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 2: Incentives Calculator (Visualizer) -->
+        <section id="view-incentives" class="hidden space-y-8 animate-fade-in">
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Controls -->
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-lg border border-stone-200">
+                        <h2 class="text-xl font-bold text-stone-800 mb-4">容積獎勵試算</h2>
+                        <p class="text-sm text-stone-500 mb-6">
+                            危老條例提供最高由基準容積 1.3 倍或原建築容積 1.15 倍的獎勵。輸入您的土地資訊查看預估效果。
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-stone-700 mb-1">土地面積 (坪)</label>
+                                <input type="number" id="input-area" value="30" class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none" oninput="updateChart()">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-stone-700 mb-1">法定容積率 (%)</label>
+                                <select id="input-ratio" class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none" onchange="updateChart()">
+                                    <option value="200">住三 (225% - 台北範例)</option>
+                                    <option value="300" selected>商二 (300% - 通用範例)</option>
+                                    <option value="560">商三 (560% - 高密度)</option>
+                                    <option value="150">住二 (150% - 低密度)</option>
+                                </select>
+                                <p class="text-xs text-stone-400 mt-1">* 實際容積率請依當地土地使用分區管制為準</p>
+                            </div>
+
+                            <div class="pt-4 border-t border-stone-100">
+                                <h4 class="font-semibold text-stone-700 mb-2 text-sm">獎勵項目預估 (最高40%)</h4>
+                                <div class="space-y-2">
+                                    <label class="flex items-center space-x-2 text-sm">
+                                        <input type="checkbox" checked class="form-checkbox text-orange-600 rounded" disabled>
+                                        <span>基準容積獎勵 (Max 30%)</span>
+                                    </label>
+                                    <label class="flex items-center space-x-2 text-sm">
+                                        <input type="checkbox" id="check-time-bonus" checked class="form-checkbox text-orange-600 rounded" onchange="updateChart()">
+                                        <span>時程/規模獎勵 (Max 10%)</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-orange-50 p-6 rounded-xl border border-orange-100">
+                        <h3 class="font-bold text-orange-800 mb-2">其他優惠</h3>
+                        <ul class="space-y-3 text-sm text-orange-900">
+                            <li class="flex items-start gap-2">
+                                <i class="ph ph-coins mt-1"></i>
+                                <span><strong>地價稅：</strong>重建期間免徵，重建後減半徵收2年。</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="ph ph-house-line mt-1"></i>
+                                <span><strong>房屋稅：</strong>重建後減半徵收最長12年。</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="ph ph-hand-coins mt-1"></i>
+                                <span><strong>補助費用：</strong>耐震評估補助、重建計畫擬定補助（每案最高5.5萬）。</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Chart Visualization -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-lg border border-stone-200 flex flex-col justify-center">
+                    <div class="mb-4">
+                        <h3 class="text-lg font-bold text-stone-800">可建坪數預估比較</h3>
+                        <p class="text-sm text-stone-500">比較「原法定容積」與「危老獎勵後」的可建築總樓地板面積 (不含免計容積)。</p>
+                    </div>
+                    
+                    <div class="flex-grow flex items-center justify-center bg-stone-50 rounded-lg p-4">
+                        <div class="chart-container">
+                            <canvas id="incentiveChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 grid grid-cols-2 gap-4 text-center">
+                        <div class="p-3 bg-stone-100 rounded-lg">
+                            <p class="text-xs text-stone-500">原法定總樓地板</p>
+                            <p id="val-original" class="text-xl font-bold text-stone-700">- 坪</p>
+                        </div>
+                        <div class="p-3 bg-orange-100 rounded-lg">
+                            <p class="text-xs text-orange-600">獎勵後總樓地板</p>
+                            <p id="val-new" class="text-xl font-bold text-orange-700">- 坪</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-stone-400 mt-2 text-center">* 此為概算，未包含陽台、梯廳等免計容積部分 (通常約 +1.6倍)。實際數值需建築師精算。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 3: Process Roadmap -->
+        <section id="view-process" class="hidden space-y-8 animate-fade-in">
+             <div class="bg-white p-8 rounded-xl shadow-lg border border-stone-200">
+                <h2 class="text-2xl font-bold text-stone-800 mb-6 flex items-center gap-2">
+                    <i class="ph ph-steps text-orange-600"></i>
+                    危老重建流程圖
+                </h2>
+                <p class="text-stone-600 mb-8 max-w-3xl">
+                    相較於都市更新（Urban Renewal），危老重建的流程相對單純快速，免經由都更審議會，原則上只要所有權人100%同意，即可快速通關。
+                </p>
+
+                <div class="relative">
+                    <!-- Vertical Line (Desktop) / Horizontal connection hidden for simplicity, using flex gap -->
+                    <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-stone-200 -translate-x-1/2 hidden md:block"></div>
+
+                    <div class="space-y-8">
+                        <!-- Step 1 -->
+                        <div class="relative flex flex-col md:flex-row items-center md:justify-between group">
+                            <div class="md:w-5/12 p-4 bg-stone-50 border border-stone-200 rounded-lg shadow-sm hover:shadow-md transition step-card md:text-right">
+                                <h3 class="font-bold text-lg text-stone-800">1. 確認意願與初步評估</h3>
+                                <p class="text-sm text-stone-600 mt-2">確認所有權人意願，並委託專業機構進行耐震能力初步評估 (未達乙級)。</p>
+                            </div>
+                            <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-8 h-8 bg-orange-500 rounded-full border-4 border-white shadow flex items-center justify-center text-white font-bold text-sm z-10">1</div>
+                            <div class="md:w-5/12 md:block hidden"></div> <!-- Spacer -->
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="relative flex flex-col md:flex-row items-center md:justify-between group">
+                            <div class="md:w-5/12 md:block hidden"></div> <!-- Spacer -->
+                            <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-8 h-8 bg-orange-500 rounded-full border-4 border-white shadow flex items-center justify-center text-white font-bold text-sm z-10">2</div>
+                            <div class="md:w-5/12 p-4 bg-stone-50 border border-stone-200 rounded-lg shadow-sm hover:shadow-md transition step-card">
+                                <h3 class="font-bold text-lg text-stone-800">2. 擬定重建計畫</h3>
+                                <p class="text-sm text-stone-600 mt-2">取得100%同意書，委託建築師擬定重建計畫（包含容積獎勵項目申請）。</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="relative flex flex-col md:flex-row items-center md:justify-between group">
+                            <div class="md:w-5/12 p-4 bg-stone-50 border border-stone-200 rounded-lg shadow-sm hover:shadow-md transition step-card md:text-right">
+                                <h3 class="font-bold text-lg text-stone-800">3. 申請核准</h3>
+                                <p class="text-sm text-stone-600 mt-2">向地方政府建管處提出申請。審查期短，通常約 1-2 個月可核准。</p>
+                            </div>
+                            <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-8 h-8 bg-orange-500 rounded-full border-4 border-white shadow flex items-center justify-center text-white font-bold text-sm z-10">3</div>
+                            <div class="md:w-5/12 md:block hidden"></div> <!-- Spacer -->
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="relative flex flex-col md:flex-row items-center md:justify-between group">
+                            <div class="md:w-5/12 md:block hidden"></div> <!-- Spacer -->
+                            <div class="absolute left-4 md:left-1/2 -translate-x-1/2 w-8 h-8 bg-teal-500 rounded-full border-4 border-white shadow flex items-center justify-center text-white font-bold text-sm z-10">4</div>
+                            <div class="md:w-5/12 p-4 bg-teal-50 border border-teal-100 rounded-lg shadow-sm hover:shadow-md transition step-card">
+                                <h3 class="font-bold text-teal-800">4. 申請建照與施工</h3>
+                                <p class="text-sm text-teal-700 mt-2">重建計畫核准後，於期限內申請建築執照，即可動工興建。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-stone-400 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="mb-2">本工具僅供參考，實際法規與數據請以內政部營建署及各地方政府公告為準。</p>
+            <p class="text-sm">&copy; 2024 危老重建評估指南 Interactive Guide</p>
+        </div>
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        // --- Tab Switching Logic ---
+        function switchTab(tabId) {
+            // Update Navigation UI
+            const navIds = ['nav-eligibility', 'nav-incentives', 'nav-process'];
+            navIds.forEach(id => {
+                const el = document.getElementById(id);
+                if(id === 'nav-' + tabId) {
+                    el.classList.add('active-tab', 'text-stone-700');
+                    el.classList.remove('text-stone-500');
+                } else {
+                    el.classList.remove('active-tab', 'text-stone-700');
+                    el.classList.add('text-stone-500');
+                }
+            });
+
+            // Update View Visibility
+            const viewIds = ['view-eligibility', 'view-incentives', 'view-process'];
+            viewIds.forEach(id => {
+                const el = document.getElementById(id);
+                if(id === 'view-' + tabId) {
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
+            });
+        }
+
+        // --- Eligibility Quiz Logic ---
+        const questions = [
+            {
+                id: 1,
+                text: "您的房屋是否位於「都市計畫區」內？",
+                subtext: "危老條例僅適用於都市計畫區內的土地與建築。",
+                options: [
+                    { text: "是", next: 2, value: true },
+                    { text: "否 / 不確定", next: 'fail_zone', value: false }
+                ]
+            },
+            {
+                id: 2,
+                text: "這棟建築物是否具有歷史、文化保存價值？",
+                subtext: "若是古蹟或經指定需保存之建築，無法拆除重建。",
+                options: [
+                    { text: "是 (古蹟/保存區)", next: 'fail_history', value: false },
+                    { text: "否 (一般建築)", next: 3, value: true }
+                ]
+            },
+            {
+                id: 3,
+                text: "建築物屋齡是否超過 30 年？",
+                subtext: "屋齡是判斷老舊的重要指標之一。",
+                options: [
+                    { text: "是，超過 30 年", next: 4, value: true },
+                    { text: "否，未滿 30 年", next: 'check_danger', value: false } // Check danger path specifically
+                ]
+            },
+            {
+                id: 4,
+                text: "建築物是否有安裝電梯？",
+                subtext: "屋齡30年以上且無電梯者，符合「老舊」定義。",
+                options: [
+                    { text: "無電梯", next: 5, value: true }, // High potential
+                    { text: "有電梯", next: 'check_seismic', value: false }
+                ]
+            },
+            {
+                id: 5,
+                text: "您是否有把握取得 100% 土地與建物所有權人同意？",
+                subtext: "危老重建需全體同意，不同於都更的多數決。",
+                options: [
+                    { text: "有信心 (100%)", next: 'success', value: true },
+                    { text: "很困難 (部分反對)", next: 'advise_renewal', value: false }
+                ]
+            },
+            // Special Branch: Not 30 years old, but maybe Dangerous?
+            {
+                id: 'check_danger',
+                text: "建築物是否經評估為「危險」或「需強制拆除」？",
+                subtext: "若被貼紅黃單，或經評估結構極度危險，屋齡不限。",
+                options: [
+                    { text: "是 (紅黃單/危樓)", next: 5, value: true },
+                    { text: "否", next: 'fail_age', value: false }
+                ]
+            },
+            // Special Branch: 30 years + Elevator -> Check Seismic
+            {
+                id: 'check_seismic',
+                text: "耐震能力評估是否未達標準？",
+                subtext: "若有電梯，需經詳細評估確認結構需改善且無改善效益。",
+                options: [
+                    { text: "是 (耐震不足)", next: 5, value: true },
+                    { text: "否 / 結構尚可", next: 'fail_safe', value: false }
+                ]
+            }
+        ];
+
+        // Endings
+        const results = {
+            'success': {
+                title: "符合危老重建潛力！",
+                desc: "您的條件極可能符合危老條例！建議盡快尋找專業建築師進行「耐震初評」並擬定重建計畫。",
+                icon: "🎉",
+                color: "text-green-600"
+            },
+            'advise_renewal': {
+                title: "建議考慮「都市更新」",
+                desc: "由於難以取得 100% 同意，危老條例可能不適用。您可以考慮走「都市更新」程序，僅需多數決（如80%）即可申請。",
+                icon: "🏢",
+                color: "text-blue-600"
+            },
+            'fail_zone': {
+                title: "可能不適用 (非都市計畫區)",
+                desc: "危老條例僅適用於都市計畫區。請向當地地政事務所確認您的土地分區。",
+                icon: "🚫",
+                color: "text-stone-500"
+            },
+            'fail_history': {
+                title: "不適用 (保存建築)",
+                desc: "具文化資產價值之建築受文資法保護，不得任意改建。",
+                icon: "🏛️",
+                color: "text-stone-500"
+            },
+            'fail_age': {
+                title: "資格不符 (屋齡/安全)",
+                desc: "若屋齡未滿30年且結構安全無虞，暫不符合危老條件。",
+                icon: "⏳",
+                color: "text-stone-500"
+            },
+            'fail_safe': {
+                title: "資格不符 (結構安全)",
+                desc: "若屋齡雖高但有電梯，且耐震能力尚可，則不符合「危險或老舊」之定義。",
+                icon: "💪",
+                color: "text-stone-500"
+            }
+        };
+
+        let currentStep = 0;
+        let totalStepsEstimate = 5;
+
+        function renderQuiz(stepId) {
+            const container = document.getElementById('quiz-container');
+            const question = questions.find(q => q.id === stepId);
+            
+            if (!question) {
+                // Must be a result string
+                showResult(stepId);
+                return;
+            }
+
+            // Update Progress
+            let progress = 0;
+            if(typeof stepId === 'number') {
+                progress = ((stepId - 1) / totalStepsEstimate) * 100;
+            } else {
+                progress = 80;
+            }
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+
+            let html = `
+                <div class="animate-fade-in">
+                    <h3 class="text-xl md:text-2xl font-bold text-stone-800 mb-2">${question.text}</h3>
+                    <p class="text-stone-500 mb-8">${question.subtext}</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        ${question.options.map(opt => `
+                            <button onclick="renderQuiz('${opt.next}')" 
+                                class="p-4 border-2 border-stone-200 rounded-xl hover:border-orange-500 hover:bg-orange-50 transition text-left group">
+                                <span class="block font-bold text-stone-700 group-hover:text-orange-700">${opt.text}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            container.innerHTML = html;
+        }
+
+        function showResult(resultKey) {
+            document.getElementById('progress-bar').style.width = '100%';
+            document.getElementById('quiz-container').classList.add('hidden');
+            
+            const resultDiv = document.getElementById('result-container');
+            const res = results[resultKey];
+            
+            document.getElementById('result-icon').innerHTML = res.icon;
+            document.getElementById('result-title').innerText = res.title;
+            document.getElementById('result-title').className = `text-2xl font-bold mb-2 ${res.color}`;
+            document.getElementById('result-desc').innerText = res.desc;
+            
+            resultDiv.classList.remove('hidden');
+        }
+
+        function resetQuiz() {
+            document.getElementById('result-container').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            renderQuiz(1);
+        }
+
+        // --- Incentives Chart Logic ---
+        let incentiveChart;
+
+        function initChart() {
+            const ctx = document.getElementById('incentiveChart').getContext('2d');
+            incentiveChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['原法定容積', '危老重建後'],
+                    datasets: [
+                        {
+                            label: '基本容積',
+                            data: [0, 0],
+                            backgroundColor: '#a8a29e', // stone-400
+                        },
+                        {
+                            label: '容積獎勵 (Max 40%)',
+                            data: [0, 0],
+                            backgroundColor: '#ea580c', // orange-600
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + ' 坪';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { stacked: true },
+                        y: { 
+                            stacked: true,
+                            title: {
+                                display: true,
+                                text: '總樓地板面積 (坪)'
+                            }
+                        }
+                    }
+                }
+            });
+            updateChart();
+        }
+
+        function updateChart() {
+            const area = parseFloat(document.getElementById('input-area').value) || 0;
+            const ratio = parseFloat(document.getElementById('input-ratio').value) || 300; // Percentage
+            const hasTimeBonus = document.getElementById('check-time-bonus').checked;
+
+            // Calculations
+            // 1. Original Volume
+            const originalVolume = area * (ratio / 100);
+
+            // 2. Bonus Calculation
+            // Base Bonus Cap: 30% of base
+            // Time/Scale Bonus Cap: 10%
+            // Total Cap: 1.3x Base or 1.15x Original Building + 10%
+            // We use standard 1.3x base cap + 10% time bonus for simplified estimation
+            // Max bonus percentage = 30% + (hasTimeBonus ? 10% : 0%) = 40% max theoretically
+            // But realistically, base bonus (green building, smart building, seismic) is hard to max out.
+            // Let's assume a realistic average achievement of 20% base bonus + 6% time bonus for the demo.
+            
+            // However, the tool shows "Potential Max". So let's show Max.
+            const maxBaseBonusPct = 0.30; 
+            const timeBonusPct = hasTimeBonus ? 0.10 : 0;
+            
+            const bonusVolume = originalVolume * (maxBaseBonusPct + timeBonusPct);
+            const totalNewVolume = originalVolume + bonusVolume;
+
+            // Update DOM text
+            document.getElementById('val-original').innerText = originalVolume.toFixed(1) + " 坪";
+            document.getElementById('val-new').innerText = totalNewVolume.toFixed(1) + " 坪";
+
+            // Update Chart
+            incentiveChart.data.datasets[0].data = [originalVolume, originalVolume]; // Base
+            incentiveChart.data.datasets[1].data = [0, bonusVolume]; // Bonus
+            incentiveChart.update();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderQuiz(1);
+            initChart();
+        });
+
+    </script>
+</body>
+</html>
