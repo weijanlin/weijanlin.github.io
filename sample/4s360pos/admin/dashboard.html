@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>4s360 POS | 儀表板</title>
+  <link rel="stylesheet" href="../microsys-template/css/adminlte.min.css">
+  <link rel="stylesheet" href="../microsys-template/css/all.min.css">
+  <link rel="stylesheet" href="_shared.css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+<!-- Navbar -->
+<nav class="main-header navbar navbar-expand navbar-white navbar-light" style="border-bottom:1px solid var(--card-border)">
+  <ul class="navbar-nav">
+    <li class="nav-item"><a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars" style="color:var(--brand-primary)"></i></a></li>
+    <li class="nav-item d-none d-sm-inline-block"><span class="nav-link text-muted" style="font-size:12px;" id="nav-datetime"></span></li>
+  </ul>
+  <ul class="navbar-nav ml-auto align-items-center">
+    <li class="nav-item mr-2">
+      <button class="theme-toggle" id="themeToggle" title="切換主題">🌙</button>
+    </li>
+    <li class="nav-item mr-3">
+      <span class="badge badge-success" style="font-size:12px; padding:6px 12px;">
+        <i class="fas fa-user-circle mr-1"></i> 管理員・王大明
+      </span>
+    </li>
+    <li class="nav-item">
+      <a href="login.html" class="nav-link text-danger" style="font-size:13px;">
+        <i class="fas fa-sign-out-alt mr-1"></i>登出
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<!-- Sidebar -->
+<aside class="main-sidebar elevation-3">
+  <a href="dashboard.html" class="brand-link">
+    <span style="font-size:18px;font-weight:800;color:var(--brand-primary);letter-spacing:1px;">🏛 4s360 POS</span>
+  </a>
+  <div class="sidebar">
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <li class="nav-header" style="color:var(--header-text);opacity:.6;font-size:10px;letter-spacing:2px;">主選單</li>
+        <li class="nav-item">
+          <a href="dashboard.html" class="nav-link active"><i class="nav-icon fas fa-tachometer-alt"></i><p>儀表板</p></a>
+        </li>
+        <li class="nav-item">
+          <a href="ticket-types.html" class="nav-link"><i class="nav-icon fas fa-ticket-alt"></i><p>票種管理</p></a>
+        </li>
+        <li class="nav-item">
+          <a href="transactions.html" class="nav-link"><i class="nav-icon fas fa-receipt"></i><p>交易查詢</p></a>
+        </li>
+        <li class="nav-item">
+          <a href="daily-close.html" class="nav-link"><i class="nav-icon fas fa-cash-register"></i><p>日結 / 交班</p></a>
+        </li>
+        <li class="nav-item">
+          <a href="revenue-report.html" class="nav-link"><i class="nav-icon fas fa-chart-bar"></i><p>營收報表</p></a>
+        </li>
+        <li class="nav-header" style="color:var(--header-text);opacity:.6;font-size:10px;letter-spacing:2px;">系統管理</li>
+        <li class="nav-item">
+          <a href="users.html" class="nav-link"><i class="nav-icon fas fa-users-cog"></i><p>帳號與權限</p></a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</aside>
+
+<!-- Content -->
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2 align-items-center">
+        <div class="col-sm-6"><h1><i class="fas fa-tachometer-alt mr-2"></i>今日概覽</h1></div>
+        <div class="col-sm-6 text-right">
+          <span class="badge badge-pill" style="background:var(--accent-2);color:#fff;font-size:12px;padding:6px 14px;">
+            <i class="fas fa-circle mr-1" style="font-size:8px;"></i> POS 系統運作中
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="content">
+    <div class="container-fluid">
+
+      <!-- KPI Row -->
+      <div class="row">
+        <div class="col-6 col-sm-3">
+          <div class="small-box bg-primary">
+            <div class="inner"><h3 id="kpi-revenue">NT$0</h3><p>今日營收</p></div>
+            <div class="icon"><i class="fas fa-dollar-sign"></i></div>
+            <a href="revenue-report.html" class="small-box-footer">詳細報表 <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-6 col-sm-3">
+          <div class="small-box bg-success">
+            <div class="inner"><h3 id="kpi-tickets">0 張</h3><p>今日售票</p></div>
+            <div class="icon"><i class="fas fa-ticket-alt"></i></div>
+            <a href="transactions.html" class="small-box-footer">查看明細 <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-6 col-sm-3">
+          <div class="small-box bg-warning">
+            <div class="inner"><h3 id="kpi-cash">NT$0</h3><p>現金收款</p></div>
+            <div class="icon"><i class="fas fa-money-bill-wave"></i></div>
+            <a href="daily-close.html" class="small-box-footer">日結作業 <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-6 col-sm-3">
+          <div class="small-box bg-danger">
+            <div class="inner"><h3 id="kpi-card">NT$0</h3><p>刷卡收款</p></div>
+            <div class="icon"><i class="fas fa-credit-card"></i></div>
+            <a href="transactions.html" class="small-box-footer">交易查詢 <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts + Quick Info -->
+      <div class="row">
+        <!-- Hourly Revenue Chart -->
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-header d-flex align-items-center">
+              <h3 class="card-title"><i class="fas fa-chart-area mr-2"></i>今日逐時售票量</h3>
+              <div class="card-tools ml-auto">
+                <span class="badge badge-pill" style="background:var(--accent-2);color:#fff">今日</span>
+              </div>
+            </div>
+            <div class="card-body" style="position:relative;height:260px;">
+              <canvas id="hourlyChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ticket Type Breakdown -->
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fas fa-chart-pie mr-2"></i>票種分佈</h3>
+            </div>
+            <div class="card-body" style="position:relative;height:200px;">
+              <canvas id="ticketPieChart"></canvas>
+            </div>
+            <div class="card-footer p-2" id="pie-legend" style="font-size:12px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Transactions -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header d-flex align-items-center">
+              <h3 class="card-title"><i class="fas fa-list mr-2"></i>最近 10 筆交易</h3>
+              <div class="card-tools ml-auto">
+                <a href="transactions.html" class="btn btn-sm btn-outline-secondary">查看全部</a>
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <table class="table table-hover table-sm mb-0">
+                <thead>
+                  <tr>
+                    <th>訂單編號</th><th>時間</th><th>票種</th><th>張數</th><th>金額</th><th>付款方式</th><th>收票員</th>
+                  </tr>
+                </thead>
+                <tbody id="recent-tx-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Nav Cards -->
+      <div class="row">
+        <div class="col-md-3 col-sm-6">
+          <a href="ticket-types.html" class="card text-decoration-none" style="transition:.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+            <div class="card-body text-center py-4">
+              <i class="fas fa-ticket-alt fa-2x mb-2" style="color:var(--accent-2)"></i>
+              <div style="font-weight:700;color:var(--text)">票種管理</div>
+              <small style="color:var(--muted)">設定票種與票價</small>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <a href="transactions.html" class="card text-decoration-none" style="transition:.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+            <div class="card-body text-center py-4">
+              <i class="fas fa-receipt fa-2x mb-2" style="color:var(--accent-5)"></i>
+              <div style="font-weight:700;color:var(--text)">交易查詢</div>
+              <small style="color:var(--muted)">搜尋歷史交易紀錄</small>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <a href="daily-close.html" class="card text-decoration-none" style="transition:.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+            <div class="card-body text-center py-4">
+              <i class="fas fa-cash-register fa-2x mb-2" style="color:var(--accent-4)"></i>
+              <div style="font-weight:700;color:var(--text)">日結 / 交班</div>
+              <small style="color:var(--muted)">現金核對與班別結算</small>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <a href="revenue-report.html" class="card text-decoration-none" style="transition:.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+            <div class="card-body text-center py-4">
+              <i class="fas fa-chart-bar fa-2x mb-2" style="color:var(--accent-1)"></i>
+              <div style="font-weight:700;color:var(--text)">營收報表</div>
+              <small style="color:var(--muted)">月營收趨勢分析</small>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+<footer class="main-footer small">
+  <strong>4s360 POS — 霧峰林家售票系統</strong>
+  <span class="float-right">Copyright © 2026</span>
+</footer>
+</div>
+
+<script src="../microsys-template/js/jquery.min.js"></script>
+<script src="../microsys-template/js/bootstrap.bundle.min.js"></script>
+<script src="../microsys-template/js/adminlte.min.js"></script>
+<script src="../microsys-template/js/chart.min.js"></script>
+<script>
+const THEME_KEY='pos4sTheme';
+const htmlEl=document.documentElement;
+const toggleBtn=document.getElementById('themeToggle');
+function c(v){return getComputedStyle(htmlEl).getPropertyValue(v).trim();}
+function setTheme(t){
+  htmlEl.setAttribute('data-theme',t);
+  localStorage.setItem(THEME_KEY,t);
+  toggleBtn.textContent=t==='dark'?'☀️':'🌙';
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  toggleBtn.addEventListener('click',()=>setTheme(htmlEl.getAttribute('data-theme')==='dark'?'light':'dark'));
+
+  // Datetime
+  const dtEl=document.getElementById('nav-datetime');
+  function tick(){
+    const n=new Date();
+    const pad=v=>String(v).padStart(2,'0');
+    const days=['日','一','二','三','四','五','六'];
+    dtEl.textContent=`${n.getFullYear()}/${pad(n.getMonth()+1)}/${pad(n.getDate())} 星期${days[n.getDay()]}  ${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())}`;
+  }
+  tick(); setInterval(tick,1000);
+
+  // Mock KPI data
+  const todayData = {
+    revenue: 18450, tickets: 92, cash: 8200, card: 10250,
+    hourly: [0,0,0,0,0,0,0,0,0,12,18,24,28,14,16,22,20,18,14,10,6,4,2,0],
+    types: { full:48, discount:22, child:14, free:5, group:3 }
+  };
+  document.getElementById('kpi-revenue').textContent='NT$'+todayData.revenue.toLocaleString();
+  document.getElementById('kpi-tickets').textContent=todayData.tickets+' 張';
+  document.getElementById('kpi-cash').textContent='NT$'+todayData.cash.toLocaleString();
+  document.getElementById('kpi-card').textContent='NT$'+todayData.card.toLocaleString();
+
+  // Hourly chart
+  new Chart(document.getElementById('hourlyChart'),{
+    type:'bar',
+    data:{
+      labels:Array.from({length:24},(_,i)=>i+':00'),
+      datasets:[{
+        label:'售票張數',data:todayData.hourly,
+        backgroundColor:'rgba(89,148,206,0.65)',
+        borderColor:'#5994ce',borderWidth:1,borderRadius:3
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:c('--text'),font:{size:10}},grid:{color:'rgba(0,0,0,0.05)'}},
+        y:{ticks:{color:c('--text')},grid:{color:'rgba(0,0,0,0.05)'}}
+      }
+    }
+  });
+
+  // Pie chart
+  const typeColors=['#0f3f67','#5994ce','#6fb833','#9ca3af','#6b46a0'];
+  const typeLabels=['全票','優待票','兒童票','免費入場','團體票'];
+  const typeVals=[todayData.types.full,todayData.types.discount,todayData.types.child,todayData.types.free,todayData.types.group];
+  new Chart(document.getElementById('ticketPieChart'),{
+    type:'doughnut',
+    data:{labels:typeLabels,datasets:[{data:typeVals,backgroundColor:typeColors,borderWidth:2}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}}
+    }
+  });
+  // legend
+  const legEl=document.getElementById('pie-legend');
+  typeLabels.forEach((l,i)=>{
+    legEl.innerHTML+=`<span style="display:inline-flex;align-items:center;gap:4px;margin-right:10px;">
+      <span style="width:10px;height:10px;border-radius:50%;background:${typeColors[i]};display:inline-block;"></span>
+      ${l} <strong>${typeVals[i]}</strong>
+    </span>`;
+  });
+
+  // Recent transactions
+  const txData=[
+    {id:'20260315-1432-8821',time:'14:32',type:'全票',qty:2,amt:500,pay:'刷卡',op:'陳小明'},
+    {id:'20260315-1428-7734',time:'14:28',type:'優待票',qty:1,amt:200,pay:'現金',op:'陳小明'},
+    {id:'20260315-1415-6609',time:'14:15',type:'兒童票',qty:3,amt:375,pay:'現金',op:'陳小明'},
+    {id:'20260315-1401-5512',time:'14:01',type:'全票',qty:4,amt:1000,pay:'刷卡',op:'林美惠'},
+    {id:'20260315-1355-4401',time:'13:55',type:'團體票',qty:25,amt:3750,pay:'刷卡',op:'林美惠'},
+    {id:'20260315-1342-3388',time:'13:42',type:'免費入場',qty:2,amt:0,pay:'—',op:'林美惠'},
+    {id:'20260315-1330-2277',time:'13:30',type:'全票',qty:1,amt:250,pay:'現金',op:'王志強'},
+    {id:'20260315-1318-1166',time:'13:18',type:'優待票',qty:2,amt:400,pay:'現金',op:'王志強'},
+    {id:'20260315-1305-0055',time:'13:05',type:'全票',qty:3,amt:750,pay:'刷卡',op:'王志強'},
+    {id:'20260315-1258-9944',time:'12:58',type:'兒童票',qty:2,amt:250,pay:'現金',op:'陳小明'},
+  ];
+  const tbody=document.getElementById('recent-tx-tbody');
+  const payBadge=p=>p==='刷卡'?`<span class="badge" style="background:var(--accent-2);color:#fff">刷卡</span>`:
+    p==='現金'?`<span class="badge" style="background:var(--accent-5);color:#fff">現金</span>`:`<span class="badge badge-secondary">—</span>`;
+  txData.forEach(tx=>{
+    tbody.innerHTML+=`<tr>
+      <td><code style="font-size:11px">${tx.id}</code></td>
+      <td>${tx.time}</td>
+      <td>${tx.type}</td>
+      <td>${tx.qty}</td>
+      <td>${tx.amt>0?'NT$'+tx.amt.toLocaleString():'—'}</td>
+      <td>${payBadge(tx.pay)}</td>
+      <td>${tx.op}</td>
+    </tr>`;
+  });
+});
+setTheme(localStorage.getItem(THEME_KEY)||'light');
+</script>
+</body></html>

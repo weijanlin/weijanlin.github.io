@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>4s360 POS | 票種管理</title>
+  <link rel="stylesheet" href="../microsys-template/css/adminlte.min.css">
+  <link rel="stylesheet" href="../microsys-template/css/all.min.css">
+  <link rel="stylesheet" href="_shared.css">
+  <style>
+    .ticket-type-card {
+      border-left: 4px solid;
+      transition: box-shadow .15s;
+    }
+    .ticket-type-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.1); }
+    .price-badge {
+      font-size: 22px; font-weight: 800;
+      font-family: 'Courier New', monospace;
+    }
+    .toggle-switch { position:relative; display:inline-block; width:44px; height:24px; }
+    .toggle-switch input { opacity:0; width:0; height:0; }
+    .slider {
+      position:absolute; cursor:pointer; inset:0;
+      background:#ccc; border-radius:24px; transition:.3s;
+    }
+    .slider:before {
+      content:""; position:absolute;
+      height:18px; width:18px; left:3px; bottom:3px;
+      background:#fff; border-radius:50%; transition:.3s;
+    }
+    input:checked + .slider { background: var(--accent-5); }
+    input:checked + .slider:before { transform: translateX(20px); }
+    html[data-theme="dark"] .modal-content { background:var(--card-bg);color:var(--text); }
+    html[data-theme="dark"] .form-control { background:#23272c;color:#e5e7eb;border-color:var(--card-border); }
+    html[data-theme="dark"] .form-control:focus { border-color:var(--accent-2);box-shadow:none; }
+  </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+<!-- Navbar -->
+<nav class="main-header navbar navbar-expand navbar-white navbar-light" style="border-bottom:1px solid var(--card-border)">
+  <ul class="navbar-nav">
+    <li class="nav-item"><a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars" style="color:var(--brand-primary)"></i></a></li>
+  </ul>
+  <ul class="navbar-nav ml-auto align-items-center">
+    <li class="nav-item mr-2"><button class="theme-toggle" id="themeToggle">🌙</button></li>
+    <li class="nav-item mr-3"><span class="badge badge-success" style="font-size:12px;padding:6px 12px;"><i class="fas fa-user-circle mr-1"></i>管理員・王大明</span></li>
+    <li class="nav-item"><a href="login.html" class="nav-link text-danger" style="font-size:13px;"><i class="fas fa-sign-out-alt mr-1"></i>登出</a></li>
+  </ul>
+</nav>
+
+<!-- Sidebar -->
+<aside class="main-sidebar elevation-3">
+  <a href="dashboard.html" class="brand-link">
+    <span style="font-size:18px;font-weight:800;color:var(--brand-primary);letter-spacing:1px;">🏛 4s360 POS</span>
+  </a>
+  <div class="sidebar"><nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+      <li class="nav-header" style="color:var(--header-text);opacity:.6;font-size:10px;letter-spacing:2px;">主選單</li>
+      <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i><p>儀表板</p></a></li>
+      <li class="nav-item"><a href="ticket-types.html" class="nav-link active"><i class="nav-icon fas fa-ticket-alt"></i><p>票種管理</p></a></li>
+      <li class="nav-item"><a href="transactions.html" class="nav-link"><i class="nav-icon fas fa-receipt"></i><p>交易查詢</p></a></li>
+      <li class="nav-item"><a href="daily-close.html" class="nav-link"><i class="nav-icon fas fa-cash-register"></i><p>日結 / 交班</p></a></li>
+      <li class="nav-item"><a href="revenue-report.html" class="nav-link"><i class="nav-icon fas fa-chart-bar"></i><p>營收報表</p></a></li>
+      <li class="nav-header" style="color:var(--header-text);opacity:.6;font-size:10px;letter-spacing:2px;">系統管理</li>
+      <li class="nav-item"><a href="users.html" class="nav-link"><i class="nav-icon fas fa-users-cog"></i><p>帳號與權限</p></a></li>
+    </ul>
+  </nav></div>
+</aside>
+
+<!-- Content -->
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2 align-items-center">
+        <div class="col-sm-6"><h1><i class="fas fa-ticket-alt mr-2"></i>票種管理</h1></div>
+        <div class="col-sm-6 text-right">
+          <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal" onclick="openAddModal()">
+            <i class="fas fa-plus mr-1"></i>新增票種
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="content">
+    <div class="container-fluid">
+
+      <!-- Ticket type cards -->
+      <div class="row" id="ticket-cards"></div>
+
+      <!-- Table view -->
+      <div class="card mt-2">
+        <div class="card-header"><h3 class="card-title"><i class="fas fa-table mr-2"></i>票種一覽表</h3></div>
+        <div class="card-body p-0">
+          <table class="table table-hover mb-0" id="ticket-table">
+            <thead>
+              <tr>
+                <th>票種名稱</th><th>票價</th><th>適用對象</th><th>今日售出</th><th>本月售出</th><th>狀態</th><th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="ticket-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+<footer class="main-footer small">
+  <strong>4s360 POS — 霧峰林家售票系統</strong>
+  <span class="float-right">Copyright © 2026</span>
+</footer>
+</div>
+
+<!-- Edit/Add Modal -->
+<div class="modal fade" id="editModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-title">新增票種</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="edit-id">
+        <div class="form-group">
+          <label>票種名稱</label>
+          <input type="text" class="form-control" id="edit-name" placeholder="例：全票">
+        </div>
+        <div class="form-group">
+          <label>票價（NT$）</label>
+          <input type="number" class="form-control" id="edit-price" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label>適用對象說明</label>
+          <input type="text" class="form-control" id="edit-desc" placeholder="例：一般民眾">
+        </div>
+        <div class="form-group">
+          <label>顏色標記</label>
+          <select class="form-control" id="edit-color">
+            <option value="#0f3f67">深藍（全票）</option>
+            <option value="#5994ce">藍色（優待票）</option>
+            <option value="#6fb833">綠色（兒童票）</option>
+            <option value="#9ca3af">灰色（免費）</option>
+            <option value="#6b46a0">紫色（團體票）</option>
+            <option value="#da9c32">橙色（自訂）</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>是否啟用</label>
+          <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="edit-active" checked>
+            <label class="custom-control-label" for="edit-active">啟用此票種</label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" data-dismiss="modal">取消</button>
+        <button class="btn btn-primary btn-sm" onclick="saveTicketType()">儲存</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirm Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title text-danger"><i class="fas fa-trash mr-1"></i>確認刪除</h5></div>
+      <div class="modal-body">確定要刪除票種「<strong id="del-name"></strong>」嗎？此操作無法復原。</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" data-dismiss="modal">取消</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmDelete()">確認刪除</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../microsys-template/js/jquery.min.js"></script>
+<script src="../microsys-template/js/bootstrap.bundle.min.js"></script>
+<script src="../microsys-template/js/adminlte.min.js"></script>
+<script>
+const THEME_KEY='pos4sTheme';
+const htmlEl=document.documentElement;
+document.getElementById('themeToggle').addEventListener('click',()=>{
+  const t=htmlEl.getAttribute('data-theme')==='dark'?'light':'dark';
+  htmlEl.setAttribute('data-theme',t); localStorage.setItem(THEME_KEY,t);
+  document.getElementById('themeToggle').textContent=t==='dark'?'☀️':'🌙';
+});
+(function(){ const t=localStorage.getItem(THEME_KEY)||'light'; htmlEl.setAttribute('data-theme',t); document.getElementById('themeToggle').textContent=t==='dark'?'☀️':'🌙'; })();
+
+let ticketTypes=[
+  {id:1,name:'全票',price:250,desc:'一般民眾適用，需出示有效身分證件',color:'#0f3f67',active:true,today:48,month:1204},
+  {id:2,name:'優待票',price:200,desc:'65歲以上・台中市民・12歲以上學生（需憑證）',color:'#5994ce',active:true,today:22,month:587},
+  {id:3,name:'兒童票',price:125,desc:'6~12歲兒童（國小學生），需學生證或戶籍謄本',color:'#6fb833',active:true,today:14,month:302},
+  {id:4,name:'免費入場',price:0,desc:'霧峰區民・未滿6歲幼兒・身心障礙者（含一名陪同者）',color:'#9ca3af',active:true,today:5,month:118},
+  {id:5,name:'團體票',price:0,desc:'20人以上，票價另議（現場輸入）',color:'#6b46a0',active:true,today:3,month:62},
+];
+let deleteId=null;
+
+function renderCards(){
+  const container=document.getElementById('ticket-cards');
+  container.innerHTML='';
+  ticketTypes.forEach(t=>{
+    container.innerHTML+=`
+    <div class="col-md-4 col-sm-6 mb-3">
+      <div class="card ticket-type-card" style="border-left-color:${t.color}; opacity:${t.active?1:.55}">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${t.color};margin-right:6px;"></span>
+              <strong style="font-size:16px;">${t.name}</strong>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" ${t.active?'checked':''} onchange="toggleActive(${t.id},this.checked)">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="price-badge mb-1" style="color:${t.color}">${t.price>0?'NT$'+t.price.toLocaleString():'自訂'}</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:12px;">${t.desc}</div>
+          <div class="d-flex justify-content-between" style="font-size:12px;color:var(--muted)">
+            <span>今日：<strong style="color:var(--text)">${t.today} 張</strong></span>
+            <span>本月：<strong style="color:var(--text)">${t.month} 張</strong></span>
+          </div>
+        </div>
+        <div class="card-footer p-2 d-flex gap-2" style="gap:6px">
+          <button class="btn btn-sm btn-outline-primary flex-fill" onclick="openEditModal(${t.id})">
+            <i class="fas fa-edit"></i> 編輯
+          </button>
+          <button class="btn btn-sm btn-outline-danger" onclick="openDeleteModal(${t.id})" ${[1,2,3,4].includes(t.id)?'disabled title="系統預設票種"':''}>
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>`;
+  });
+}
+
+function renderTable(){
+  const tbody=document.getElementById('ticket-tbody');
+  tbody.innerHTML='';
+  ticketTypes.forEach(t=>{
+    tbody.innerHTML+=`<tr style="opacity:${t.active?1:.6}">
+      <td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${t.color};margin-right:6px;"></span>${t.name}</td>
+      <td><strong>${t.price>0?'NT$'+t.price:'自訂'}</strong></td>
+      <td style="font-size:12px;max-width:260px">${t.desc}</td>
+      <td>${t.today} 張</td>
+      <td>${t.month} 張</td>
+      <td><span class="badge ${t.active?'badge-active':'badge-inactive'}">${t.active?'啟用':'停用'}</span></td>
+      <td>
+        <button class="btn btn-xs btn-primary mr-1" onclick="openEditModal(${t.id})"><i class="fas fa-edit"></i></button>
+        <button class="btn btn-xs btn-danger" onclick="openDeleteModal(${t.id})" ${[1,2,3,4].includes(t.id)?'disabled':''}>
+          <i class="fas fa-trash"></i>
+        </button>
+      </td>
+    </tr>`;
+  });
+}
+
+function render(){ renderCards(); renderTable(); }
+
+function toggleActive(id,val){
+  ticketTypes=ticketTypes.map(t=>t.id===id?{...t,active:val}:t);
+  render();
+}
+
+function openAddModal(){
+  document.getElementById('modal-title').textContent='新增票種';
+  document.getElementById('edit-id').value='';
+  document.getElementById('edit-name').value='';
+  document.getElementById('edit-price').value='';
+  document.getElementById('edit-desc').value='';
+  document.getElementById('edit-active').checked=true;
+}
+
+function openEditModal(id){
+  const t=ticketTypes.find(x=>x.id===id);
+  document.getElementById('modal-title').textContent='編輯票種';
+  document.getElementById('edit-id').value=t.id;
+  document.getElementById('edit-name').value=t.name;
+  document.getElementById('edit-price').value=t.price;
+  document.getElementById('edit-desc').value=t.desc;
+  document.getElementById('edit-color').value=t.color;
+  document.getElementById('edit-active').checked=t.active;
+  $('#editModal').modal('show');
+}
+
+function saveTicketType(){
+  const id=parseInt(document.getElementById('edit-id').value);
+  const data={
+    name:document.getElementById('edit-name').value,
+    price:parseInt(document.getElementById('edit-price').value)||0,
+    desc:document.getElementById('edit-desc').value,
+    color:document.getElementById('edit-color').value,
+    active:document.getElementById('edit-active').checked,
+  };
+  if(!data.name){ alert('請輸入票種名稱'); return; }
+  if(id){
+    ticketTypes=ticketTypes.map(t=>t.id===id?{...t,...data}:t);
+  } else {
+    const newId=Math.max(...ticketTypes.map(t=>t.id))+1;
+    ticketTypes.push({...data,id:newId,today:0,month:0});
+  }
+  $('#editModal').modal('hide');
+  render();
+}
+
+function openDeleteModal(id){
+  deleteId=id;
+  const t=ticketTypes.find(x=>x.id===id);
+  document.getElementById('del-name').textContent=t.name;
+  $('#deleteModal').modal('show');
+}
+
+function confirmDelete(){
+  if(deleteId) ticketTypes=ticketTypes.filter(t=>t.id!==deleteId);
+  $('#deleteModal').modal('hide');
+  render();
+}
+
+render();
+</script>
+</body></html>

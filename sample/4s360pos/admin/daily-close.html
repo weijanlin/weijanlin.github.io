@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>4s360 POS | 日結 / 交班</title>
+  <link rel="stylesheet" href="../microsys-template/css/adminlte.min.css">
+  <link rel="stylesheet" href="../microsys-template/css/all.min.css">
+  <link rel="stylesheet" href="_shared.css">
+  <style>
+    .shift-status-bar {
+      padding: 14px 20px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .shift-open { background: linear-gradient(90deg, rgba(111,184,51,.12), rgba(111,184,51,.04)); border: 1px solid rgba(111,184,51,.3); }
+    .shift-closed { background: rgba(0,0,0,.04); border: 1px solid var(--card-border); }
+    .cash-input {
+      font-size: 22px; font-weight: 800;
+      border: 2px solid var(--card-border);
+      padding: 10px 14px; width: 160px; text-align: right;
+      border-radius: 8px; outline: none;
+    }
+    .cash-input:focus { border-color: var(--accent-2); }
+    html[data-theme="dark"] .cash-input { background: #23272c; color: #e5e7eb; border-color: var(--card-border); }
+    .diff-pos { color: var(--accent-5); font-weight: 700; }
+    .diff-neg { color: var(--accent-1); font-weight: 700; }
+    .diff-zero { color: var(--muted); }
+    .step-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent-2); color: #fff;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; margin-right: 8px; flex-shrink: 0;
+    }
+    html[data-theme="dark"] .form-control { background:#23272c;color:#e5e7eb;border-color:var(--card-border); }
+    html[data-theme="dark"] .modal-content { background:var(--card-bg);color:var(--text); }
+  </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+<nav class="main-header navbar navbar-expand navbar-white navbar-light" style="border-bottom:1px solid var(--card-border)">
+  <ul class="navbar-nav">
+    <li class="nav-item"><a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars" style="color:var(--brand-primary)"></i></a></li>
+  </ul>
+  <ul class="navbar-nav ml-auto align-items-center">
+    <li class="nav-item mr-2"><button class="theme-toggle" id="themeToggle">🌙</button></li>
+    <li class="nav-item mr-3"><span class="badge badge-success" style="font-size:12px;padding:6px 12px;"><i class="fas fa-user-circle mr-1"></i>管理員・王大明</span></li>
+    <li class="nav-item"><a href="login.html" class="nav-link text-danger" style="font-size:13px;"><i class="fas fa-sign-out-alt mr-1"></i>登出</a></li>
+  </ul>
+</nav>
+
+<aside class="main-sidebar elevation-3">
+  <a href="dashboard.html" class="brand-link">
+    <span style="font-size:18px;font-weight:800;color:var(--brand-primary);letter-spacing:1px;">🏛 4s360 POS</span>
+  </a>
+  <div class="sidebar"><nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+      <li class="nav-header" style="color:var(--header-text);opacity:.6;font-size:10px;letter-spacing:2px;">主選單</li>
+      <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i><p>儀表板</p></a></li>
+      <li class="nav-item"><a href="ticket-types.html" class="nav-link"><i class="nav-icon fas fa-ticket-alt"></i><p>票種管理</p></a></li>
+      <li class="nav-item"><a href="transactions.html" class="nav-link"><i class="nav-icon fas fa-receipt"></i><p>交易查詢</p></a></li>
+      <li class="nav-item"><a href="daily-close.html" class="nav-link active"><i class="nav-icon fas fa-cash-register"></i><p>日結 / 交班</p></a></li>
+      <li class="nav-item"><a href="revenue-report.html" class="nav-link"><i class="nav-icon fas fa-chart-bar"></i><p>營收報表</p></a></li>
+      <li class="nav-header" style="color:var(--header-text);opacity:.6;font-size:10px;letter-spacing:2px;">系統管理</li>
+      <li class="nav-item"><a href="users.html" class="nav-link"><i class="nav-icon fas fa-users-cog"></i><p>帳號與權限</p></a></li>
+    </ul>
+  </nav></div>
+</aside>
+
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2 align-items-center">
+        <div class="col-sm-6"><h1><i class="fas fa-cash-register mr-2"></i>日結 / 交班</h1></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="content">
+    <div class="container-fluid">
+
+      <!-- Current Shift Status -->
+      <div class="shift-status-bar shift-open">
+        <div class="d-flex align-items-center" style="gap:16px">
+          <span style="font-size:24px">🟢</span>
+          <div>
+            <div style="font-weight:700;font-size:15px;color:var(--accent-5)">班別進行中</div>
+            <div style="font-size:12px;color:var(--muted)">早班 ｜ 開班時間：09:00 ｜ 收票員：陳小明</div>
+          </div>
+        </div>
+        <div class="text-right">
+          <div style="font-size:11px;color:var(--muted)">當前時間</div>
+          <div style="font-family:monospace;font-size:18px;font-weight:700;" id="live-time">--:--:--</div>
+        </div>
+      </div>
+
+      <div class="row">
+
+        <!-- Left: Current Shift Summary -->
+        <div class="col-lg-7">
+
+          <!-- Step 1: Shift Summary -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <h3 class="card-title">
+                <span class="step-num">1</span>本班銷售摘要
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-6 col-md-3 mb-3 text-center">
+                  <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">總票數</div>
+                  <div style="font-size:28px;font-weight:800;color:var(--accent-2)">92 張</div>
+                </div>
+                <div class="col-6 col-md-3 mb-3 text-center">
+                  <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">總營收</div>
+                  <div style="font-size:28px;font-weight:800;color:var(--brand-primary)">NT$18,450</div>
+                </div>
+                <div class="col-6 col-md-3 mb-3 text-center">
+                  <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">現金收款</div>
+                  <div style="font-size:28px;font-weight:800;color:var(--accent-5)">NT$8,200</div>
+                </div>
+                <div class="col-6 col-md-3 mb-3 text-center">
+                  <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">刷卡收款</div>
+                  <div style="font-size:28px;font-weight:800;color:var(--accent-4)">NT$10,250</div>
+                </div>
+              </div>
+
+              <table class="table table-sm table-bordered mb-0">
+                <thead><tr><th>票種</th><th class="text-center">張數</th><th class="text-right">小計</th></tr></thead>
+                <tbody>
+                  <tr><td><span class="type-dot dot-full"></span>全票</td><td class="text-center">48</td><td class="text-right">NT$12,000</td></tr>
+                  <tr><td><span class="type-dot dot-discount"></span>優待票</td><td class="text-center">22</td><td class="text-right">NT$4,400</td></tr>
+                  <tr><td><span class="type-dot dot-child"></span>兒童票</td><td class="text-center">14</td><td class="text-right">NT$1,750</td></tr>
+                  <tr><td><span class="type-dot dot-free"></span>免費入場</td><td class="text-center">5</td><td class="text-right">—</td></tr>
+                  <tr><td><span class="type-dot" style="background:#6b46a0"></span>團體票</td><td class="text-center">3 筆</td><td class="text-right">NT$300</td></tr>
+                  <tr style="font-weight:700;background:rgba(89,148,206,.06)">
+                    <td>合計</td><td class="text-center">92</td><td class="text-right">NT$18,450</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Step 2: Cash Reconciliation -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <h3 class="card-title"><span class="step-num">2</span>現金核對</h3>
+            </div>
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-md-4 text-center mb-3">
+                  <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">系統應收現金</div>
+                  <div style="font-size:26px;font-weight:800;color:var(--brand-primary)">NT$8,200</div>
+                </div>
+                <div class="col-md-4 text-center mb-3">
+                  <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">實際點算金額</div>
+                  <input type="number" class="cash-input" id="actual-cash" value="8200" oninput="calcDiff()">
+                </div>
+                <div class="col-md-4 text-center mb-3">
+                  <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">差異金額</div>
+                  <div style="font-size:26px;" id="cash-diff" class="diff-zero">NT$0</div>
+                  <div style="font-size:11px;" id="cash-diff-label" class="diff-zero">( 核對正確 )</div>
+                </div>
+              </div>
+              <div class="form-group mt-2 mb-0">
+                <label style="font-size:12px;font-weight:600;color:var(--muted)">差異說明（選填）</label>
+                <input type="text" class="form-control form-control-sm" placeholder="如有差異請說明原因">
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Handover Notes -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <h3 class="card-title"><span class="step-num">3</span>交班備註</h3>
+            </div>
+            <div class="card-body">
+              <textarea class="form-control" rows="3" placeholder="填寫交班注意事項、特殊狀況說明…"></textarea>
+              <div class="mt-2 d-flex justify-content-between align-items-center">
+                <div>
+                  <label style="font-size:12px;font-weight:600;color:var(--muted)" class="mr-2">交接下一班</label>
+                  <select class="form-control form-control-sm d-inline-block" style="width:auto">
+                    <option>林美惠（午班）</option>
+                    <option>王志強（午班）</option>
+                    <option>— 不交班 —</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="d-flex" style="gap:10px">
+            <button class="btn btn-warning flex-fill" onclick="doShiftChange()">
+              <i class="fas fa-exchange-alt mr-1"></i>交班（繼續營業）
+            </button>
+            <button class="btn btn-danger flex-fill" onclick="doDayClose()">
+              <i class="fas fa-lock mr-1"></i>日結（結束當日）
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Right: Shift History -->
+        <div class="col-lg-5">
+          <div class="card">
+            <div class="card-header"><h3 class="card-title"><i class="fas fa-history mr-2"></i>近期交班紀錄</h3></div>
+            <div class="card-body p-0">
+              <table class="table table-sm mb-0">
+                <thead><tr><th>日期</th><th>班別</th><th>收票員</th><th>票數</th><th>金額</th><th>狀態</th></tr></thead>
+                <tbody id="shift-history"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+<footer class="main-footer small">
+  <strong>4s360 POS — 霧峰林家售票系統</strong><span class="float-right">Copyright © 2026</span>
+</footer>
+</div>
+
+<!-- Confirm Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title" id="confirm-title">確認操作</h5></div>
+      <div class="modal-body" id="confirm-body"></div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" data-dismiss="modal">取消</button>
+        <button class="btn btn-sm" id="confirm-ok-btn" data-dismiss="modal">確認</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../microsys-template/js/jquery.min.js"></script>
+<script src="../microsys-template/js/bootstrap.bundle.min.js"></script>
+<script src="../microsys-template/js/adminlte.min.js"></script>
+<script>
+const THEME_KEY='pos4sTheme';
+const htmlEl=document.documentElement;
+document.getElementById('themeToggle').addEventListener('click',()=>{
+  const t=htmlEl.getAttribute('data-theme')==='dark'?'light':'dark';
+  htmlEl.setAttribute('data-theme',t); localStorage.setItem(THEME_KEY,t);
+  document.getElementById('themeToggle').textContent=t==='dark'?'☀️':'🌙';
+});
+(function(){ const t=localStorage.getItem(THEME_KEY)||'light'; htmlEl.setAttribute('data-theme',t); document.getElementById('themeToggle').textContent=t==='dark'?'☀️':'🌙'; })();
+
+// Live clock
+setInterval(()=>{
+  const n=new Date();
+  const pad=v=>String(v).padStart(2,'0');
+  document.getElementById('live-time').textContent=`${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())}`;
+},1000);
+
+// Cash diff
+function calcDiff(){
+  const actual=parseInt(document.getElementById('actual-cash').value)||0;
+  const expected=8200;
+  const diff=actual-expected;
+  const el=document.getElementById('cash-diff');
+  const label=document.getElementById('cash-diff-label');
+  el.textContent='NT$'+Math.abs(diff).toLocaleString();
+  if(diff>0){ el.className='diff-pos'; label.textContent='( 多收 +NT$'+diff+' )'; label.className='diff-pos'; }
+  else if(diff<0){ el.className='diff-neg'; label.textContent='( 短收 -NT$'+Math.abs(diff)+' )'; label.className='diff-neg'; }
+  else { el.textContent='NT$0'; el.className='diff-zero'; label.textContent='( 核對正確 )'; label.className='diff-zero'; }
+}
+
+// Shift history
+const shifts=[
+  {date:'2026/03/15',shift:'早班',op:'陳小明',tickets:92,amount:18450,status:'進行中'},
+  {date:'2026/03/14',shift:'下午班',op:'王志強',tickets:64,amount:14200,status:'已結算'},
+  {date:'2026/03/14',shift:'早班',op:'林美惠',tickets:88,amount:19600,status:'已結算'},
+  {date:'2026/03/13',shift:'下午班',op:'陳小明',tickets:52,amount:11800,status:'已結算'},
+  {date:'2026/03/13',shift:'早班',op:'王志強',tickets:76,amount:17300,status:'已結算'},
+  {date:'2026/03/12',shift:'日結',op:'—',tickets:134,amount:31250,status:'已日結'},
+];
+const tbody=document.getElementById('shift-history');
+shifts.forEach(s=>{
+  const badgeStyle=s.status==='進行中'?'background:rgba(111,184,51,.2);color:#2d6a1e':
+    s.status==='已日結'?'background:rgba(89,148,206,.15);color:#1a4c8a':'background:rgba(0,0,0,.07);color:var(--muted)';
+  tbody.innerHTML+=`<tr>
+    <td style="font-size:11px">${s.date}</td>
+    <td style="font-size:12px">${s.shift}</td>
+    <td style="font-size:12px">${s.op}</td>
+    <td>${s.tickets}</td>
+    <td style="font-size:11px">NT$${s.amount.toLocaleString()}</td>
+    <td><span class="badge" style="${badgeStyle};font-size:10px;padding:3px 7px">${s.status}</span></td>
+  </tr>`;
+});
+
+function doShiftChange(){
+  document.getElementById('confirm-title').textContent='確認交班';
+  document.getElementById('confirm-body').innerHTML='<p>確認結束當前班別並交接給下一班？<br><small class="text-muted">系統將保存本班交易紀錄</small></p>';
+  document.getElementById('confirm-ok-btn').className='btn btn-warning btn-sm';
+  document.getElementById('confirm-ok-btn').textContent='確認交班';
+  $('#confirmModal').modal('show');
+}
+
+function doDayClose(){
+  document.getElementById('confirm-title').textContent='確認日結';
+  document.getElementById('confirm-body').innerHTML='<p>確認執行今日日結？<br><small class="text-muted">日結後當日交易將封存，無法新增交易</small></p>';
+  document.getElementById('confirm-ok-btn').className='btn btn-danger btn-sm';
+  document.getElementById('confirm-ok-btn').textContent='確認日結';
+  $('#confirmModal').modal('show');
+}
+</script>
+</body></html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>4s360 POS | 營收報表</title>
+  <link rel="stylesheet" href="../microsys-template/css/adminlte.min.css">
+  <link rel="stylesheet" href="../microsys-template/css/all.min.css">
+  <link rel="stylesheet" href="_shared.css">
+  <style>
+    html[data-theme="dark"] .form-control,
+    html[data-theme="dark"] select.form-control { background:#23272c;color:#e5e7eb;border-color:var(--card-border); }
+    .report-kpi { border-left: 3px solid; padding: 12px 16px; border-radius: 0 6px 6px 0; }
+  </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+<nav class="main-header navbar navbar-expand navbar-white navbar-light" style="border-bottom:1px solid var(--card-border)">
+  <ul class="navbar-nav">
+    <li class="nav-item"><a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars" style="color:var(--brand-primary)"></i></a></li>
+  </ul>
+  <ul class="navbar-nav ml-auto align-items-center">
+    <li class="nav-item mr-2"><button class="theme-toggle" id="themeToggle">🌙</button></li>
+    <li class="nav-item mr-3"><span class="badge badge-success" style="font-size:12px;padding:6px 12px;"><i class="fas fa-user-circle mr-1"></i>管理員・王大明</span></li>
+    <li class="nav-item"><a href="login.html" class="nav-link text-danger" style="font-size:13px;"><i class="fas fa-sign-out-alt mr-1"></i>登出</a></li>
+  </ul>
+</nav>
+
+<aside class="main-sidebar elevation-3">
+  <a href="dashboard.html" class="brand-link">
+    <span style="font-size:18px;font-weight:800;color:var(--brand-primary);letter-spacing:1px;">🏛 4s360 POS</span>
+  </a>
+  <div class="sidebar"><nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+      <li class="nav-header" style="color:var(--header-text);opacity:.6;font-size:10px;letter-spacing:2px;">主選單</li>
+      <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i><p>儀表板</p></a></li>
+      <li class="nav-item"><a href="ticket-types.html" class="nav-link"><i class="nav-icon fas fa-ticket-alt"></i><p>票種管理</p></a></li>
+      <li class="nav-item"><a href="transactions.html" class="nav-link"><i class="nav-icon fas fa-receipt"></i><p>交易查詢</p></a></li>
+      <li class="nav-item"><a href="daily-close.html" class="nav-link"><i class="nav-icon fas fa-cash-register"></i><p>日結 / 交班</p></a></li>
+      <li class="nav-item"><a href="revenue-report.html" class="nav-link active"><i class="nav-icon fas fa-chart-bar"></i><p>營收報表</p></a></li>
+      <li class="nav-header" style="color:var(--header-text);opacity:.6;font-size:10px;letter-spacing:2px;">系統管理</li>
+      <li class="nav-item"><a href="users.html" class="nav-link"><i class="nav-icon fas fa-users-cog"></i><p>帳號與權限</p></a></li>
+    </ul>
+  </nav></div>
+</aside>
+
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2 align-items-center">
+        <div class="col-sm-6"><h1><i class="fas fa-chart-bar mr-2"></i>營收報表</h1></div>
+        <div class="col-sm-6 text-right">
+          <button class="btn btn-sm btn-outline-secondary" onclick="window.print()"><i class="fas fa-print mr-1"></i>列印報表</button>
+          <button class="btn btn-sm btn-outline-secondary ml-1" onclick="exportReport()"><i class="fas fa-file-excel mr-1"></i>匯出</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="content">
+    <div class="container-fluid">
+
+      <!-- Period Selector -->
+      <div class="card mb-3">
+        <div class="card-body py-2">
+          <div class="d-flex align-items-center" style="gap:12px;flex-wrap:wrap">
+            <div class="btn-group btn-group-sm" id="period-btns">
+              <button class="btn btn-primary" onclick="setPeriod('week',this)">本週</button>
+              <button class="btn btn-outline-secondary" onclick="setPeriod('month',this)">本月</button>
+              <button class="btn btn-outline-secondary" onclick="setPeriod('quarter',this)">本季</button>
+              <button class="btn btn-outline-secondary" onclick="setPeriod('year',this)">今年</button>
+            </div>
+            <span style="color:var(--muted);font-size:12px">或自訂：</span>
+            <input type="date" class="form-control form-control-sm" id="r-start" value="2026-03-09" style="width:140px">
+            <span style="color:var(--muted)">—</span>
+            <input type="date" class="form-control form-control-sm" id="r-end" value="2026-03-15" style="width:140px">
+            <button class="btn btn-primary btn-sm" onclick="loadReport()"><i class="fas fa-sync-alt mr-1"></i>套用</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI Row -->
+      <div class="row mb-3">
+        <div class="col-6 col-md-3 mb-2">
+          <div class="card report-kpi" style="border-left-color:var(--accent-2)">
+            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">期間總營收</div>
+            <div style="font-size:26px;font-weight:800;color:var(--accent-2)" id="rpt-revenue">—</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 mb-2">
+          <div class="card report-kpi" style="border-left-color:var(--accent-5)">
+            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">總售票數</div>
+            <div style="font-size:26px;font-weight:800;color:var(--accent-5)" id="rpt-tickets">—</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 mb-2">
+          <div class="card report-kpi" style="border-left-color:var(--accent-4)">
+            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">日均營收</div>
+            <div style="font-size:26px;font-weight:800;color:var(--accent-4)" id="rpt-avg">—</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 mb-2">
+          <div class="card report-kpi" style="border-left-color:var(--accent-1)">
+            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">最高單日</div>
+            <div style="font-size:26px;font-weight:800;color:var(--accent-1)" id="rpt-max">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="card mb-3">
+            <div class="card-header d-flex align-items-center">
+              <h3 class="card-title"><i class="fas fa-chart-bar mr-2"></i>每日營收趨勢</h3>
+            </div>
+            <div class="card-body" style="position:relative;height:280px">
+              <canvas id="revenueBarChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card mb-3">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fas fa-chart-pie mr-2"></i>票種佔比</h3>
+            </div>
+            <div class="card-body" style="position:relative;height:200px">
+              <canvas id="typeDonutChart"></canvas>
+            </div>
+            <div class="card-footer p-2" id="donut-legend" style="font-size:11px"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Method Row -->
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card mb-3">
+            <div class="card-header"><h3 class="card-title"><i class="fas fa-credit-card mr-2"></i>付款方式佔比</h3></div>
+            <div class="card-body" style="position:relative;height:180px">
+              <canvas id="paymentChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="card mb-3">
+            <div class="card-header"><h3 class="card-title"><i class="fas fa-table mr-2"></i>每日明細表</h3></div>
+            <div class="card-body p-0">
+              <table class="table table-sm mb-0" id="daily-table">
+                <thead><tr>
+                  <th>日期</th><th>星期</th><th>全票</th><th>優待</th><th>兒童</th><th>免費</th><th>團體</th>
+                  <th>總張數</th><th>現金</th><th>刷卡</th><th>合計</th>
+                </tr></thead>
+                <tbody id="daily-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+<footer class="main-footer small">
+  <strong>4s360 POS — 霧峰林家售票系統</strong><span class="float-right">Copyright © 2026</span>
+</footer>
+</div>
+
+<script src="../microsys-template/js/jquery.min.js"></script>
+<script src="../microsys-template/js/bootstrap.bundle.min.js"></script>
+<script src="../microsys-template/js/adminlte.min.js"></script>
+<script src="../microsys-template/js/chart.min.js"></script>
+<script>
+const THEME_KEY='pos4sTheme';
+const htmlEl=document.documentElement;
+document.getElementById('themeToggle').addEventListener('click',()=>{
+  const t=htmlEl.getAttribute('data-theme')==='dark'?'light':'dark';
+  htmlEl.setAttribute('data-theme',t); localStorage.setItem(THEME_KEY,t);
+  document.getElementById('themeToggle').textContent=t==='dark'?'☀️':'🌙';
+});
+(function(){ const t=localStorage.getItem(THEME_KEY)||'light'; htmlEl.setAttribute('data-theme',t); document.getElementById('themeToggle').textContent=t==='dark'?'☀️':'🌙'; })();
+function c(v){return getComputedStyle(htmlEl).getPropertyValue(v).trim();}
+
+// Mock daily data
+const days=['日','一','二','三','四','五','六'];
+function genDailyData(dateStr){
+  const d=new Date(dateStr);
+  const isWeekend=(d.getDay()===0||d.getDay()===6);
+  const base=isWeekend?120:70;
+  const full=Math.floor(base*0.52+Math.random()*20);
+  const disc=Math.floor(base*0.24+Math.random()*10);
+  const child=Math.floor(base*0.15+Math.random()*8);
+  const free=Math.floor(5+Math.random()*5);
+  const group=Math.floor(Math.random()*3);
+  const total=full+disc+child+free+group;
+  const revenue=full*250+disc*200+child*125+group*1200;
+  const cash=Math.floor(revenue*0.44);
+  return {date:dateStr,dow:days[d.getDay()],full,disc,child,free,group,total,revenue,cash,card:revenue-cash};
+}
+
+function getDatesInRange(start,end){
+  const dates=[];
+  let d=new Date(start);
+  const e=new Date(end);
+  while(d<=e){ dates.push(d.toISOString().split('T')[0]); d.setDate(d.getDate()+1); }
+  return dates;
+}
+
+let barChart, donutChart, payChart;
+
+function loadReport(){
+  const start=document.getElementById('r-start').value;
+  const end=document.getElementById('r-end').value;
+  const dates=getDatesInRange(start,end);
+  const data=dates.map(genDailyData);
+
+  const totalRevenue=data.reduce((s,d)=>s+d.revenue,0);
+  const totalTickets=data.reduce((s,d)=>s+d.total,0);
+  const avgRev=Math.round(totalRevenue/data.length);
+  const maxRev=Math.max(...data.map(d=>d.revenue));
+
+  document.getElementById('rpt-revenue').textContent='NT$'+totalRevenue.toLocaleString();
+  document.getElementById('rpt-tickets').textContent=totalTickets+' 張';
+  document.getElementById('rpt-avg').textContent='NT$'+avgRev.toLocaleString();
+  document.getElementById('rpt-max').textContent='NT$'+maxRev.toLocaleString();
+
+  // Bar chart
+  if(barChart) barChart.destroy();
+  barChart=new Chart(document.getElementById('revenueBarChart'),{
+    type:'bar',
+    data:{
+      labels:data.map(d=>d.date.slice(5)+'('+d.dow+')'),
+      datasets:[
+        {label:'刷卡',data:data.map(d=>d.card),backgroundColor:'rgba(89,148,206,.8)',borderRadius:3},
+        {label:'現金',data:data.map(d=>d.cash),backgroundColor:'rgba(111,184,51,.7)',borderRadius:3}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:c('--text')}}},
+      scales:{
+        x:{stacked:true,ticks:{color:c('--text'),font:{size:10}},grid:{display:false}},
+        y:{stacked:true,ticks:{color:c('--text')},grid:{color:'rgba(0,0,0,0.05)'}}
+      }
+    }
+  });
+
+  // Donut
+  const typeColors=['#0f3f67','#5994ce','#6fb833','#9ca3af','#6b46a0'];
+  const typeLabels=['全票','優待票','兒童票','免費入場','團體票'];
+  const typeVals=[
+    data.reduce((s,d)=>s+d.full,0), data.reduce((s,d)=>s+d.disc,0),
+    data.reduce((s,d)=>s+d.child,0), data.reduce((s,d)=>s+d.free,0),
+    data.reduce((s,d)=>s+d.group,0)
+  ];
+  if(donutChart) donutChart.destroy();
+  donutChart=new Chart(document.getElementById('typeDonutChart'),{
+    type:'doughnut',
+    data:{labels:typeLabels,datasets:[{data:typeVals,backgroundColor:typeColors,borderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}
+  });
+  const leg=document.getElementById('donut-legend');
+  leg.innerHTML='';
+  typeLabels.forEach((l,i)=>{
+    leg.innerHTML+=`<span style="display:inline-flex;align-items:center;gap:3px;margin-right:8px;">
+      <span style="width:8px;height:8px;border-radius:50%;background:${typeColors[i]};display:inline-block"></span>${l}<strong>${typeVals[i]}</strong>
+    </span>`;
+  });
+
+  // Payment pie
+  const cashTotal=data.reduce((s,d)=>s+d.cash,0);
+  const cardTotal=data.reduce((s,d)=>s+d.card,0);
+  if(payChart) payChart.destroy();
+  payChart=new Chart(document.getElementById('paymentChart'),{
+    type:'pie',
+    data:{
+      labels:['現金 NT$'+cashTotal.toLocaleString(),'刷卡 NT$'+cardTotal.toLocaleString()],
+      datasets:[{data:[cashTotal,cardTotal],backgroundColor:['#6fb833','#5994ce'],borderWidth:2}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:c('--text'),font:{size:11}}}}}
+  });
+
+  // Daily table
+  const tbody=document.getElementById('daily-tbody');
+  tbody.innerHTML='';
+  data.forEach(d=>{
+    tbody.innerHTML+=`<tr>
+      <td style="font-size:11px">${d.date}</td>
+      <td><span class="badge badge-secondary">${d.dow}</span></td>
+      <td>${d.full}</td><td>${d.disc}</td><td>${d.child}</td><td>${d.free}</td><td>${d.group}</td>
+      <td><strong>${d.total}</strong></td>
+      <td style="font-size:11px">$${d.cash.toLocaleString()}</td>
+      <td style="font-size:11px">$${d.card.toLocaleString()}</td>
+      <td><strong>NT$${d.revenue.toLocaleString()}</strong></td>
+    </tr>`;
+  });
+}
+
+function setPeriod(p, btn){
+  document.querySelectorAll('#period-btns .btn').forEach(b=>{
+    b.className='btn btn-outline-secondary'; });
+  btn.className='btn btn-primary';
+  const now=new Date();
+  const fmt=d=>d.toISOString().split('T')[0];
+  let start, end=fmt(now);
+  if(p==='week'){ const d=new Date(now); d.setDate(d.getDate()-d.getDay()); start=fmt(d); }
+  else if(p==='month'){ start=fmt(new Date(now.getFullYear(),now.getMonth(),1)); }
+  else if(p==='quarter'){ const q=Math.floor(now.getMonth()/3); start=fmt(new Date(now.getFullYear(),q*3,1)); }
+  else { start=fmt(new Date(now.getFullYear(),0,1)); }
+  document.getElementById('r-start').value=start;
+  document.getElementById('r-end').value=end;
+  loadReport();
+}
+
+function exportReport(){
+  alert('匯出功能（串接後端 API 後實作）');
+}
+
+loadReport();
+</script>
+</body></html>

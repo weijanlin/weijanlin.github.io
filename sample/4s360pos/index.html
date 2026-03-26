@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>霧峰林家 — 售票 POS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f0ece6;
+    --surface: #faf8f5;
+    --white: #ffffff;
+    --border: #ddd8d0;
+    --border-dark: #c4bdb4;
+    --text: #1a1614;
+    --text-mid: #5a5550;
+    --text-dim: #9a9490;
+    --primary: #7a4f2e;
+    --primary-dark: #5c3a1e;
+    --primary-light: #f0e8de;
+    --primary-pale: #faf5ef;
+    --green: #2d7a4f;
+    --green-bg: #eaf5ef;
+    --green-border: #a8d9bb;
+    --red: #c0392b;
+    --red-bg: #fdecea;
+    --blue: #1a5c8a;
+    --blue-bg: #e8f3fb;
+    --blue-border: #9dc9e8;
+    --gold: #c4922a;
+    --gold-bg: #fdf4e3;
+    --purple: #6b46a0;
+    --purple-dark: #4e3178;
+    --purple-bg: #f3eeff;
+    --purple-border: #c4a8e8;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    background: var(--bg);
+    font-family: 'Noto Sans TC', sans-serif;
+    color: var(--text);
+    user-select: none;
+  }
+
+  /* ── LAYOUT ── */
+  .pos-shell {
+    display: grid;
+    grid-template-rows: 56px 1fr;
+    height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .pos-header {
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    z-index: 10;
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand-icon {
+    width: 32px; height: 32px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+
+  .brand-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 1px;
+  }
+
+  .brand-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .header-center {
+    text-align: center;
+  }
+
+  .header-time {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    color: #fff;
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+
+  .header-date {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 1px;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .status-dot {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #4cde8a;
+    box-shadow: 0 0 0 2px rgba(76,222,138,0.3);
+    animation: blink 2s infinite;
+  }
+
+  @keyframes blink {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ── MAIN AREA ── */
+  .pos-main {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    overflow: hidden;
+  }
+
+  /* ── LEFT: TICKET SELECTION ── */
+  .ticket-side {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  .ticket-side-header {
+    padding: 16px 24px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-mid);
+  }
+
+  .slot-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-mid);
+    background: var(--gold-bg);
+    border: 1px solid rgba(196,146,42,0.3);
+    padding: 5px 12px;
+    border-radius: 20px;
+  }
+
+  .slot-info strong { color: var(--gold); font-weight: 700; }
+
+  .ticket-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+    padding: 16px;
+    overflow: hidden;
+  }
+
+  /* ── TICKET CARD ── */
+  .ticket-card {
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ticket-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+
+  .ticket-card.type-full::before { background: var(--primary); }
+  .ticket-card.type-discount::before { background: var(--blue); }
+  .ticket-card.type-child::before { background: var(--green); }
+  .ticket-card.type-free::before { background: var(--text-dim); }
+
+  .ticket-card:active { transform: scale(0.97); }
+
+  .ticket-card.has-items {
+    border-color: transparent;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .ticket-card.type-full.has-items { border-color: var(--primary); background: var(--primary-pale); }
+  .ticket-card.type-discount.has-items { border-color: var(--blue); background: var(--blue-bg); }
+  .ticket-card.type-child.has-items { border-color: var(--green); background: var(--green-bg); }
+  .ticket-card.type-free.has-items { border-color: var(--text-dim); background: #f5f5f5; }
+
+  .ticket-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .ticket-icon {
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .ticket-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+  }
+
+  .type-full .ticket-badge { background: var(--primary-light); color: var(--primary); }
+  .type-discount .ticket-badge { background: var(--blue-bg); color: var(--blue); }
+  .type-child .ticket-badge { background: var(--green-bg); color: var(--green); }
+  .type-free .ticket-badge { background: #efefef; color: var(--text-mid); }
+
+  .ticket-name {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  .ticket-desc {
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .ticket-card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  .ticket-price {
+    font-family: 'Oswald', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .type-full .ticket-price { color: var(--primary); }
+  .type-discount .ticket-price { color: var(--blue); }
+  .type-child .ticket-price { color: var(--green); }
+  .type-free .ticket-price { color: var(--text-mid); }
+
+  .ticket-price .nt {
+    font-size: 14px;
+    font-weight: 400;
+    vertical-align: super;
+    margin-right: 1px;
+    opacity: 0.7;
+  }
+
+  .ticket-price .free-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-mid);
+  }
+
+  .qty-control {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--white);
+  }
+
+  .qty-btn {
+    width: 40px; height: 40px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--text-mid);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.1s;
+    font-weight: 300;
+    line-height: 1;
+  }
+
+  .qty-btn:active { background: var(--bg); }
+
+  .qty-btn.minus:disabled { opacity: 0.25; cursor: not-allowed; }
+
+  .qty-display {
+    width: 44px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--bg);
+    border-left: 1.5px solid var(--border);
+    border-right: 1.5px solid var(--border);
+  }
+
+  .has-items .qty-control { border-color: currentColor; }
+  .type-full.has-items .qty-control { border-color: var(--primary); }
+  .type-discount.has-items .qty-control { border-color: var(--blue); }
+  .type-child.has-items .qty-control { border-color: var(--green); }
+  .type-group.has-items .qty-control { border-color: var(--purple); }
+
+  /* ── GROUP TICKET ── */
+  .ticket-card.type-group::before { background: var(--purple); }
+  .type-group .ticket-badge { background: var(--purple-bg); color: var(--purple); }
+  .type-group .ticket-price { color: var(--purple); }
+  .type-group.has-items { border-color: var(--purple); background: var(--purple-bg); }
+
+  .ticket-card.type-group {
+    grid-column: span 2;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 22px;
+  }
+
+  .group-left { flex: 0 0 auto; }
+
+  .group-inputs {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    align-items: end;
+  }
+
+  .group-input-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .group-input-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+
+  .group-input-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--white);
+    transition: border-color 0.15s;
+  }
+
+  .group-input-row:focus-within {
+    border-color: var(--purple);
+  }
+
+  .group-input-prefix {
+    padding: 0 10px;
+    font-size: 12px;
+    color: var(--text-dim);
+    background: var(--bg);
+    border-right: 1.5px solid var(--border);
+    height: 40px;
+    display: flex; align-items: center;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .group-native-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 0 10px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    background: none;
+    height: 40px;
+    width: 0;
+    min-width: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .group-native-input::placeholder {
+    color: var(--border-dark);
+    font-size: 16px;
+  }
+
+  .group-subtotal {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 2px;
+    flex-shrink: 0;
+    min-width: 110px;
+  }
+
+  .group-subtotal-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .group-subtotal-value {
+    font-family: 'Oswald', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--purple);
+    line-height: 1;
+  }
+
+  .group-subtotal-value.zero { color: var(--border-dark); }
+
+  /* ── RIGHT: ORDER ── */
+  .order-side {
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .order-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .order-num {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+
+  .order-num strong {
+    font-family: 'Oswald', sans-serif;
+    color: var(--primary);
+    font-size: 14px;
+  }
+
+  .clear-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 5px 12px;
+    font-size: 12px;
+    font-family: 'Noto Sans TC', sans-serif;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.15s;
+  }
+
+  .clear-btn:hover { border-color: var(--red); color: var(--red); background: var(--red-bg); }
+
+  .order-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+  }
+
+  .order-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    animation: slideIn 0.2s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(10px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .order-item-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .order-item-dot.full { background: var(--primary); }
+  .order-item-dot.discount { background: var(--blue); }
+  .order-item-dot.child { background: var(--green); }
+  .order-item-dot.free { background: var(--text-dim); }
+  .order-item-dot.group { background: var(--purple); }
+
+  .order-item-name {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .order-item-qty {
+    font-size: 12px;
+    color: var(--text-mid);
+    background: var(--bg);
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+
+  .order-item-price {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    min-width: 72px;
+    text-align: right;
+    color: var(--text);
+  }
+
+  .order-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 12px;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+
+  .order-empty .empty-icon { font-size: 40px; opacity: 0.3; }
+
+  /* TOTALS */
+  .order-totals {
+    border-top: 2px solid var(--border);
+    padding: 16px 20px;
+  }
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text-mid);
+    margin-bottom: 8px;
+  }
+
+  .total-row.grand {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--text);
+    padding-top: 10px;
+    margin-top: 4px;
+    border-top: 1px dashed var(--border);
+    margin-bottom: 0;
+  }
+
+  .total-row.grand span:last-child {
+    font-family: 'Oswald', sans-serif;
+    font-size: 28px;
+    color: var(--primary);
+  }
+
+  /* PAYMENT BUTTONS */
+  .payment-actions {
+    padding: 14px 20px 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  .pay-btn {
+    padding: 16px 12px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+  }
+
+  .pay-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+
+  .pay-btn:not(:disabled):active { transform: scale(0.96); }
+
+  .pay-btn-icon { font-size: 24px; }
+
+  .pay-card {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(122,79,46,0.35);
+  }
+
+  .pay-card:not(:disabled):hover {
+    background: var(--primary-dark);
+    box-shadow: 0 6px 20px rgba(122,79,46,0.45);
+  }
+
+  .pay-cash {
+    background: var(--green);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(45,122,79,0.35);
+  }
+
+  .pay-cash:not(:disabled):hover {
+    background: #1f6040;
+    box-shadow: 0 6px 20px rgba(45,122,79,0.45);
+  }
+
+  /* ════════════════════════════
+     MODAL OVERLAY
+  ════════════════════════════ */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(20,14,10,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--white);
+    border-radius: 16px;
+    width: 460px;
+    max-width: 92vw;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    animation: modalIn 0.2s ease;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.94) translateY(12px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .modal-header {
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .modal-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .modal-icon.card { background: var(--primary-light); }
+  .modal-icon.cash { background: var(--green-bg); }
+  .modal-icon.success { background: var(--green-bg); }
+
+  .modal-title {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--text);
+    letter-spacing: 0.5px;
+  }
+
+  .modal-subtitle {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  .modal-body { padding: 24px; }
+
+  /* ORDER RECAP inside modal */
+  .modal-order-recap {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+  }
+
+  .recap-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text-mid);
+    margin-bottom: 6px;
+  }
+
+  .recap-row:last-child { margin-bottom: 0; }
+
+  .recap-row.total {
+    font-weight: 900;
+    font-size: 15px;
+    color: var(--text);
+    border-top: 1px dashed var(--border-dark);
+    padding-top: 8px;
+    margin-top: 4px;
+  }
+
+  .recap-row.total span:last-child {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    color: var(--primary);
+  }
+
+  /* CARD PAYMENT */
+  .card-terminal {
+    background: linear-gradient(135deg, #2a1a0e, #5c3a1e);
+    border-radius: 12px;
+    padding: 28px;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-terminal::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(255,255,255,0.02) 20px,
+      rgba(255,255,255,0.02) 40px
+    );
+  }
+
+  .terminal-status {
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 16px;
+  }
+
+  .terminal-amount {
+    font-family: 'Oswald', sans-serif;
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+
+  .terminal-amount .nt-prefix {
+    font-size: 22px;
+    opacity: 0.6;
+    vertical-align: super;
+    margin-right: 4px;
+  }
+
+  .card-insert-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+
+  .card-chip-anim {
+    font-size: 22px;
+    animation: chipPulse 1.2s ease-in-out infinite;
+  }
+
+  @keyframes chipPulse {
+    0%,100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.15); opacity: 1; }
+  }
+
+  .processing-spinner {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .processing-spinner.show { display: flex; }
+
+  .spinner {
+    width: 36px; height: 36px;
+    border: 3px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* CASH PAYMENT */
+  .cash-total-display {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .cash-label {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+
+  .cash-amount {
+    font-family: 'Oswald', sans-serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1;
+  }
+
+  .cash-amount .nt-sm {
+    font-size: 22px;
+    opacity: 0.6;
+    vertical-align: super;
+    margin-right: 3px;
+  }
+
+  .numpad-section {
+    margin-bottom: 16px;
+  }
+
+  .numpad-display {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .numpad-label {
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+
+  .numpad-value {
+    font-family: 'Oswald', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 2px;
+  }
+
+  .numpad-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .numpad-key {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    height: 52px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.1s;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .numpad-key:active { background: var(--primary-light); border-color: var(--primary); transform: scale(0.95); }
+
+  .numpad-key.zero { grid-column: span 2; }
+  .numpad-key.clear { background: var(--red-bg); border-color: rgba(192,57,43,0.2); color: var(--red); }
+  .numpad-key.clear:active { background: var(--red-bg); }
+
+  .change-box {
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .change-box.positive { background: var(--green-bg); border: 1.5px solid var(--green-border); }
+  .change-box.zero { background: var(--bg); border: 1.5px solid var(--border); }
+  .change-box.negative { background: var(--red-bg); border: 1.5px solid rgba(192,57,43,0.25); }
+
+  .change-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-mid);
+  }
+
+  .change-amount {
+    font-family: 'Oswald', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  .positive .change-amount { color: var(--green); }
+  .zero .change-amount { color: var(--text-dim); }
+  .negative .change-amount { color: var(--red); }
+
+  /* PRESET CASH BUTTONS */
+  .cash-presets {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .preset-btn {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-mid);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.1s;
+  }
+
+  .preset-btn:active { background: var(--primary-light); border-color: var(--primary); color: var(--primary); transform: scale(0.96); }
+  .preset-btn.exact { background: var(--gold-bg); border-color: rgba(196,146,42,0.3); color: var(--gold); }
+
+  /* SUCCESS */
+  .success-wrap {
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  .success-check {
+    width: 72px; height: 72px;
+    background: var(--green-bg);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+    margin: 0 auto 16px;
+    border: 2px solid var(--green-border);
+    animation: checkPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  @keyframes checkPop {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .success-title {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .success-sub {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+
+  .receipt-box {
+    background: var(--bg);
+    border: 1px dashed var(--border-dark);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: left;
+    margin-bottom: 20px;
+    font-size: 12px;
+  }
+
+  .receipt-header {
+    text-align: center;
+    border-bottom: 1px dashed var(--border-dark);
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+  }
+
+  .receipt-shop { font-weight: 900; font-size: 14px; }
+  .receipt-addr { color: var(--text-dim); font-size: 11px; margin-top: 2px; }
+
+  .receipt-row {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-mid);
+    margin-bottom: 4px;
+  }
+
+  .receipt-row.bold { font-weight: 700; color: var(--text); }
+  .receipt-row.divider { border-top: 1px dashed var(--border); padding-top: 6px; margin-top: 4px; }
+
+  /* MODAL FOOTER */
+  .modal-footer {
+    padding: 0 24px 20px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .modal-btn {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+  }
+
+  .modal-btn:active { transform: scale(0.97); }
+
+  .modal-btn-cancel {
+    background: var(--bg);
+    color: var(--text-mid);
+    border: 1.5px solid var(--border);
+  }
+
+  .modal-btn-cancel:hover { background: var(--red-bg); border-color: rgba(192,57,43,0.3); color: var(--red); }
+
+  .modal-btn-confirm {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(122,79,46,0.3);
+  }
+
+  .modal-btn-confirm:hover { background: var(--primary-dark); }
+
+  .modal-btn-confirm.green {
+    background: var(--green);
+    box-shadow: 0 4px 12px rgba(45,122,79,0.3);
+  }
+
+  .modal-btn-confirm.green:hover { background: #1f6040; }
+
+  .modal-btn-confirm:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .modal-btn-full {
+    flex: none;
+    width: 100%;
+  }
+
+  /* QUICK NOTES */
+  .note-strip {
+    padding: 8px 20px;
+    background: var(--gold-bg);
+    border-top: 1px solid rgba(196,146,42,0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--gold);
+  }
+
+  .note-strip strong { font-weight: 700; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-dark); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<div class="pos-shell">
+
+  <!-- HEADER -->
+  <header class="pos-header">
+    <div class="header-brand">
+      <div class="brand-icon">🏛️</div>
+      <div>
+        <div class="brand-name">霧峰林家</div>
+        <div class="brand-sub">售票系統 POS</div>
+      </div>
+    </div>
+    <div class="header-center">
+      <div class="header-time" id="clock">--:--</div>
+      <div class="header-date" id="dateline">----</div>
+    </div>
+    <div class="header-right">
+      <div class="status-dot"><div class="dot"></div> 系統運作中</div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <div class="pos-main">
+
+    <!-- LEFT: TICKET SELECTION -->
+    <div class="ticket-side">
+      <div class="ticket-side-header">
+        <div class="section-title">選擇票種</div>
+        <div class="slot-info">
+          🕐 票券販售截止 &nbsp;<strong id="cutoff-time">16:00</strong>
+        </div>
+      </div>
+
+      <div class="ticket-grid">
+
+        <!-- FULL TICKET -->
+        <div class="ticket-card type-full" id="card-full">
+          <div class="ticket-card-top">
+            <div class="ticket-icon">🎟️</div>
+            <div class="ticket-badge">全票</div>
+          </div>
+          <div class="ticket-name">全票</div>
+          <div class="ticket-desc">一般民眾適用<br>需出示有效身分證件</div>
+          <div class="ticket-card-bottom">
+            <div class="ticket-price"><span class="nt">NT$</span>250</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('full', -1)" disabled>−</button>
+              <div class="qty-display" id="qty-full">0</div>
+              <button class="qty-btn plus" onclick="changeQty('full', 1)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- DISCOUNT TICKET -->
+        <div class="ticket-card type-discount" id="card-discount">
+          <div class="ticket-card-top">
+            <div class="ticket-icon">🪪</div>
+            <div class="ticket-badge">優待</div>
+          </div>
+          <div class="ticket-name">優待票</div>
+          <div class="ticket-desc">65歲以上長者・台中市民<br>12歲以上學生（需憑證）</div>
+          <div class="ticket-card-bottom">
+            <div class="ticket-price"><span class="nt">NT$</span>200</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('discount', -1)" disabled>−</button>
+              <div class="qty-display" id="qty-discount">0</div>
+              <button class="qty-btn plus" onclick="changeQty('discount', 1)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHILD TICKET -->
+        <div class="ticket-card type-child" id="card-child">
+          <div class="ticket-card-top">
+            <div class="ticket-icon">🧒</div>
+            <div class="ticket-badge">兒童</div>
+          </div>
+          <div class="ticket-name">兒童票</div>
+          <div class="ticket-desc">6~12歲兒童（國小學生）<br>需出示學生證或戶籍謄本</div>
+          <div class="ticket-card-bottom">
+            <div class="ticket-price"><span class="nt">NT$</span>125</div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('child', -1)" disabled>−</button>
+              <div class="qty-display" id="qty-child">0</div>
+              <button class="qty-btn plus" onclick="changeQty('child', 1)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- FREE TICKET -->
+        <div class="ticket-card type-free" id="card-free">
+          <div class="ticket-card-top">
+            <div class="ticket-icon">🆓</div>
+            <div class="ticket-badge">免費</div>
+          </div>
+          <div class="ticket-name">免費入場</div>
+          <div class="ticket-desc">霧峰區民・未滿6歲幼兒<br>身心障礙者（含一名陪同者）</div>
+          <div class="ticket-card-bottom">
+            <div class="ticket-price"><span class="free-text">免費</span></div>
+            <div class="qty-control">
+              <button class="qty-btn minus" onclick="changeQty('free', -1)" disabled>−</button>
+              <div class="qty-display" id="qty-free">0</div>
+              <button class="qty-btn plus" onclick="changeQty('free', 1)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- GROUP TICKET -->
+        <div class="ticket-card type-group" id="card-group">
+          <div class="group-left">
+            <div class="ticket-card-top" style="margin-bottom:8px;">
+              <div class="ticket-icon">👥</div>
+              <div class="ticket-badge">團體</div>
+            </div>
+            <div class="ticket-name" style="font-size:16px;">團體票</div>
+            <div class="ticket-desc" style="font-size:11px;">20人以上團體<br>自訂人數與票價</div>
+          </div>
+          <div class="group-inputs">
+            <div class="group-input-wrap">
+              <div class="group-input-label">人數（張數）</div>
+              <div class="group-input-row">
+                <div class="group-input-prefix">人</div>
+                <input class="group-native-input" id="group-qty-input" type="number" min="0" max="999" placeholder="0"
+                  oninput="onGroupInput()" onchange="onGroupInput()">
+              </div>
+            </div>
+            <div class="group-input-wrap">
+              <div class="group-input-label">每人票價</div>
+              <div class="group-input-row">
+                <div class="group-input-prefix">NT$</div>
+                <input class="group-native-input" id="group-price-input" type="number" min="0" max="99999" placeholder="0"
+                  oninput="onGroupInput()" onchange="onGroupInput()">
+              </div>
+            </div>
+          </div>
+          <div class="group-subtotal">
+            <div class="group-subtotal-label">小計</div>
+            <div class="group-subtotal-value zero" id="group-subtotal">NT$0</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="note-strip">
+        ⚠️ <strong>注意事項：</strong>優待票及兒童票，購票時須出示相關證明文件，否則需以全票計費。
+      </div>
+    </div>
+
+    <!-- RIGHT: ORDER PANEL -->
+    <div class="order-side">
+      <div class="order-header">
+        <div>
+          <div class="order-num">訂單編號 <strong id="order-id">—</strong></div>
+        </div>
+        <button class="clear-btn" onclick="clearAll()">清除全部</button>
+      </div>
+
+      <div class="order-items" id="order-items">
+        <div class="order-empty" id="order-empty">
+          <div class="empty-icon">🎫</div>
+          <div>尚未選擇票種</div>
+          <div style="font-size:11px; color:var(--text-dim)">請從左側選擇票種與數量</div>
+        </div>
+      </div>
+
+      <div class="order-totals">
+        <div class="total-row">
+          <span>張數小計</span>
+          <span id="total-count">0 張</span>
+        </div>
+        <div class="total-row grand">
+          <span>應付金額</span>
+          <span id="total-price">NT$0</span>
+        </div>
+      </div>
+
+      <div class="payment-actions">
+        <button class="pay-btn pay-card" id="btn-card" onclick="openCardModal()" disabled>
+          <span class="pay-btn-icon">💳</span>
+          刷卡付款
+        </button>
+        <button class="pay-btn pay-cash" id="btn-cash" onclick="openCashModal()" disabled>
+          <span class="pay-btn-icon">💵</span>
+          現金付款
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════
+     MODAL: CARD PAYMENT
+════════════════════════════ -->
+<div class="modal-overlay" id="modal-card">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-icon card">💳</div>
+      <div>
+        <div class="modal-title">信用卡／金融卡付款</div>
+        <div class="modal-subtitle">請將卡片插入或感應讀卡機</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-order-recap" id="card-recap"></div>
+
+      <div class="card-terminal" id="card-terminal">
+        <div class="terminal-status" id="card-status-text">等待刷卡</div>
+        <div class="terminal-amount">
+          <span class="nt-prefix">NT$</span><span id="card-amount">0</span>
+        </div>
+        <div class="card-insert-hint" id="card-hint">
+          <span class="card-chip-anim">💳</span>
+          <span>插卡・感應・或掃描 QR 付款</span>
+        </div>
+        <div class="processing-spinner" id="card-spinner">
+          <div class="spinner"></div>
+          <div style="font-size:12px; color:rgba(255,255,255,0.6); letter-spacing:1px;">授權處理中…</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn modal-btn-cancel" id="card-cancel-btn" onclick="closeModal('modal-card')">取消</button>
+      <button class="modal-btn modal-btn-confirm" id="card-confirm-btn" onclick="processCard()">確認刷卡</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+     MODAL: CASH PAYMENT
+════════════════════════════ -->
+<div class="modal-overlay" id="modal-cash">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-icon cash">💵</div>
+      <div>
+        <div class="modal-title">現金付款</div>
+        <div class="modal-subtitle">請輸入顧客實收金額</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="cash-total-display">
+        <div class="cash-label">應收金額</div>
+        <div class="cash-amount">
+          <span class="nt-sm">NT$</span><span id="cash-total-display">0</span>
+        </div>
+      </div>
+
+      <div class="cash-presets" id="cash-presets"></div>
+
+      <div class="numpad-section">
+        <div class="numpad-display">
+          <div class="numpad-label">收到金額</div>
+          <div class="numpad-value" id="cash-input-display">—</div>
+        </div>
+        <div class="numpad-grid">
+          <button class="numpad-key" onclick="numpadInput('7')">7</button>
+          <button class="numpad-key" onclick="numpadInput('8')">8</button>
+          <button class="numpad-key" onclick="numpadInput('9')">9</button>
+          <button class="numpad-key" onclick="numpadInput('4')">4</button>
+          <button class="numpad-key" onclick="numpadInput('5')">5</button>
+          <button class="numpad-key" onclick="numpadInput('6')">6</button>
+          <button class="numpad-key" onclick="numpadInput('1')">1</button>
+          <button class="numpad-key" onclick="numpadInput('2')">2</button>
+          <button class="numpad-key" onclick="numpadInput('3')">3</button>
+          <button class="numpad-key zero" onclick="numpadInput('0')">0</button>
+          <button class="numpad-key clear" onclick="numpadClear()">⌫</button>
+        </div>
+      </div>
+
+      <div class="change-box zero" id="change-box">
+        <div class="change-label">找零金額</div>
+        <div class="change-amount" id="change-amount">—</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn modal-btn-cancel" onclick="closeModal('modal-cash')">取消</button>
+      <button class="modal-btn modal-btn-confirm green" id="cash-confirm-btn" onclick="processCash()" disabled>確認收款</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+     MODAL: SUCCESS
+════════════════════════════ -->
+<div class="modal-overlay" id="modal-success">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-icon success">✅</div>
+      <div>
+        <div class="modal-title">交易成功</div>
+        <div class="modal-subtitle">票券已開立，請交付給顧客</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="success-wrap">
+        <div class="success-check">✓</div>
+        <div class="success-title">付款完成</div>
+        <div class="success-sub" id="success-method-text">交易成功</div>
+        <div class="receipt-box" id="receipt-content"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn modal-btn-confirm modal-btn-full" onclick="finishTransaction()" style="background:var(--primary);">
+        🖨️ 列印收據，完成交易
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  // ── STATE ──
+  const prices = { full: 250, discount: 200, child: 125, free: 0 };
+  const names  = { full: '全票', discount: '優待票', child: '兒童票', free: '免費入場' };
+  const dots   = { full: 'full', discount: 'discount', child: 'child', free: 'free' };
+  let qtys = { full: 0, discount: 0, child: 0, free: 0 };
+  let groupQty = 0;
+  let groupUnitPrice = 0;
+  let cashInputStr = '';
+  let currentOrderId = genOrderId();
+  let lastPaymentMethod = '';
+  let lastChange = 0;
+  let lastCashReceived = 0;
+
+  function genOrderId() {
+    const d = new Date();
+    const pad = n => String(n).padStart(2,'0');
+    return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}-${Math.floor(Math.random()*9000+1000)}`;
+  }
+
+  // ── CLOCK ──
+  function updateClock() {
+    const now = new Date();
+    const pad = n => String(n).padStart(2,'0');
+    document.getElementById('clock').textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+    const days = ['日','一','二','三','四','五','六'];
+    document.getElementById('dateline').textContent =
+      `${now.getFullYear()}/${pad(now.getMonth()+1)}/${pad(now.getDate())}  星期${days[now.getDay()]}`;
+
+    // check cutoff
+    const isHoliday = (now.getDay() === 0 || now.getDay() === 6);
+    document.getElementById('cutoff-time').textContent = isHoliday ? '16:20' : '16:00';
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // ── ORDER ID ──
+  document.getElementById('order-id').textContent = currentOrderId;
+
+  // ── QTY CONTROL ──
+  function changeQty(type, delta) {
+    qtys[type] = Math.max(0, qtys[type] + delta);
+    document.getElementById('qty-' + type).textContent = qtys[type];
+
+    const minusBtn = document.querySelector(`#card-${type} .qty-btn.minus`) ||
+                     document.querySelectorAll(`[onclick="changeQty('${type}', -1)"]`)[0];
+    document.querySelectorAll(`[onclick="changeQty('${type}', -1)"]`).forEach(btn => {
+      btn.disabled = qtys[type] === 0;
+    });
+
+    // card highlight
+    const card = document.getElementById('card-' + type);
+    card.classList.toggle('has-items', qtys[type] > 0);
+
+    renderOrder();
+  }
+
+  // ── GROUP TICKET INPUT ──
+  function onGroupInput() {
+    groupQty        = parseInt(document.getElementById('group-qty-input').value)   || 0;
+    groupUnitPrice  = parseInt(document.getElementById('group-price-input').value) || 0;
+    const sub = groupQty * groupUnitPrice;
+    const el  = document.getElementById('group-subtotal');
+    el.textContent = `NT$${sub.toLocaleString()}`;
+    el.className   = 'group-subtotal-value' + (sub > 0 ? '' : ' zero');
+    document.getElementById('card-group').classList.toggle('has-items', sub > 0);
+    renderOrder();
+  }
+
+  function renderOrder() {
+    const container = document.getElementById('order-items');
+    const empty = document.getElementById('order-empty');
+    let totalCount = 0, totalPrice = 0;
+
+    container.querySelectorAll('.order-item').forEach(el => el.remove());
+
+    Object.keys(qtys).forEach(type => {
+      if (qtys[type] > 0) {
+        totalCount += qtys[type];
+        totalPrice += qtys[type] * prices[type];
+        const item = document.createElement('div');
+        item.className = 'order-item';
+        item.innerHTML = `
+          <div class="order-item-dot ${dots[type]}"></div>
+          <div class="order-item-name">${names[type]}</div>
+          <div class="order-item-qty">× ${qtys[type]}</div>
+          <div class="order-item-price">NT$${(qtys[type] * prices[type]).toLocaleString()}</div>
+        `;
+        container.appendChild(item);
+      }
+    });
+
+    // group ticket row
+    if (groupQty > 0 && groupUnitPrice > 0) {
+      const groupTotal = groupQty * groupUnitPrice;
+      totalCount += groupQty;
+      totalPrice += groupTotal;
+      const item = document.createElement('div');
+      item.className = 'order-item';
+      item.innerHTML = `
+        <div class="order-item-dot group"></div>
+        <div class="order-item-name">團體票 <span style="font-size:11px;color:var(--text-dim)">NT$${groupUnitPrice.toLocaleString()}/人</span></div>
+        <div class="order-item-qty">× ${groupQty}</div>
+        <div class="order-item-price">NT$${groupTotal.toLocaleString()}</div>
+      `;
+      container.appendChild(item);
+    }
+
+    empty.style.display = totalCount === 0 ? 'flex' : 'none';
+    document.getElementById('total-count').textContent = `${totalCount} 張`;
+    document.getElementById('total-price').textContent = `NT$${totalPrice.toLocaleString()}`;
+
+    const hasItems = totalCount > 0;
+    document.getElementById('btn-card').disabled = !hasItems;
+    document.getElementById('btn-cash').disabled = !hasItems;
+  }
+
+  function clearAll() {
+    Object.keys(qtys).forEach(t => {
+      qtys[t] = 0;
+      document.getElementById('qty-' + t).textContent = 0;
+      document.getElementById('card-' + t).classList.remove('has-items');
+      document.querySelectorAll(`[onclick="changeQty('${t}', -1)"]`).forEach(b => b.disabled = true);
+    });
+    groupQty = 0; groupUnitPrice = 0;
+    document.getElementById('group-qty-input').value = '';
+    document.getElementById('group-price-input').value = '';
+    document.getElementById('group-subtotal').textContent = 'NT$0';
+    document.getElementById('group-subtotal').className = 'group-subtotal-value zero';
+    document.getElementById('card-group').classList.remove('has-items');
+    renderOrder();
+  }
+
+  function getTotal() {
+    return Object.keys(qtys).reduce((s, t) => s + qtys[t] * prices[t], 0)
+         + (groupQty * groupUnitPrice);
+  }
+
+  function getTotalCount() {
+    return Object.keys(qtys).reduce((s, t) => s + qtys[t], 0) + groupQty;
+  }
+
+  function buildRecapHTML() {
+    let html = '';
+    Object.keys(qtys).forEach(type => {
+      if (qtys[type] > 0) {
+        html += `<div class="recap-row"><span>${names[type]} × ${qtys[type]}</span><span>NT$${(qtys[type]*prices[type]).toLocaleString()}</span></div>`;
+      }
+    });
+    if (groupQty > 0 && groupUnitPrice > 0) {
+      html += `<div class="recap-row"><span>團體票 × ${groupQty}（NT$${groupUnitPrice.toLocaleString()}/人）</span><span>NT$${(groupQty*groupUnitPrice).toLocaleString()}</span></div>`;
+    }
+    html += `<div class="recap-row total"><span>應付合計</span><span>NT$${getTotal().toLocaleString()}</span></div>`;
+    return html;
+  }
+
+  // ── CARD MODAL ──
+  function openCardModal() {
+    document.getElementById('card-recap').innerHTML = buildRecapHTML();
+    document.getElementById('card-amount').textContent = getTotal().toLocaleString();
+    document.getElementById('card-status-text').textContent = '等待刷卡';
+    document.getElementById('card-hint').style.display = 'flex';
+    document.getElementById('card-spinner').classList.remove('show');
+    document.getElementById('card-confirm-btn').disabled = false;
+    document.getElementById('card-confirm-btn').textContent = '確認刷卡';
+    document.getElementById('card-cancel-btn').style.display = 'block';
+    document.getElementById('modal-card').classList.add('open');
+  }
+
+  function processCard() {
+    const btn = document.getElementById('card-confirm-btn');
+    btn.disabled = true;
+    btn.textContent = '處理中…';
+    document.getElementById('card-cancel-btn').style.display = 'none';
+    document.getElementById('card-hint').style.display = 'none';
+    document.getElementById('card-spinner').classList.add('show');
+    document.getElementById('card-status-text').textContent = '授權處理中';
+
+    setTimeout(() => {
+      closeModal('modal-card');
+      lastPaymentMethod = 'card';
+      lastChange = 0;
+      lastCashReceived = 0;
+      openSuccess();
+    }, 2000);
+  }
+
+  // ── CASH MODAL ──
+  function openCashModal() {
+    cashInputStr = '';
+    updateCashDisplay();
+    document.getElementById('cash-total-display').textContent = getTotal().toLocaleString();
+
+    // build presets
+    const total = getTotal();
+    const presets = buildCashPresets(total);
+    const presetContainer = document.getElementById('cash-presets');
+    presetContainer.innerHTML = '';
+    presets.forEach(p => {
+      const btn = document.createElement('button');
+      btn.className = 'preset-btn' + (p === total ? ' exact' : '');
+      btn.textContent = p === total ? `NT$${p.toLocaleString()} (剛好)` : `NT$${p.toLocaleString()}`;
+      btn.onclick = () => {
+        cashInputStr = String(p);
+        updateCashDisplay();
+      };
+      presetContainer.appendChild(btn);
+    });
+
+    document.getElementById('modal-cash').classList.add('open');
+  }
+
+  function buildCashPresets(total) {
+    const bills = [50, 100, 200, 500, 1000, 2000];
+    const presets = new Set();
+    presets.add(total);
+    bills.forEach(b => {
+      let v = Math.ceil(total / b) * b;
+      if (v <= 5000) presets.add(v);
+    });
+    return [...presets].sort((a,b) => a - b).slice(0, 4);
+  }
+
+  function numpadInput(digit) {
+    if (cashInputStr.length >= 6) return;
+    cashInputStr += digit;
+    updateCashDisplay();
+  }
+
+  function numpadClear() {
+    cashInputStr = cashInputStr.slice(0, -1);
+    updateCashDisplay();
+  }
+
+  function updateCashDisplay() {
+    const display = document.getElementById('cash-input-display');
+    const changeBox = document.getElementById('change-box');
+    const changeAmt = document.getElementById('change-amount');
+    const confirmBtn = document.getElementById('cash-confirm-btn');
+
+    if (!cashInputStr) {
+      display.textContent = '—';
+      changeBox.className = 'change-box zero';
+      changeAmt.textContent = '—';
+      confirmBtn.disabled = true;
+      return;
+    }
+
+    const received = parseInt(cashInputStr);
+    const total = getTotal();
+    const change = received - total;
+
+    display.textContent = `NT$${received.toLocaleString()}`;
+
+    if (change > 0) {
+      changeBox.className = 'change-box positive';
+      changeAmt.textContent = `NT$${change.toLocaleString()}`;
+      confirmBtn.disabled = false;
+    } else if (change === 0) {
+      changeBox.className = 'change-box zero';
+      changeAmt.textContent = `NT$0（剛好）`;
+      confirmBtn.disabled = false;
+    } else {
+      changeBox.className = 'change-box negative';
+      changeAmt.textContent = `不足 NT$${Math.abs(change).toLocaleString()}`;
+      confirmBtn.disabled = true;
+    }
+  }
+
+  function processCash() {
+    const received = parseInt(cashInputStr);
+    const total = getTotal();
+    lastChange = received - total;
+    lastCashReceived = received;
+    lastPaymentMethod = 'cash';
+    closeModal('modal-cash');
+    openSuccess();
+  }
+
+  // ── SUCCESS ──
+  function openSuccess() {
+    const now = new Date();
+    const pad = n => String(n).padStart(2,'0');
+    const timeStr = `${now.getFullYear()}/${pad(now.getMonth()+1)}/${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+
+    document.getElementById('success-method-text').textContent =
+      lastPaymentMethod === 'card' ? '信用卡／金融卡付款成功' :
+      `現金付款完成・找零 NT$${lastChange.toLocaleString()}`;
+
+    // build receipt
+    let receiptItems = '';
+    Object.keys(qtys).forEach(type => {
+      if (qtys[type] > 0) {
+        receiptItems += `<div class="receipt-row"><span>${names[type]} ×${qtys[type]}</span><span>NT$${(qtys[type]*prices[type]).toLocaleString()}</span></div>`;
+      }
+    });
+    if (groupQty > 0 && groupUnitPrice > 0) {
+      receiptItems += `<div class="receipt-row"><span>團體票 ×${groupQty}（$${groupUnitPrice.toLocaleString()}/人）</span><span>NT$${(groupQty*groupUnitPrice).toLocaleString()}</span></div>`;
+    }
+
+    let paymentLine = lastPaymentMethod === 'card'
+      ? `<div class="receipt-row bold"><span>付款方式</span><span>刷卡</span></div>`
+      : `<div class="receipt-row bold"><span>收款</span><span>NT$${lastCashReceived.toLocaleString()}</span></div>
+         <div class="receipt-row bold"><span>找零</span><span>NT$${lastChange.toLocaleString()}</span></div>`;
+
+    document.getElementById('receipt-content').innerHTML = `
+      <div class="receipt-header">
+        <div class="receipt-shop">霧峰林家宮保第・大花廳</div>
+        <div class="receipt-addr">台中市霧峰區民生路26號</div>
+        <div class="receipt-addr" style="margin-top:4px;">${timeStr}</div>
+      </div>
+      ${receiptItems}
+      <div class="receipt-row divider bold"><span>合計</span><span>NT$${getTotal().toLocaleString()}</span></div>
+      ${paymentLine}
+      <div style="text-align:center; margin-top:12px; font-size:11px; color:var(--text-dim); letter-spacing:1px;">訂單 ${currentOrderId}</div>
+      <div style="text-align:center; margin-top:8px; font-size:11px; color:var(--text-dim);">謝謝蒞臨，敬請留意隨身物品</div>
+    `;
+
+    document.getElementById('modal-success').classList.add('open');
+  }
+
+  function finishTransaction() {
+    closeModal('modal-success');
+    clearAll();
+    currentOrderId = genOrderId();
+    document.getElementById('order-id').textContent = currentOrderId;
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+  }
+</script>
+</body>
+</html>

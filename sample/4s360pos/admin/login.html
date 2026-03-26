@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>4s360 POS | 後台登入</title>
+  <link rel="stylesheet" href="../microsys-template/css/adminlte.min.css">
+  <link rel="stylesheet" href="../microsys-template/css/all.min.css">
+  <style>
+    :root {
+      --brand-primary: #0f3f67;
+      --brand-secondary: #C8DDF2;
+      --text-primary: #2b2f33;
+      --muted: #6b7280;
+      --card-border: #C8DDF2;
+      --card-bg: #ffffff;
+      --btn-primary: #5994ce;
+      --accent-1:#df6967; --accent-2:#5994ce; --accent-3:#84b3df; --accent-4:#da9c32; --accent-5:#6fb833;
+    }
+    html[data-theme="dark"] {
+      --brand-primary: #e5f0ff;
+      --brand-secondary: #1f2937;
+      --text-primary: #e5e7eb;
+      --muted: #9ca3af;
+      --card-border: #3b3f45;
+      --card-bg: #2a2e33;
+      --btn-primary: #84b3df;
+    }
+    body.login-page {
+      background: linear-gradient(135deg, #0f3f67 0%, #1a5c8a 50%, #C8DDF2 100%);
+      min-height: 100vh;
+      position: relative;
+    }
+    html[data-theme="dark"] body.login-page {
+      background: linear-gradient(135deg, #0a1a2e 0%, #0f2a45 50%, #1f3a5f 100%);
+    }
+    body.login-page::before {
+      content: ""; position: absolute; inset: 0;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(2px);
+    }
+    .login-wrap {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 100vh; padding: 24px;
+    }
+    .login-brand {
+      text-align: center; margin-bottom: 24px;
+    }
+    .login-brand .brand-title {
+      font-size: 28px; font-weight: 800; color: #fff;
+      letter-spacing: 2px;
+    }
+    .login-brand .brand-sub {
+      font-size: 13px; color: rgba(255,255,255,0.65);
+      letter-spacing: 3px; text-transform: uppercase; margin-top: 4px;
+    }
+    .login-box { width: 420px; z-index: 1; }
+    .card { border: 1px solid var(--card-border); background: var(--card-bg); border-radius: 10px; }
+    .card-header { border-bottom: none; background: transparent; }
+    .login-box-msg { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+    .input-group-text { background: #f5f7fb; }
+    html[data-theme="dark"] .input-group-text { background: #1f2430; border-color: #39414b; color: #cbd5e1; }
+    .form-control { background: #fff; }
+    html[data-theme="dark"] .form-control { background: #23272c; color: #e5e7eb; border-color: #3b3f45; }
+    .form-control:focus { border-color: var(--btn-primary); box-shadow: 0 0 0 .2rem rgba(132,179,223,.25); }
+    .btn-primary { background: var(--btn-primary); border-color: var(--btn-primary); }
+    .icheck-primary label { color: var(--text-primary); }
+    .theme-toggle {
+      position: fixed; top: 12px; right: 12px; z-index: 2;
+      background: var(--card-bg); color: var(--text-primary);
+      border: 1px solid var(--card-border); border-radius: 999px;
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+    .role-selector { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 16px; }
+    .role-btn {
+      border: 1.5px solid var(--card-border); background: none; border-radius: 8px;
+      padding: 10px 6px; text-align: center; cursor: pointer;
+      color: var(--muted); transition: all .15s; font-size: 12px; font-weight: 600;
+    }
+    .role-btn .role-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+    .role-btn.selected { border-color: var(--btn-primary); background: rgba(89,148,206,.1); color: var(--brand-primary); }
+    html[data-theme="dark"] .role-btn.selected { color: #84b3df; background: rgba(132,179,223,.12); }
+    .login-footer { font-size: 11px; color: rgba(255,255,255,0.45); text-align: center; margin-top: 16px; }
+    html[data-theme="dark"] .custom-select { background: #23272c; color: #e5e7eb; border-color: #3b3f45; }
+  </style>
+</head>
+<body class="hold-transition login-page">
+  <button class="theme-toggle" id="themeToggle" title="切換主題">🌙</button>
+
+  <div class="login-wrap">
+    <div class="login-brand">
+      <div class="brand-title">🏛 霧峰林家</div>
+      <div class="brand-sub">4s360 POS · 後台管理系統</div>
+    </div>
+
+    <div class="login-box">
+      <div class="card card-outline shadow" style="border-top:3px solid var(--btn-primary)">
+        <div class="card-body">
+          <p class="login-box-msg">請選擇角色並輸入帳號密碼</p>
+
+          <!-- Role selector -->
+          <div class="role-selector">
+            <button class="role-btn selected" data-role="admin" onclick="selectRole(this)">
+              <span class="role-icon">👑</span>管理員
+            </button>
+            <button class="role-btn" data-role="cashier" onclick="selectRole(this)">
+              <span class="role-icon">💳</span>收票員
+            </button>
+            <button class="role-btn" data-role="auditor" onclick="selectRole(this)">
+              <span class="role-icon">🔍</span>稽核員
+            </button>
+          </div>
+
+          <form action="dashboard.html" method="get">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="帳號" id="username">
+              <div class="input-group-append">
+                <div class="input-group-text"><span class="fas fa-user"></span></div>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <input type="password" class="form-control" placeholder="密碼" id="password">
+              <div class="input-group-append">
+                <div class="input-group-text"><span class="fas fa-lock"></span></div>
+              </div>
+            </div>
+
+            <div class="row align-items-center mb-2">
+              <div class="col-6">
+                <div class="icheck-primary">
+                  <input type="checkbox" id="remember">
+                  <label for="remember">記住我</label>
+                </div>
+              </div>
+              <div class="col-6 text-right">
+                <button type="submit" class="btn btn-primary btn-block">登入系統</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="mt-2 d-flex justify-content-between">
+            <a href="#" class="text-sm" style="color:var(--muted); font-size:12px;">忘記密碼？</a>
+            <a href="#" class="text-sm" style="color:var(--muted); font-size:12px;">操作手冊</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="login-footer">Copyright © 2026 4s360 POS System. All rights reserved.</div>
+  </div>
+
+  <script src="../microsys-template/js/jquery.min.js"></script>
+  <script src="../microsys-template/js/bootstrap.bundle.min.js"></script>
+  <script src="../microsys-template/js/adminlte.min.js"></script>
+  <script>
+    const THEME_KEY = 'pos4sTheme';
+    const htmlEl = document.documentElement;
+    const toggleBtn = document.getElementById('themeToggle');
+    function setTheme(t) {
+      htmlEl.setAttribute('data-theme', t);
+      localStorage.setItem(THEME_KEY, t);
+      toggleBtn.textContent = t === 'dark' ? '☀️' : '🌙';
+    }
+    function initTheme() { setTheme(localStorage.getItem(THEME_KEY) || 'light'); }
+    document.addEventListener('DOMContentLoaded', () => {
+      toggleBtn.addEventListener('click', () => {
+        setTheme(htmlEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+      });
+    });
+    initTheme();
+
+    function selectRole(el) {
+      document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+  </script>
+</body>
+</html>

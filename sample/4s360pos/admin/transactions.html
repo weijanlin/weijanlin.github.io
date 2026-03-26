@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>4s360 POS | 交易查詢</title>
+  <link rel="stylesheet" href="../microsys-template/css/adminlte.min.css">
+  <link rel="stylesheet" href="../microsys-template/css/all.min.css">
+  <link rel="stylesheet" href="_shared.css">
+  <style>
+    html[data-theme="dark"] .form-control,
+    html[data-theme="dark"] select.form-control { background:#23272c;color:#e5e7eb;border-color:var(--card-border); }
+    .filter-bar .form-group { margin-bottom: 0; }
+    .tx-amount { font-family: 'Courier New', monospace; font-weight: 700; }
+    .pagination .page-item.active .page-link { background: var(--accent-2); border-color: var(--accent-2); }
+    html[data-theme="dark"] .page-link { background:var(--card-bg);color:var(--text);border-color:var(--card-border); }
+    html[data-theme="dark"] .page-item.disabled .page-link { background:var(--card-bg);color:var(--muted); }
+  </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+<nav class="main-header navbar navbar-expand navbar-white navbar-light" style="border-bottom:1px solid var(--card-border)">
+  <ul class="navbar-nav">
+    <li class="nav-item"><a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars" style="color:var(--brand-primary)"></i></a></li>
+  </ul>
+  <ul class="navbar-nav ml-auto align-items-center">
+    <li class="nav-item mr-2"><button class="theme-toggle" id="themeToggle">🌙</button></li>
+    <li class="nav-item mr-3"><span class="badge badge-success" style="font-size:12px;padding:6px 12px;"><i class="fas fa-user-circle mr-1"></i>管理員・王大明</span></li>
+    <li class="nav-item"><a href="login.html" class="nav-link text-danger" style="font-size:13px;"><i class="fas fa-sign-out-alt mr-1"></i>登出</a></li>
+  </ul>
+</nav>
+
+<aside class="main-sidebar elevation-3">
+  <a href="dashboard.html" class="brand-link">
+    <span style="font-size:18px;font-weight:800;color:var(--brand-primary);letter-spacing:1px;">🏛 4s360 POS</span>
+  </a>
+  <div class="sidebar"><nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+      <li class="nav-header" style="color:var(--header-text);opacity:.6;font-size:10px;letter-spacing:2px;">主選單</li>
+      <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i><p>儀表板</p></a></li>
+      <li class="nav-item"><a href="ticket-types.html" class="nav-link"><i class="nav-icon fas fa-ticket-alt"></i><p>票種管理</p></a></li>
+      <li class="nav-item"><a href="transactions.html" class="nav-link active"><i class="nav-icon fas fa-receipt"></i><p>交易查詢</p></a></li>
+      <li class="nav-item"><a href="daily-close.html" class="nav-link"><i class="nav-icon fas fa-cash-register"></i><p>日結 / 交班</p></a></li>
+      <li class="nav-item"><a href="revenue-report.html" class="nav-link"><i class="nav-icon fas fa-chart-bar"></i><p>營收報表</p></a></li>
+      <li class="nav-header" style="color:var(--header-text);opacity:.6;font-size:10px;letter-spacing:2px;">系統管理</li>
+      <li class="nav-item"><a href="users.html" class="nav-link"><i class="nav-icon fas fa-users-cog"></i><p>帳號與權限</p></a></li>
+    </ul>
+  </nav></div>
+</aside>
+
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2 align-items-center">
+        <div class="col-sm-6"><h1><i class="fas fa-receipt mr-2"></i>交易查詢</h1></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="content">
+    <div class="container-fluid">
+
+      <!-- Filter Bar -->
+      <div class="card mb-3">
+        <div class="card-body py-3">
+          <div class="row filter-bar align-items-end" style="gap:0">
+            <div class="col-md-2 col-sm-4 mb-2">
+              <label style="font-size:12px;font-weight:600;color:var(--muted)">開始日期</label>
+              <input type="date" class="form-control form-control-sm" id="f-start" value="2026-03-15">
+            </div>
+            <div class="col-md-2 col-sm-4 mb-2">
+              <label style="font-size:12px;font-weight:600;color:var(--muted)">結束日期</label>
+              <input type="date" class="form-control form-control-sm" id="f-end" value="2026-03-15">
+            </div>
+            <div class="col-md-2 col-sm-4 mb-2">
+              <label style="font-size:12px;font-weight:600;color:var(--muted)">票種</label>
+              <select class="form-control form-control-sm" id="f-type">
+                <option value="">全部</option>
+                <option>全票</option><option>優待票</option><option>兒童票</option>
+                <option>免費入場</option><option>團體票</option>
+              </select>
+            </div>
+            <div class="col-md-2 col-sm-4 mb-2">
+              <label style="font-size:12px;font-weight:600;color:var(--muted)">付款方式</label>
+              <select class="form-control form-control-sm" id="f-pay">
+                <option value="">全部</option>
+                <option>刷卡</option><option>現金</option>
+              </select>
+            </div>
+            <div class="col-md-2 col-sm-4 mb-2">
+              <label style="font-size:12px;font-weight:600;color:var(--muted)">收票員</label>
+              <select class="form-control form-control-sm" id="f-op">
+                <option value="">全部</option>
+                <option>陳小明</option><option>林美惠</option><option>王志強</option>
+              </select>
+            </div>
+            <div class="col-md-2 col-sm-4 mb-2 d-flex" style="gap:6px">
+              <button class="btn btn-primary btn-sm flex-fill" onclick="applyFilter()"><i class="fas fa-search mr-1"></i>查詢</button>
+              <button class="btn btn-outline-secondary btn-sm" onclick="resetFilter()" title="重設"><i class="fas fa-undo"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary Stats -->
+      <div class="row mb-3" id="filter-stats">
+        <div class="col-6 col-md-3">
+          <div class="card text-center py-2">
+            <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">總筆數</div>
+            <div style="font-size:22px;font-weight:800;color:var(--accent-2)" id="stat-count">—</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="card text-center py-2">
+            <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">總張數</div>
+            <div style="font-size:22px;font-weight:800;color:var(--accent-5)" id="stat-tickets">—</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="card text-center py-2">
+            <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">總金額</div>
+            <div style="font-size:22px;font-weight:800;color:var(--brand-primary)" id="stat-amount">—</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="card text-center py-2">
+            <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">現金 / 刷卡</div>
+            <div style="font-size:16px;font-weight:800;color:var(--accent-4)" id="stat-split">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transactions Table -->
+      <div class="card">
+        <div class="card-header d-flex align-items-center">
+          <h3 class="card-title"><i class="fas fa-table mr-2"></i>交易明細</h3>
+          <div class="card-tools ml-auto">
+            <button class="btn btn-sm btn-outline-secondary" onclick="exportCSV()">
+              <i class="fas fa-file-csv mr-1"></i>匯出 CSV
+            </button>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <table class="table table-hover table-sm mb-0">
+            <thead>
+              <tr>
+                <th style="width:38px">#</th>
+                <th>訂單編號</th><th>日期</th><th>時間</th>
+                <th>票種</th><th>張數</th><th>金額</th>
+                <th>付款</th><th>收票員</th><th>備註</th>
+              </tr>
+            </thead>
+            <tbody id="tx-tbody"></tbody>
+          </table>
+        </div>
+        <div class="card-footer py-2 d-flex justify-content-between align-items-center">
+          <small style="color:var(--muted)" id="page-info"></small>
+          <nav><ul class="pagination pagination-sm mb-0" id="pagination"></ul></nav>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+<footer class="main-footer small">
+  <strong>4s360 POS — 霧峰林家售票系統</strong><span class="float-right">Copyright © 2026</span>
+</footer>
+</div>
+
+<script src="../microsys-template/js/jquery.min.js"></script>
+<script src="../microsys-template/js/bootstrap.bundle.min.js"></script>
+<script src="../microsys-template/js/adminlte.min.js"></script>
+<script>
+const THEME_KEY='pos4sTheme';
+const htmlEl=document.documentElement;
+document.getElementById('themeToggle').addEventListener('click',()=>{
+  const t=htmlEl.getAttribute('data-theme')==='dark'?'light':'dark';
+  htmlEl.setAttribute('data-theme',t); localStorage.setItem(THEME_KEY,t);
+  document.getElementById('themeToggle').textContent=t==='dark'?'☀️':'🌙';
+});
+(function(){ const t=localStorage.getItem(THEME_KEY)||'light'; htmlEl.setAttribute('data-theme',t); document.getElementById('themeToggle').textContent=t==='dark'?'☀️':'🌙'; })();
+
+// Generate mock transactions
+const types=['全票','優待票','兒童票','免費入場','全票','全票','優待票','全票'];
+const ops=['陳小明','林美惠','王志強'];
+const pays=['刷卡','現金','刷卡','現金','刷卡'];
+const prices={全票:250,優待票:200,兒童票:125,免費入場:0,團體票:0};
+
+function genTx(dateStr){
+  const list=[];
+  for(let i=0;i<80;i++){
+    const h=9+Math.floor(Math.random()*7);
+    const m=Math.floor(Math.random()*60);
+    const type=types[Math.floor(Math.random()*types.length)];
+    const qty=Math.floor(Math.random()*4)+1;
+    const pay=type==='免費入場'?'—':pays[Math.floor(Math.random()*pays.length)];
+    list.push({
+      id:`${dateStr.replace(/-/g,'')}-${String(h).padStart(2,'0')}${String(m).padStart(2,'0')}-${Math.floor(Math.random()*9000+1000)}`,
+      date:dateStr, time:`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`,
+      type, qty, amt:prices[type]*qty, pay,
+      op:ops[Math.floor(Math.random()*ops.length)], remark:''
+    });
+  }
+  return list.sort((a,b)=>b.time.localeCompare(a.time));
+}
+
+let allTx=genTx('2026-03-15');
+let filteredTx=allTx;
+const PAGE_SIZE=15;
+let currentPage=1;
+
+function applyFilter(){
+  const start=document.getElementById('f-start').value;
+  const end=document.getElementById('f-end').value;
+  const type=document.getElementById('f-type').value;
+  const pay=document.getElementById('f-pay').value;
+  const op=document.getElementById('f-op').value;
+  filteredTx=allTx.filter(tx=>{
+    if(start && tx.date<start) return false;
+    if(end && tx.date>end) return false;
+    if(type && tx.type!==type) return false;
+    if(pay && tx.pay!==pay) return false;
+    if(op && tx.op!==op) return false;
+    return true;
+  });
+  currentPage=1;
+  renderTable();
+}
+
+function resetFilter(){
+  document.getElementById('f-type').value='';
+  document.getElementById('f-pay').value='';
+  document.getElementById('f-op').value='';
+  filteredTx=allTx; currentPage=1; renderTable();
+}
+
+function renderTable(){
+  const start=(currentPage-1)*PAGE_SIZE;
+  const page=filteredTx.slice(start,start+PAGE_SIZE);
+  const tbody=document.getElementById('tx-tbody');
+  tbody.innerHTML='';
+
+  // stats
+  const totalAmt=filteredTx.reduce((s,t)=>s+t.amt,0);
+  const totalQty=filteredTx.reduce((s,t)=>s+t.qty,0);
+  const cashAmt=filteredTx.filter(t=>t.pay==='現金').reduce((s,t)=>s+t.amt,0);
+  const cardAmt=filteredTx.filter(t=>t.pay==='刷卡').reduce((s,t)=>s+t.amt,0);
+  document.getElementById('stat-count').textContent=filteredTx.length+' 筆';
+  document.getElementById('stat-tickets').textContent=totalQty+' 張';
+  document.getElementById('stat-amount').textContent='NT$'+totalAmt.toLocaleString();
+  document.getElementById('stat-split').textContent=`現$${cashAmt.toLocaleString()} / 卡$${cardAmt.toLocaleString()}`;
+
+  const payBadge=p=>p==='刷卡'?`<span class="badge" style="background:var(--accent-2);color:#fff;font-size:11px">刷卡</span>`:
+    p==='現金'?`<span class="badge" style="background:var(--accent-5);color:#fff;font-size:11px">現金</span>`:`<span class="badge badge-secondary" style="font-size:11px">—</span>`;
+
+  page.forEach((tx,i)=>{
+    tbody.innerHTML+=`<tr>
+      <td style="color:var(--muted);font-size:11px">${start+i+1}</td>
+      <td><code style="font-size:10px">${tx.id}</code></td>
+      <td>${tx.date}</td><td>${tx.time}</td>
+      <td>${tx.type}</td>
+      <td>${tx.qty}</td>
+      <td class="tx-amount">${tx.amt>0?'NT$'+tx.amt.toLocaleString():'—'}</td>
+      <td>${payBadge(tx.pay)}</td>
+      <td>${tx.op}</td>
+      <td style="color:var(--muted);font-size:11px">${tx.remark||'—'}</td>
+    </tr>`;
+  });
+
+  // pagination
+  const totalPages=Math.ceil(filteredTx.length/PAGE_SIZE);
+  document.getElementById('page-info').textContent=`顯示 ${start+1}–${Math.min(start+PAGE_SIZE,filteredTx.length)} 筆，共 ${filteredTx.length} 筆`;
+  const pag=document.getElementById('pagination');
+  pag.innerHTML='';
+  const addPage=(label,p,disabled,active)=>{
+    pag.innerHTML+=`<li class="page-item ${disabled?'disabled':''} ${active?'active':''}">
+      <a class="page-link" href="#" onclick="gotoPage(${p});return false">${label}</a>
+    </li>`;
+  };
+  addPage('«',1,currentPage===1,false);
+  addPage('‹',currentPage-1,currentPage===1,false);
+  const start_p=Math.max(1,currentPage-2), end_p=Math.min(totalPages,currentPage+2);
+  for(let p=start_p;p<=end_p;p++) addPage(p,p,false,p===currentPage);
+  addPage('›',currentPage+1,currentPage===totalPages,false);
+  addPage('»',totalPages,currentPage===totalPages,false);
+}
+
+function gotoPage(p){ currentPage=p; renderTable(); }
+
+function exportCSV(){
+  const rows=[['訂單編號','日期','時間','票種','張數','金額','付款方式','收票員']];
+  filteredTx.forEach(tx=>rows.push([tx.id,tx.date,tx.time,tx.type,tx.qty,tx.amt,tx.pay,tx.op]));
+  const csv=rows.map(r=>r.join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
+  a.download='transactions.csv'; a.click();
+}
+
+applyFilter();
+</script>
+</body></html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>4s360 POS | 帳號與權限</title>
+  <link rel="stylesheet" href="../microsys-template/css/adminlte.min.css">
+  <link rel="stylesheet" href="../microsys-template/css/all.min.css">
+  <link rel="stylesheet" href="_shared.css">
+  <style>
+    html[data-theme="dark"] .form-control { background:#23272c;color:#e5e7eb;border-color:var(--card-border); }
+    html[data-theme="dark"] .modal-content { background:var(--card-bg);color:var(--text); }
+    html[data-theme="dark"] .modal-header,.modal-footer { border-color:var(--card-border); }
+    .avatar-circle {
+      width:38px;height:38px;border-radius:50%;
+      display:inline-flex;align-items:center;justify-content:center;
+      font-size:16px;font-weight:700;color:#fff;flex-shrink:0;
+    }
+    .role-tag {
+      display:inline-flex;align-items:center;gap:4px;
+      padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;
+    }
+    .role-admin   { background:rgba(15,63,103,.12);color:#0f3f67; }
+    .role-cashier { background:rgba(89,148,206,.15);color:#1a4c8a; }
+    .role-auditor { background:rgba(218,156,50,.15);color:#8a5010; }
+    html[data-theme="dark"] .role-admin   { background:rgba(132,179,223,.15);color:#84b3df; }
+    html[data-theme="dark"] .role-cashier { background:rgba(89,148,206,.15);color:#7bb8f0; }
+    html[data-theme="dark"] .role-auditor { background:rgba(218,156,50,.15);color:#e0b060; }
+
+    .permission-grid {
+      display:grid;grid-template-columns:repeat(2,1fr);gap:8px;
+    }
+    .perm-item {
+      display:flex;align-items:center;gap:8px;
+      padding:8px 12px;border:1px solid var(--card-border);border-radius:6px;
+      font-size:12px;
+    }
+    .perm-item input[type=checkbox] { cursor:pointer; }
+  </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+<nav class="main-header navbar navbar-expand navbar-white navbar-light" style="border-bottom:1px solid var(--card-border)">
+  <ul class="navbar-nav">
+    <li class="nav-item"><a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars" style="color:var(--brand-primary)"></i></a></li>
+  </ul>
+  <ul class="navbar-nav ml-auto align-items-center">
+    <li class="nav-item mr-2"><button class="theme-toggle" id="themeToggle">🌙</button></li>
+    <li class="nav-item mr-3"><span class="badge badge-success" style="font-size:12px;padding:6px 12px;"><i class="fas fa-user-circle mr-1"></i>管理員・王大明</span></li>
+    <li class="nav-item"><a href="login.html" class="nav-link text-danger" style="font-size:13px;"><i class="fas fa-sign-out-alt mr-1"></i>登出</a></li>
+  </ul>
+</nav>
+
+<aside class="main-sidebar elevation-3">
+  <a href="dashboard.html" class="brand-link">
+    <span style="font-size:18px;font-weight:800;color:var(--brand-primary);letter-spacing:1px;">🏛 4s360 POS</span>
+  </a>
+  <div class="sidebar"><nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+      <li class="nav-header" style="color:var(--header-text);opacity:.6;font-size:10px;letter-spacing:2px;">主選單</li>
+      <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i><p>儀表板</p></a></li>
+      <li class="nav-item"><a href="ticket-types.html" class="nav-link"><i class="nav-icon fas fa-ticket-alt"></i><p>票種管理</p></a></li>
+      <li class="nav-item"><a href="transactions.html" class="nav-link"><i class="nav-icon fas fa-receipt"></i><p>交易查詢</p></a></li>
+      <li class="nav-item"><a href="daily-close.html" class="nav-link"><i class="nav-icon fas fa-cash-register"></i><p>日結 / 交班</p></a></li>
+      <li class="nav-item"><a href="revenue-report.html" class="nav-link"><i class="nav-icon fas fa-chart-bar"></i><p>營收報表</p></a></li>
+      <li class="nav-header" style="color:var(--header-text);opacity:.6;font-size:10px;letter-spacing:2px;">系統管理</li>
+      <li class="nav-item"><a href="users.html" class="nav-link active"><i class="nav-icon fas fa-users-cog"></i><p>帳號與權限</p></a></li>
+    </ul>
+  </nav></div>
+</aside>
+
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2 align-items-center">
+        <div class="col-sm-6"><h1><i class="fas fa-users-cog mr-2"></i>帳號與權限</h1></div>
+        <div class="col-sm-6 text-right">
+          <button class="btn btn-primary btn-sm" onclick="openAddUser()">
+            <i class="fas fa-user-plus mr-1"></i>新增帳號
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="content">
+    <div class="container-fluid">
+
+      <!-- Role Summary Cards -->
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <div class="card text-center py-3">
+            <div style="font-size:28px">👑</div>
+            <div style="font-size:20px;font-weight:800;color:var(--brand-primary)" id="cnt-admin">2</div>
+            <div style="font-size:12px;color:var(--muted)">管理員</div>
+            <div style="font-size:11px;color:var(--muted)">完整存取權限</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card text-center py-3">
+            <div style="font-size:28px">💳</div>
+            <div style="font-size:20px;font-weight:800;color:var(--accent-2)" id="cnt-cashier">3</div>
+            <div style="font-size:12px;color:var(--muted)">收票員</div>
+            <div style="font-size:11px;color:var(--muted)">POS 操作 + 查詢</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card text-center py-3">
+            <div style="font-size:28px">🔍</div>
+            <div style="font-size:20px;font-weight:800;color:var(--accent-4)" id="cnt-auditor">1</div>
+            <div style="font-size:12px;color:var(--muted)">稽核員</div>
+            <div style="font-size:11px;color:var(--muted)">唯讀查詢 + 報表</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Table -->
+      <div class="card">
+        <div class="card-header d-flex align-items-center">
+          <h3 class="card-title"><i class="fas fa-users mr-2"></i>帳號列表</h3>
+          <div class="card-tools ml-auto">
+            <input type="text" class="form-control form-control-sm" id="user-search" placeholder="搜尋姓名 / 帳號…" oninput="filterUsers()" style="width:200px">
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <table class="table table-hover mb-0">
+            <thead>
+              <tr>
+                <th style="width:50px"></th>
+                <th>姓名</th><th>帳號</th><th>角色</th>
+                <th>上次登入</th><th>班別</th><th>狀態</th><th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="user-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Permission Matrix -->
+      <div class="card mt-3">
+        <div class="card-header"><h3 class="card-title"><i class="fas fa-shield-alt mr-2"></i>角色權限矩陣</h3></div>
+        <div class="card-body p-0">
+          <table class="table table-bordered mb-0" style="font-size:13px">
+            <thead>
+              <tr>
+                <th>功能模組</th>
+                <th class="text-center">👑 管理員</th>
+                <th class="text-center">💳 收票員</th>
+                <th class="text-center">🔍 稽核員</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>POS 售票操作</td><td class="text-center text-success">✔</td><td class="text-center text-success">✔</td><td class="text-center text-danger">✘</td></tr>
+              <tr><td>票種管理（新增/編輯）</td><td class="text-center text-success">✔</td><td class="text-center text-danger">✘</td><td class="text-center text-danger">✘</td></tr>
+              <tr><td>交易查詢</td><td class="text-center text-success">✔</td><td class="text-center" style="color:var(--accent-4)">● 本班</td><td class="text-center text-success">✔</td></tr>
+              <tr><td>日結 / 交班</td><td class="text-center text-success">✔</td><td class="text-center text-success">✔</td><td class="text-center text-danger">✘</td></tr>
+              <tr><td>營收報表</td><td class="text-center text-success">✔</td><td class="text-center text-danger">✘</td><td class="text-center text-success">✔</td></tr>
+              <tr><td>帳號與權限管理</td><td class="text-center text-success">✔</td><td class="text-center text-danger">✘</td><td class="text-center text-danger">✘</td></tr>
+              <tr><td>匯出報表</td><td class="text-center text-success">✔</td><td class="text-center text-danger">✘</td><td class="text-center text-success">✔</td></tr>
+            </tbody>
+          </table>
+          <div class="px-3 py-2" style="font-size:11px;color:var(--muted)">
+            ✔ 完整權限 ｜ ● 部分限制 ｜ ✘ 無權限
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+<footer class="main-footer small">
+  <strong>4s360 POS — 霧峰林家售票系統</strong><span class="float-right">Copyright © 2026</span>
+</footer>
+</div>
+
+<!-- Add/Edit User Modal -->
+<div class="modal fade" id="userModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="user-modal-title">新增帳號</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="u-id">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>姓名 <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="u-name" placeholder="請輸入真實姓名">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>帳號 <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="u-account" placeholder="登入用帳號">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>密碼 <span class="text-danger" id="pwd-required">*</span></label>
+              <input type="password" class="form-control" id="u-pwd" placeholder="新增時必填，編輯留空則不變更">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>角色 <span class="text-danger">*</span></label>
+              <select class="form-control" id="u-role" onchange="updatePermPreset()">
+                <option value="admin">👑 管理員</option>
+                <option value="cashier">💳 收票員</option>
+                <option value="auditor">🔍 稽核員</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>聯絡電話</label>
+              <input type="text" class="form-control" id="u-phone" placeholder="選填">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>班別</label>
+              <select class="form-control" id="u-shift">
+                <option>早班 (09:00–13:00)</option>
+                <option>午班 (13:00–17:00)</option>
+                <option>全天班</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+        <div><strong style="font-size:13px">細部權限設定</strong><small class="ml-2 text-muted">（依角色預設，可自訂調整）</small></div>
+        <div class="permission-grid mt-2" id="perm-grid"></div>
+
+        <div class="form-group mt-3 mb-0">
+          <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="u-active" checked>
+            <label class="custom-control-label" for="u-active">帳號啟用</label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" data-dismiss="modal">取消</button>
+        <button class="btn btn-primary btn-sm" onclick="saveUser()">儲存帳號</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../microsys-template/js/jquery.min.js"></script>
+<script src="../microsys-template/js/bootstrap.bundle.min.js"></script>
+<script src="../microsys-template/js/adminlte.min.js"></script>
+<script>
+const THEME_KEY='pos4sTheme';
+const htmlEl=document.documentElement;
+document.getElementById('themeToggle').addEventListener('click',()=>{
+  const t=htmlEl.getAttribute('data-theme')==='dark'?'light':'dark';
+  htmlEl.setAttribute('data-theme',t); localStorage.setItem(THEME_KEY,t);
+  document.getElementById('themeToggle').textContent=t==='dark'?'☀️':'🌙';
+});
+(function(){ const t=localStorage.getItem(THEME_KEY)||'light'; htmlEl.setAttribute('data-theme',t); document.getElementById('themeToggle').textContent=t==='dark'?'☀️':'🌙'; })();
+
+const PERMS=[
+  {key:'pos_sell',label:'POS 售票操作'},
+  {key:'ticket_manage',label:'票種管理'},
+  {key:'tx_query',label:'交易查詢'},
+  {key:'tx_own',label:'僅查本班交易'},
+  {key:'daily_close',label:'日結 / 交班'},
+  {key:'report',label:'營收報表'},
+  {key:'user_manage',label:'帳號管理'},
+  {key:'export',label:'匯出報表'},
+];
+const ROLE_PRESETS={
+  admin:  {pos_sell:1,ticket_manage:1,tx_query:1,tx_own:0,daily_close:1,report:1,user_manage:1,export:1},
+  cashier:{pos_sell:1,ticket_manage:0,tx_query:1,tx_own:1,daily_close:1,report:0,user_manage:0,export:0},
+  auditor:{pos_sell:0,ticket_manage:0,tx_query:1,tx_own:0,daily_close:0,report:1,user_manage:0,export:1},
+};
+
+let users=[
+  {id:1,name:'王大明',account:'admin',role:'admin',phone:'0912-345-678',shift:'全天班',active:true,lastLogin:'2026-03-15 09:02',perms:{...ROLE_PRESETS.admin}},
+  {id:2,name:'張素芬',account:'manager2',role:'admin',phone:'0923-456-789',shift:'全天班',active:true,lastLogin:'2026-03-14 18:33',perms:{...ROLE_PRESETS.admin}},
+  {id:3,name:'陳小明',account:'cashier1',role:'cashier',phone:'0934-567-890',shift:'早班 (09:00–13:00)',active:true,lastLogin:'2026-03-15 09:05',perms:{...ROLE_PRESETS.cashier}},
+  {id:4,name:'林美惠',account:'cashier2',role:'cashier',phone:'0945-678-901',shift:'午班 (13:00–17:00)',active:true,lastLogin:'2026-03-14 13:10',perms:{...ROLE_PRESETS.cashier}},
+  {id:5,name:'王志強',account:'cashier3',role:'cashier',phone:'0956-789-012',shift:'早班 (09:00–13:00)',active:false,lastLogin:'2026-03-12 09:00',perms:{...ROLE_PRESETS.cashier}},
+  {id:6,name:'李稽查',account:'auditor1',role:'auditor',phone:'0967-890-123',shift:'全天班',active:true,lastLogin:'2026-03-13 10:22',perms:{...ROLE_PRESETS.auditor}},
+];
+
+const roleLabel={admin:'admin',cashier:'cashier',auditor:'auditor'};
+const roleText={admin:'管理員',cashier:'收票員',auditor:'稽核員'};
+const roleIcon={admin:'👑',cashier:'💳',auditor:'🔍'};
+const avatarBg={admin:'#0f3f67',cashier:'#5994ce',auditor:'#da9c32'};
+
+function renderTable(list){
+  const tbody=document.getElementById('user-tbody');
+  tbody.innerHTML='';
+  list.forEach(u=>{
+    const initials=u.name.slice(-2);
+    tbody.innerHTML+=`<tr style="opacity:${u.active?1:.55}">
+      <td><div class="avatar-circle" style="background:${avatarBg[u.role]}">${initials}</div></td>
+      <td><strong>${u.name}</strong></td>
+      <td><code style="font-size:12px">${u.account}</code></td>
+      <td><span class="role-tag role-${roleLabel[u.role]}">${roleIcon[u.role]} ${roleText[u.role]}</span></td>
+      <td style="font-size:11px;color:var(--muted)">${u.lastLogin}</td>
+      <td style="font-size:12px">${u.shift}</td>
+      <td><span class="badge ${u.active?'badge-active':'badge-inactive'}">${u.active?'啟用':'停用'}</span></td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-xs btn-primary mr-1" onclick="openEditUser(${u.id})"><i class="fas fa-edit"></i></button>
+        <button class="btn btn-xs ${u.active?'btn-warning':'btn-success'}" onclick="toggleUser(${u.id})" title="${u.active?'停用':'啟用'}">
+          <i class="fas fa-${u.active?'ban':'check'}"></i>
+        </button>
+      </td>
+    </tr>`;
+  });
+  document.getElementById('cnt-admin').textContent=users.filter(u=>u.role==='admin'&&u.active).length;
+  document.getElementById('cnt-cashier').textContent=users.filter(u=>u.role==='cashier'&&u.active).length;
+  document.getElementById('cnt-auditor').textContent=users.filter(u=>u.role==='auditor'&&u.active).length;
+}
+
+function filterUsers(){
+  const q=document.getElementById('user-search').value.toLowerCase();
+  renderTable(q?users.filter(u=>u.name.includes(q)||u.account.toLowerCase().includes(q)):users);
+}
+
+function buildPermGrid(perms){
+  const grid=document.getElementById('perm-grid');
+  grid.innerHTML='';
+  PERMS.forEach(p=>{
+    grid.innerHTML+=`<div class="perm-item">
+      <input type="checkbox" id="perm-${p.key}" ${perms[p.key]?'checked':''}>
+      <label for="perm-${p.key}" style="margin:0;cursor:pointer;">${p.label}</label>
+    </div>`;
+  });
+}
+
+function updatePermPreset(){
+  const role=document.getElementById('u-role').value;
+  buildPermGrid(ROLE_PRESETS[role]||{});
+}
+
+function getPermValues(){
+  const p={};
+  PERMS.forEach(pm=>{ p[pm.key]=document.getElementById('perm-'+pm.key)?.checked?1:0; });
+  return p;
+}
+
+function openAddUser(){
+  document.getElementById('user-modal-title').textContent='新增帳號';
+  document.getElementById('u-id').value='';
+  document.getElementById('u-name').value='';
+  document.getElementById('u-account').value='';
+  document.getElementById('u-pwd').value='';
+  document.getElementById('u-role').value='cashier';
+  document.getElementById('u-phone').value='';
+  document.getElementById('u-active').checked=true;
+  buildPermGrid(ROLE_PRESETS.cashier);
+  $('#userModal').modal('show');
+}
+
+function openEditUser(id){
+  const u=users.find(x=>x.id===id);
+  document.getElementById('user-modal-title').textContent='編輯帳號';
+  document.getElementById('u-id').value=u.id;
+  document.getElementById('u-name').value=u.name;
+  document.getElementById('u-account').value=u.account;
+  document.getElementById('u-pwd').value='';
+  document.getElementById('u-role').value=u.role;
+  document.getElementById('u-phone').value=u.phone||'';
+  document.getElementById('u-shift').value=u.shift;
+  document.getElementById('u-active').checked=u.active;
+  buildPermGrid(u.perms);
+  $('#userModal').modal('show');
+}
+
+function saveUser(){
+  const id=parseInt(document.getElementById('u-id').value);
+  const data={
+    name:document.getElementById('u-name').value.trim(),
+    account:document.getElementById('u-account').value.trim(),
+    role:document.getElementById('u-role').value,
+    phone:document.getElementById('u-phone').value.trim(),
+    shift:document.getElementById('u-shift').value,
+    active:document.getElementById('u-active').checked,
+    perms:getPermValues(),
+    lastLogin:'—',
+  };
+  if(!data.name||!data.account){ alert('姓名與帳號為必填'); return; }
+  if(id){
+    users=users.map(u=>u.id===id?{...u,...data}:u);
+  } else {
+    users.push({...data,id:Math.max(...users.map(u=>u.id))+1});
+  }
+  $('#userModal').modal('hide');
+  renderTable(users);
+}
+
+function toggleUser(id){
+  users=users.map(u=>u.id===id?{...u,active:!u.active}:u);
+  renderTable(users);
+}
+
+renderTable(users);
+</script>
+</body></html>

@@ -1,0 +1,129 @@
+/* 4s360POS Admin — Shared overrides on top of AdminLTE */
+:root {
+  --brand-primary: #0f3f67;
+  --brand-secondary: #C8DDF2;
+  --text: #111827;
+  --muted: #6b7280;
+  --sidebar-bg: #C8DDF2;
+  --sidebar-border: #b0cce8;
+  --content-bg: #f6f9ff;
+  --card-bg: #ffffff;
+  --card-border: #C8DDF2;
+  --header-bg: #C8DDF2;
+  --header-text: #0f3f67;
+  --accent-1: #df6967;
+  --accent-2: #5994ce;
+  --accent-3: #84b3df;
+  --accent-4: #da9c32;
+  --accent-5: #6fb833;
+}
+html[data-theme="dark"] {
+  --brand-primary: #DDEAFE;
+  --brand-secondary: #111827;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --sidebar-bg: #2f64ae;
+  --sidebar-border: #1e3a5f;
+  --content-bg: #2a2e33;
+  --card-bg: #30353b;
+  --card-border: #3b3f45;
+  --header-bg: #3a4047;
+  --header-text: #dbeafe;
+}
+
+/* ── Sidebar ── */
+.main-sidebar,.main-sidebar .sidebar,.brand-link {
+  background-color: var(--sidebar-bg) !important;
+  color: var(--header-text) !important;
+}
+.brand-link {
+  border-bottom: 1px solid var(--sidebar-border) !important;
+  display: flex; align-items: center; justify-content: center;
+  height: 56px; padding: .5rem;
+}
+.brand-link .brand-image { float: none; margin: 0 !important; width: 140px; max-height: 36px; box-shadow: none !important; }
+.sidebar-collapse .brand-link .brand-image { width: 32px; max-height: 32px; }
+.nav-sidebar .nav-link,.nav-sidebar .nav-link p,.nav-sidebar .nav-header { color: var(--header-text) !important; }
+.nav-sidebar .nav-link.active { background: var(--accent-3) !important; color: #093454 !important; }
+
+/* ── Content ── */
+.content-wrapper { background: var(--content-bg); color: var(--text); }
+.card { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text); }
+.card-header { background: var(--header-bg); color: var(--header-text); border-bottom: none; }
+.content-header h1 { font-size: 1.35rem; color: var(--brand-primary); }
+.small-box .icon { opacity: .15; }
+.bg-primary { background-color: var(--accent-2) !important; color: #fff !important; }
+.bg-warning { background-color: var(--accent-4) !important; color: #fff !important; }
+.bg-danger  { background-color: var(--accent-1) !important; color: #fff !important; }
+.bg-success { background-color: var(--accent-5) !important; color: #fff !important; }
+.bg-info    { background-color: #17a2b8 !important; color: #fff !important; }
+.bg-secondary { background-color: #6c757d !important; color: #fff !important; }
+.bg-teal    { background-color: #20c9a6 !important; color: #fff !important; }
+
+.table thead th { background: var(--header-bg); color: var(--header-text); border-color: var(--card-border); }
+.table-hover tbody tr:hover { background: rgba(132,179,223,.15); }
+footer.main-footer { background: var(--card-bg); border-top: 1px solid var(--card-border); color: var(--muted); }
+
+/* ── Navbar dark ── */
+html[data-theme="dark"] .main-header.navbar {
+  background-color: var(--content-bg) !important;
+  color: var(--text) !important;
+  border-bottom: 1px solid var(--card-border) !important;
+}
+html[data-theme="dark"] .main-header.navbar .nav-link,
+html[data-theme="dark"] .main-header.navbar .navbar-text { color: var(--text) !important; }
+html[data-theme="dark"] .main-header.navbar .dropdown-menu {
+  background: var(--card-bg); color: var(--text); border: 1px solid var(--card-border);
+}
+html[data-theme="dark"] .main-header.navbar .dropdown-item { color: var(--text); }
+html[data-theme="dark"] .main-header.navbar .dropdown-item:hover { background: rgba(132,179,223,.15); }
+
+/* ── Form controls dark ── */
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select,
+html[data-theme="dark"] .custom-select {
+  background: #23272c; color: var(--text); border-color: var(--card-border);
+}
+html[data-theme="dark"] .modal-content {
+  background: var(--card-bg); color: var(--text); border-color: var(--card-border);
+}
+html[data-theme="dark"] .modal-header,
+html[data-theme="dark"] .modal-footer {
+  border-color: var(--card-border);
+}
+html[data-theme="dark"] .table { color: var(--text); }
+html[data-theme="dark"] .table-bordered td,
+html[data-theme="dark"] .table-bordered th { border-color: var(--card-border); }
+
+/* ── Theme toggle btn ── */
+.theme-toggle {
+  border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text);
+  border-radius: 999px; width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+
+/* ── Badge pill ── */
+.badge-role { font-size: .72rem; padding: 3px 8px; }
+
+/* ── Status badge ── */
+.badge-active   { background: #d4edda; color: #155724; }
+.badge-inactive { background: #f8d7da; color: #721c24; }
+html[data-theme="dark"] .badge-active   { background: rgba(111,184,51,.2); color: #a8e063; }
+html[data-theme="dark"] .badge-inactive { background: rgba(223,105,103,.2); color: #f08080; }
+
+/* ── Ticket type color dots ── */
+.dot-full     { background: #0f3f67; }
+.dot-discount { background: #5994ce; }
+.dot-child    { background: #6fb833; }
+.dot-free     { background: #6b7280; }
+.dot-group    { background: #6b46a0; }
+.type-dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:5px; }
+
+/* ── Page header strip ── */
+.page-header-strip {
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--card-border);
+  padding: 12px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 0;
+}
