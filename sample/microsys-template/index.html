@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MICROSYS PPE | 儀錶板</title>
+      <link rel="stylesheet" href="css/adminlte.min.css">
+    <link rel="stylesheet" href="css/all.min.css">
+  <style>
+    :root{
+      /* LIGHT */
+      --brand-primary:#0f3f67;
+      --brand-secondary:#C8DDF2;
+      --text:#111827;
+      --muted:#6b7280;
+      --sidebar-bg:#C8DDF2;
+      --sidebar-border:#C8DDF2;
+      --content-bg:#f6f9ff;
+      --card-bg:#ffffff;
+      --card-border:#C8DDF2;
+      --header-bg:#C8DDF2;
+      --header-text:#0f3f67;
+      --active-text:#093454;
+      --table-hover:rgba(132,179,223,.15);
+      --row-alert-bg:rgba(223,105,103,.18);
+
+      /* Accents (common across themes) */
+      --accent-1:#df6967; /* danger */
+      --accent-2:#5994ce; /* primary */
+      --accent-3:#84b3df; /* active */
+      --accent-4:#da9c32; /* warning */
+      --accent-5:#6fb833; /* success */
+    }
+    html[data-theme="dark"]{
+      --brand-primary:#DDEAFE;
+      --brand-secondary:#111827;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --sidebar-bg:#2f64ae;        /* 深藍側欄 */
+      --sidebar-border:#1e3a5f;
+      --content-bg:#2a2e33;        /* 內頁深色 */
+      --card-bg:#30353b;           /* 卡片深色 */
+      --card-border:#3b3f45;
+      --header-bg:#3a4047;
+      --header-text:#dbeafe;
+      --active-text:#0f172a;
+      --table-hover:rgba(132,179,223,.18);
+      --row-alert-bg:rgba(223,105,103,.22);
+    }
+    html[data-theme="industrial"]{
+      --brand-primary:#f8c62b;
+      --brand-secondary:#252a30;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --sidebar-bg:#0e1116;
+      --sidebar-border:#2a2f37;
+      --content-bg:#f5f6f8;
+      --card-bg:#ffffff;
+      --card-border:#d5d9df;
+      --header-bg:rgb(248,198,43);
+      --header-text:#f8c62b;
+      --active-text:#111418;
+      --table-hover:rgba(248,198,43,.14);
+      --row-alert-bg:rgba(194,31,48,.25);
+
+      --accent-1:#c21f30; /* red */
+      --accent-2:#0f0f10; /* black */
+      --accent-3:#6fb833; /* green */
+      --accent-4:#f8c62b; /* yellow */
+      --accent-5:#da9c32; /* orange */
+    }
+
+    /* Sidebar */
+    .main-sidebar, .main-sidebar .sidebar, .brand-link{
+      background-color: var(--sidebar-bg) !important;
+      color: var(--header-text) !important;
+    }
+    .brand-link{
+      border-bottom:1px solid var(--sidebar-border) !important;
+      display:flex; align-items:center; justify-content:center;
+      height:56px; padding:.5rem;
+    }
+    .brand-link .brand-image{ float:none; margin:0!important; width:140px; max-height:36px; box-shadow:none!important;}
+    .sidebar-collapse .brand-link .brand-image{ width:32px; max-height:32px; }
+
+    .nav-sidebar .nav-link, .nav-sidebar .nav-link p, .nav-sidebar .nav-header{ color: var(--header-text) !important; }
+    .nav-sidebar .nav-link.active{ background: var(--accent-3) !important; color:var(--active-text) !important; }
+
+    /* Content */
+    .content-wrapper{ background: var(--content-bg); color: var(--text); }
+    .card{ background: var(--card-bg); border:1px solid var(--card-border); color: var(--text); }
+    .card-header{ background: var(--header-bg); color: var(--header-text); border-bottom:none; }
+    html[data-theme="industrial"] .card-header .card-title{
+      background: rgb(248,198,43);
+      color:#000;
+      display:inline-block;
+      padding: .15rem .45rem;
+      border-radius: .25rem;
+    }
+    .content-header h1{ font-size:1.35rem; color: var(--brand-primary); }
+    .small-box .icon { opacity:.15; }
+    .bg-primary{ background-color: var(--accent-2) !important; color:#fff !important;}
+    .bg-warning{ background-color: var(--accent-4) !important; color:#fff !important;}
+    .bg-danger{ background-color: var(--accent-1) !important; color:#fff !important;}
+    .bg-success{ background-color: var(--accent-5) !important; color:#fff !important;}
+
+    .table thead th{ background: var(--header-bg); color: var(--header-text); border-color: var(--card-border); }
+    html[data-theme="industrial"] .table thead th{
+      background:#e5e7eb;
+      color:#111827;
+    }
+    .table-hover tbody tr:hover{ background: var(--table-hover); }
+    .table-avatar{ width:36px; height:36px; object-fit:cover; border-radius:50%; }
+    .row-alert{ background: var(--row-alert-bg); }
+    footer.main-footer{ background: var(--card-bg); border-top:1px solid var(--card-border); color: var(--muted); }
+
+    /* Theme toggle button */
+    .theme-toggle{
+      border:1px solid var(--card-border); background: var(--card-bg); color: var(--text);
+      border-radius:999px; width:36px; height:36px; display:flex; align-items:center; justify-content:center;
+    }
+  
+    /* Non-light themes: navbar matches main content color */
+    html[data-theme="dark"] .main-header.navbar,
+    html[data-theme="industrial"] .main-header.navbar{
+      background-color: var(--content-bg) !important;
+      color: var(--text) !important;
+      border-bottom: 1px solid var(--card-border) !important;
+    }
+    html[data-theme="dark"] .main-header.navbar .nav-link,
+    html[data-theme="dark"] .main-header.navbar .navbar-brand,
+    html[data-theme="dark"] .main-header.navbar .navbar-text,
+    html[data-theme="industrial"] .main-header.navbar .nav-link,
+    html[data-theme="industrial"] .main-header.navbar .navbar-brand,
+    html[data-theme="industrial"] .main-header.navbar .navbar-text{
+      color: var(--text) !important;
+    }
+    html[data-theme="dark"] .main-header.navbar .dropdown-menu,
+    html[data-theme="industrial"] .main-header.navbar .dropdown-menu{
+      background: var(--card-bg);
+      color: var(--text);
+      border: 1px solid var(--card-border);
+    }
+    html[data-theme="dark"] .main-header.navbar .dropdown-item,
+    html[data-theme="industrial"] .main-header.navbar .dropdown-item{
+      color: var(--text);
+    }
+    html[data-theme="dark"] .main-header.navbar .dropdown-item:hover,
+    html[data-theme="industrial"] .main-header.navbar .dropdown-item:hover{
+      background: var(--table-hover);
+    }
+
+  </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="border-bottom:1px solid var(--card-border)">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars" style="color:var(--brand-primary)"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block"><a href="#" class="nav-link">首頁</a></li>
+      <li class="nav-item d-none d-sm-inline-block"><a href="#" class="nav-link">說明</a></li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item mr-2">
+        <button class="theme-toggle" id="themeToggle" title="切換主題">🌙</button>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#"><i class="far fa-bell"></i><span class="badge badge-warning navbar-badge">3</span></a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-item dropdown-header">3 通知</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item"><i class="fas fa-exclamation-triangle mr-2 text-danger"></i> 危險區域警報 x1</a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item"><i class="fas fa-hard-hat mr-2 text-warning"></i> 未戴安全帽 x2</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Sidebar -->
+  <aside class="main-sidebar elevation-3">
+    <a href="#" class="brand-link">
+      <img id="brand-logo" src="img/L-logo-MICROSYS.svg" alt="MICROSYS" class="brand-image">
+    </a>
+    <div class="sidebar">
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item">
+            <a href="#" class="nav-link active"><i class="nav-icon fas fa-tachometer-alt"></i><p>儀錶板</p></a>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link"><i class="nav-icon fas fa-columns"></i><p>看板管理<i class="right fas fa-angle-left"></i></p></a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item"><a href="#" class="nav-link"><i class="far fa-circle nav-icon"></i><p>工地看板</p></a></li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link"><i class="nav-icon fas fa-database"></i><p>資料管理<i class="right fas fa-angle-left"></i></p></a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item"><a href="#" class="nav-link"><i class="far fa-circle nav-icon"></i><p>人員管理</p></a></li>
+              <li class="nav-item"><a href="#" class="nav-link"><i class="far fa-circle nav-icon"></i><p>車輛管理</p></a></li>
+              <li class="nav-item"><a href="#" class="nav-link"><i class="far fa-circle nav-icon"></i><p>出勤管理</p></a></li>
+              <li class="nav-item"><a href="#" class="nav-link"><i class="far fa-circle nav-icon"></i><p>門禁管理</p></a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon fas fa-cogs"></i><p>權限管理</p></a></li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6"><h1 class="m-0">今日總覽</h1></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="small-box bg-primary"><div class="inner"><h3>0</h3><p>今日人次</p></div><div class="icon"><i class="fas fa-user-friends"></i></div></div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="small-box bg-warning"><div class="inner"><h3>0</h3><p>今日未戴安全帽次數</p></div><div class="icon"><i class="fas fa-hard-hat"></i></div></div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="small-box bg-danger"><div class="inner"><h3>0</h3><p>今日危險區域警報次數</p></div><div class="icon"><i class="fas fa-exclamation-triangle"></i></div></div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="small-box bg-success"><div class="inner"><h3>0</h3><p>本週累計未戴安全帽</p></div><div class="icon"><i class="fas fa-calendar-week"></i></div></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <section class="col-lg-6 connectedSortable">
+            <div class="card"><div class="card-header"><h3 class="card-title">場域人員估比（柱狀）</h3></div><div class="card-body"><canvas id="barChart" height="180"></canvas></div></div>
+          </section>
+          <section class="col-lg-6 connectedSortable">
+            <div class="card"><div class="card-header"><h3 class="card-title">場域人員估比（圓餅）</h3></div><div class="card-body"><canvas id="pieChart" height="180"></canvas></div></div>
+          </section>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">紀錄</h3></div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th style="width:80px">人臉識別</th>
+                    <th>姓名</th>
+                    <th>進場時間</th>
+                    <th>出場時間</th>
+                    <th>滯留時間</th>
+                    <th>聯安卡</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><img class="table-avatar" src="https://via.placeholder.com/80x80.png?text=DL" alt=""></td>
+                    <td>丁小雨</td>
+                    <td>2025/03/19 19:10</td>
+                    <td>2025/03/19 19:10</td>
+                    <td>00:30:00</td>
+                    <td>115030218</td>
+                  </tr>
+                  <tr>
+                    <td><img class="table-avatar" src="https://via.placeholder.com/80x80.png?text=WC" alt=""></td>
+                    <td>王大成</td>
+                    <td>2025/03/19 19:10</td>
+                    <td>2025/03/19 19:10</td>
+                    <td>00:30:00</td>
+                    <td>115030218</td>
+                  </tr>
+                  <tr class="row-alert">
+                    <td><img class="table-avatar" src="https://via.placeholder.com/80x80.png?text=??" alt=""></td>
+                    <td>不明人士</td>
+                    <td>2025/03/19 19:10</td>
+                    <td>2025/03/19 19:10</td>
+                    <td>00:30:00</td>
+                    <td>115030218</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+  <footer class="main-footer small">
+    <strong>Copyright © 2025 Microsys Information Co., Ltd.</strong> All rights reserved.
+  </footer>
+</div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/adminlte.min.js"></script>
+    <script src="js/chart.min.js"></script>
+<script>
+  const THEME_KEY='microsysTheme';
+  const htmlEl=document.documentElement;
+  const brandImg=document.getElementById('brand-logo');
+  const toggleBtn=document.getElementById('themeToggle');
+  
+  // 全局變數用於存儲圖表實例
+  let barChart, pieChart;
+
+  function currentTheme(){ return htmlEl.getAttribute('data-theme') || 'light'; }
+
+  function setTheme(t){
+    htmlEl.setAttribute('data-theme', t);
+    localStorage.setItem(THEME_KEY, t);
+    toggleBtn.textContent = (t==='light') ? '🌙' : (t==='dark' ? '🏭' : '☀️');
+    updateBrandLogo();
+    // update chart text colors if charts exist
+    if (typeof barChart !== 'undefined' && typeof pieChart !== 'undefined') {
+      const css=getComputedStyle(document.documentElement);
+      const axisColor= css.getPropertyValue('--muted').trim() || '#6b7280';
+      const textColor= css.getPropertyValue('--text').trim() || '#111827';
+      [barChart, pieChart].forEach(ch=>{
+        if(!ch) return;
+        if(ch.config.type==='bar'){
+          ch.options.scales.x.ticks.color=textColor;
+          ch.options.scales.y.ticks.color=textColor;
+          ch.options.scales.x.grid.color=axisColor;
+          ch.options.scales.y.grid.color=axisColor;
+        }
+        ch.options.plugins.legend.labels.color=textColor;
+        ch.update();
+      });
+    }
+  }
+
+  function updateBrandLogo(){
+    const collapsed = document.body.classList.contains('sidebar-collapse');
+    const t = currentTheme();
+    let expanded = 'img/L-logo-MICROSYS.svg';
+    let collapsedSrc = 'img/L-logoicon.svg';
+    if (t === 'dark') {
+      expanded = 'img/D-logo-MICROSYS.svg';
+      collapsedSrc = 'img/D-logoicon.svg';
+    } else if (t === 'industrial') {
+      expanded = 'img/S-logo-MICROSYS.svg';
+      collapsedSrc = 'img/S-logoicon.svg';
+    }
+    brandImg.src = collapsed ? collapsedSrc : expanded;
+  }
+
+  // Charts (read palette for bars/pie)
+  const css = getComputedStyle(document.documentElement);
+  const c=(name)=> css.getPropertyValue(name).trim();
+  const barCtx = document.getElementById('barChart').getContext('2d');
+  const pieCtx = document.getElementById('pieChart').getContext('2d');
+
+  barChart = new Chart(barCtx, {
+    type:'bar',
+    data:{
+      labels:['模板工','木工','瓦工','泥水工','檢測員'],
+      datasets:[{ label:'人數', data:[5,5,3,3,1],
+        backgroundColor:[c('--accent-2'),c('--accent-3'),c('--accent-4'),c('--accent-5'),c('--accent-1')] }]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display:false, labels:{ color: c('--text') } } },
+      scales:{
+        x:{ ticks:{ color:c('--text') }, grid:{ color:c('--muted') } },
+        y:{ ticks:{ color:c('--text') }, grid:{ color:c('--muted') } }
+      }
+    }
+  });
+
+  pieChart = new Chart(pieCtx, {
+    type:'pie',
+    data:{
+      labels:['模板工','木工','瓦工','泥水工','檢測員'],
+      datasets:[{ data:[45,30,15,7,3],
+        backgroundColor:[c('--accent-1'),c('--accent-2'),c('--accent-3'),c('--accent-4'),c('--accent-5')] }]},
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ labels:{ color:c('--text') } } } }
+  });
+
+  // Theme init + toggle
+  function initTheme(){ 
+    const savedTheme = localStorage.getItem(THEME_KEY) || 'light';
+    setTheme(savedTheme);
+  }
+  function nextTheme(theme){
+    if(theme==='light') return 'dark';
+    if(theme==='dark') return 'industrial';
+    return 'light';
+  }
+  
+  // 確保 DOM 完全載入後再綁定事件
+  document.addEventListener('DOMContentLoaded', function() {
+    const themeToggleBtn = document.getElementById('themeToggle');
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener('click', function() {
+        const current = currentTheme();
+        const newTheme = nextTheme(current);
+        setTheme(newTheme);
+      });
+    }
+  });
+  // pushmenu: keep logo in sync when collapsing
+  $(document).on('collapsed.lte.pushmenu shown.lte.pushmenu expanded.lte.pushmenu', updateBrandLogo);
+  const mo=new MutationObserver(updateBrandLogo);
+  mo.observe(document.body, {attributes:true, attributeFilter:['class']});
+
+  initTheme();
+</script>
+</body>
+</html>

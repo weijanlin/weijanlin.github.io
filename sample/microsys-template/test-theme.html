@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>主題切換測試</title>
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --border-color: #dddddd;
+    }
+    
+    html[data-theme="dark"] {
+      --bg-color: #333333;
+      --text-color: #ffffff;
+      --border-color: #666666;
+    }
+    
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+    }
+    
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--bg-color);
+      color: var(--text-color);
+      border: 2px solid var(--border-color);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .theme-toggle:hover {
+      transform: scale(1.1);
+    }
+    
+    h1 {
+      color: var(--text-color);
+      text-align: center;
+    }
+    
+    .test-content {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle" title="切換主題">🌙</button>
+  
+  <div class="container">
+    <h1>主題切換功能測試</h1>
+    
+    <div class="test-content">
+      <h2>測試說明</h2>
+      <p>這是一個簡單的主題切換測試頁面，用於驗證主題切換功能是否正常工作。</p>
+      
+      <h3>測試步驟：</h3>
+      <ol>
+        <li>點擊右上角的主題切換按鈕</li>
+        <li>觀察頁面顏色是否正確切換</li>
+        <li>檢查按鈕圖標是否正確更新</li>
+        <li>重新整理頁面，確認主題設定是否保存</li>
+      </ol>
+      
+      <h3>預期結果：</h3>
+      <ul>
+        <li>淺色主題：白色背景，深色文字</li>
+        <li>深色主題：深色背景，白色文字</li>
+        <li>按鈕圖標：🌙 (淺色) / ☀️ (深色)</li>
+        <li>主題設定應該在頁面重新整理後保持</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const THEME_KEY = 'microsysTheme';
+    const html = document.documentElement;
+    const toggleBtn = document.getElementById('themeToggle');
+
+    function setTheme(t) {
+      html.setAttribute('data-theme', t);
+      localStorage.setItem(THEME_KEY, t);
+      toggleBtn.textContent = (t === 'dark') ? '☀️' : '🌙';
+      console.log('主題已切換為:', t);
+    }
+
+    function initTheme() {
+      const saved = localStorage.getItem(THEME_KEY) || 'light';
+      setTheme(saved);
+      console.log('初始化主題:', saved);
+    }
+
+    // 確保 DOM 完全載入後再綁定事件
+    document.addEventListener('DOMContentLoaded', function() {
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+          const current = html.getAttribute('data-theme') || 'light';
+          const newTheme = current === 'dark' ? 'light' : 'dark';
+          setTheme(newTheme);
+        });
+        console.log('主題切換按鈕事件已綁定');
+      } else {
+        console.error('找不到主題切換按鈕');
+      }
+    });
+
+    initTheme();
+  </script>
+</body>
+</html>

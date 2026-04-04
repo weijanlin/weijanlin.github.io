@@ -1,0 +1,4 @@
+任務需要, 會在一個封閉式網路上執行這個樣版, 請將cdn 都轉為local,
+除了亮色, 暗色外, 依圖案的配色, 再增加一個工業色到 dashboard.html 及 login.html 
+industrial 主題下 card-header 下的 card-title 應該是 rgb(248,198,43) 背景, 黑色字
+industrial 主題下  login.html 的 card-bg 從 #252A30 改到 0E1116

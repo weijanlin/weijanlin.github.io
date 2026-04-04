@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MICROSYS PPE | 登入</title>
+      <link rel="stylesheet" href="css/adminlte.min.css">
+    <link rel="stylesheet" href="css/all.min.css">
+  <style>
+    :root{
+      /* LIGHT */
+      --brand-primary:#0f3f67;
+      --brand-secondary:#C8DDF2;
+      --text-primary:#2b2f33;
+      --muted:#6b7280;
+      --card-border:#C8DDF2;
+      --card-bg:#ffffff;
+      --login-bg:url('img/L-microsysbg.png');
+      --btn-primary:#5994ce;
+
+      /* Accents (common) */
+      --accent-1:#df6967;
+      --accent-2:#5994ce;
+      --accent-3:#84b3df;
+      --accent-4:#da9c32;
+      --accent-5:#6fb833;
+    }
+    html[data-theme="dark"]{
+      --brand-primary:#e5f0ff;
+      --brand-secondary:#1f2937;
+      --text-primary:#e5e7eb;
+      --muted:#9ca3af;
+      --card-border:#3b3f45;
+      --card-bg:#2a2e33;
+      --login-bg:url('img/D-microsysbg.jpg');
+      --btn-primary:#84b3df;
+    }
+    html[data-theme="industrial"]{
+      --brand-primary:#f8c62b;
+      --brand-secondary:#252a30;
+      --text-primary:#e5e7eb;
+      --muted:#9ca3af;
+      --card-border:#3a4048;
+      --card-bg:#0E1116;
+      --login-bg:url('img/D-microsysbg.jpg');
+      --btn-primary:#f8c62b;
+    }
+
+    body.login-page{
+      background: var(--login-bg) center/cover no-repeat fixed;
+      min-height:100vh; position:relative;
+    }
+    /* overlay for legibility */
+    body.login-page::before{
+      content:""; position:absolute; inset:0;
+      background: rgba(255,255,255,0.75);
+    }
+    html[data-theme="dark"] body.login-page::before{
+      background: rgba(0,0,0,0.45);
+    }
+    html[data-theme="industrial"] body.login-page::before{
+      background: rgba(12,13,16,0.6);
+    }
+
+    .login-box{ width:420px; z-index:1; }
+    .card{ border:1px solid var(--card-border); background: var(--card-bg); }
+    .card-header{ border-bottom:none; background:transparent; }
+    .brand{ display:flex; align-items:center; justify-content:center; }
+    .brand img{ height:40px; }
+    .login-box-msg{ color: var(--muted); }
+    .input-group-text{ background:#f5f7fb; }
+    html[data-theme="dark"] .input-group-text{ background:#1f2430; border-color:#39414b; color:#cbd5e1; }
+    html[data-theme="industrial"] .input-group-text{ background:#171a1f; border-color:#3a4048; color:#f8c62b; }
+    .form-control{ background:#fff; }
+    html[data-theme="dark"] .form-control{ background:#23272c; color:#e5e7eb; border-color:#3b3f45; }
+    html[data-theme="industrial"] .form-control{ background:#1f2329; color:#e5e7eb; border-color:#3a4048; }
+    .form-control:focus{ border-color: var(--btn-primary); box-shadow: 0 0 0 .2rem rgba(132,179,223,.25); }
+    .btn-primary{ background: var(--btn-primary); border-color: var(--btn-primary); }
+    
+    /* Checkbox label color for dark theme */
+    .icheck-primary label{ color: var(--text-primary); }
+    
+    /* theme toggle */
+    .theme-toggle{
+      position: fixed; top:12px; right:12px; z-index:2;
+      background: var(--card-bg); color: var(--text-primary);
+      border:1px solid var(--card-border); border-radius:999px; width:40px; height:40px;
+      display:flex; align-items:center; justify-content:center; cursor:pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+  </style>
+</head>
+<body class="hold-transition login-page">
+  <button class="theme-toggle" id="themeToggle" title="切換主題">🌙</button>
+  <div class="login-box">
+    <div class="card card-outline shadow" style="border-top:3px solid var(--brand-primary)">
+      <div class="card-header text-center">
+        <div class="brand">
+          <img id="login-logo" src="img/L-logo-MICROSYS.svg" alt="MICROSYS logo">
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="login-box-msg">智慧工地安全平台</p>
+        <form action="#" method="post">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="帳號 / Email">
+            <div class="input-group-append">
+              <div class="input-group-text"><span class="fas fa-user"></span></div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="password" class="form-control" placeholder="密碼">
+            <div class="input-group-append">
+              <div class="input-group-text"><span class="fas fa-lock"></span></div>
+            </div>
+          </div>
+          <div class="row align-items-center">
+            <div class="col-6">
+              <div class="icheck-primary">
+                <input type="checkbox" id="remember">
+                <label for="remember">記住我</label>
+              </div>
+            </div>
+            <div class="col-6 text-right">
+              <button type="submit" class="btn btn-primary btn-block">登入</button>
+            </div>
+          </div>
+        </form>
+        <div class="mt-3 d-flex justify-content-between">
+          <a href="#" class="text-sm">忘記密碼？</a>
+          <a href="#" class="text-sm">使用說明</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+      <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/adminlte.min.js"></script>
+  <script>
+    // Theme persistence
+    const THEME_KEY = 'microsysTheme';
+    const html = document.documentElement;
+    const toggleBtn = document.getElementById('themeToggle');
+    const loginLogo = document.getElementById('login-logo');
+
+    function setTheme(t){
+      html.setAttribute('data-theme', t);
+      localStorage.setItem(THEME_KEY, t);
+      toggleBtn.textContent = (t==='light') ? '🌙' : (t==='dark' ? '🏭' : '☀️');
+      // swap login logo
+      if (t === 'light') {
+        loginLogo.src = 'img/L-logo-MICROSYS.svg';
+      } else if (t === 'industrial') {
+        loginLogo.src = 'img/S-logo-MICROSYS.svg';
+      } else {
+        loginLogo.src = 'img/D-logo-MICROSYS2.svg';
+      }
+    }
+    
+    function initTheme(){
+      const saved = localStorage.getItem(THEME_KEY) || 'light';
+      setTheme(saved);
+    }
+    function nextTheme(theme){
+      if(theme==='light') return 'dark';
+      if(theme==='dark') return 'industrial';
+      return 'light';
+    }
+    
+    // 確保 DOM 完全載入後再綁定事件
+    document.addEventListener('DOMContentLoaded', function() {
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+          const current = html.getAttribute('data-theme') || 'light';
+          const newTheme = nextTheme(current);
+          setTheme(newTheme);
+        });
+      }
+    });
+    
+    initTheme();
+  </script>
+</body>
+</html>
